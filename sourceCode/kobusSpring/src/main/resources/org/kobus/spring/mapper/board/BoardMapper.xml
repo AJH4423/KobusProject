@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.kobus.spring.mapper.board.BoardMapper">
+
+    <select id="selectBoardList" resultType="org.kobus.spring.domain.board.BoardDTO">
+        SELECT * FROM board ORDER BY brdID DESC
+    </select>
+
+    <select id="getBoardById" resultType="org.kobus.spring.domain.board.BoardDTO">
+        SELECT * FROM board WHERE brdID = #{brdID}
+    </select>
+
+    <insert id="save" parameterType="org.kobus.spring.domain.board.BoardDTO">
+        INSERT INTO board (brdID, kusID, brdTitle, brdContent, brdDate)
+        VALUES (board_seq.NEXTVAL, #{kusID}, #{brdTitle}, #{brdContent}, SYSDATE)
+    </insert>
+
+    <update id="updateBoard">
+        UPDATE board
+        SET brdTitle = #{brdTitle},
+            brdContent = #{brdContent}
+        WHERE brdID = #{brdID}
+    </update>
+
+    <delete id="deleteBoard">
+        DELETE FROM board WHERE brdID = #{brdID}
+    </delete>
+    
+
+</mapper>

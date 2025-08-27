@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.kobus.spring.mapper.reservation.SeatMapper">
+
+	<!-- int getTotalSeats(@Param("busId") String busId) throws SQLException; -->
+	<select id="getTotalSeats" resultType="int">
+		SELECT BUSSEATS FROM BUS WHERE BUSID = #{busId}
+	</select>
+	
+	<!-- List<SeatDTO> searchSeat(@Param("busId") String busId) throws SQLException; -->
+	<select id="searchSeat" resultType="org.kobus.spring.domain.reservation.SeatDTO" parameterType="String">
+	select seatid, busid, seatno, seattype, seatable 
+	from seat  
+	where busid = #{busId}
+	</select>
+
+	<!-- String getBusId(@Param("deprId") String deprId, @Param("arrId") String arrId, @Param("formattedTime") String formattedTime) throws SQLException; -->
+	<select id="getBusId" resultType="String">
+	SELECT b.BUSID 
+	FROM BUSSCHEDULE b JOIN ROUTE r ON b.ROUID = r.ROUID 
+	JOIN DEPARTURE d ON r.DEPID = d.DEPID 
+	JOIN ARRIVAL a ON r.ARRID = a.ARRID 
+	JOIN BUS bu ON b.BUSID = bu.BUSID 
+	WHERE d.REGID = #{deprId} 
+	AND a.REGID = #{arrId} 
+	AND b.DEPARTUREDATE = TO_TIMESTAMP(#{formattedTime}, 'YYYYMMDD HH24:MI') 
+	</select>
+
+	<!-- String searchSeatId(@Param("seatIdList") List<String> seatIdList) throws SQLException; -->
+	<select id="searchSeatId" parameterType="list" resultType="string">
+	SELECT LISTAGG(TO_CHAR(seatNo), ',') WITHIN GROUP (ORDER BY seatNo) AS seatNos
+	FROM seat
+	WHERE seatId IN
+	<foreach item="seatId" collection="list" open="(" separator=","
+		close=")">
+		#{seatId}
+	</foreach>
+</select>
+
+</mapper>

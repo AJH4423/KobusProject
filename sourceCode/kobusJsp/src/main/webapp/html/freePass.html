@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<!-- saved from url=(0041)https://www.kobus.co.kr/mrs/stplcfmpym.do -->
+<html lang="ko" class="pc"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	
+		
+		
+			<title>결제정보입력 | 고속버스예매 | 고속버스예매 | 고속버스통합예매</title>
+		
+		
+		
+		
+		
+	
+	
+	
+	<link rel="shortcut icon" href="https://www.kobus.co.kr/images/favicon.ico">
+	
+		
+
+
+
+<script type="text/javascript">
+/*********************************************
+ * 상수
+ *********************************************/
+</script>
+
+
+<link rel="stylesheet" type="text/css" href="../css/common/ui.jqgrid.custom.css">
+
+<script type="text/javascript" src="../js/common/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+//쿠키 가져오기
+function getCookie( name ) {
+	var nameOfCookie = name + "=";
+	var x = 0;
+	while ( x <= document.cookie.length ) {
+		var y = (x+nameOfCookie.length);
+		if ( document.cookie.substring( x, y ) == nameOfCookie ) { 
+			if ( (endOfCookie=document.cookie.indexOf( ";", y )) == -1 ) {
+				endOfCookie = document.cookie.length;
+			}
+			return unescape( document.cookie.substring( y, endOfCookie ) );
+		}
+		x = document.cookie.indexOf( " ", x ) + 1;
+		if ( x == 0 ) {
+			break;
+		}
+	}
+	return ""; 
+}
+//쿠키 넣기
+function setCookie( name, value, expiredays ) {
+	var todayDate = new Date();
+	todayDate.setDate( todayDate.getDate() + expiredays );
+	document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
+
+// 상단 네비게이션, 모바일 좌측, 모바일 하단 언어선택 설정
+var lngCdCookie = getCookie("LNG_CD");
+
+lngCdCookie = (lngCdCookie != null && lngCdCookie != undefined && lngCdCookie != "") ? lngCdCookie : "";
+var lngCd = (lngCdCookie == "EN" || lngCdCookie == "CN" || lngCdCookie == "JP" || lngCdCookie == "KO") ? lngCdCookie : "KO";
+$(document).ready(function() {
+	if (navigator.userAgent.toUpperCase().indexOf("MSIE 5") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 6") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 7") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 8") >= 0) {
+		// IE 8 이하
+		if (location.href.indexOf("/underIE8.do") < 0) {
+			// IE 8 이하 페이지 아님
+			location.href = "/underIE8.do";
+			return false;
+		}
+	}
+	if (window.innerWidth < 768) {
+		setCookie("IS_MOBILE_YN_WIDTH","Y",365);
+		if (lngCd == "KO" && location.href.indexOf("/cmn/") < 0 && 
+				location.href.indexOf("/underIE8.do") < 0 && 
+				location.href.indexOf("/mrs/mrsrecppub.do") < 0 && 
+				location.href.indexOf("/mrs/mrsrecppub4.do") < 0 && 
+				location.href.indexOf("/mrs/mrsmbltck.do") < 0 &&
+				location.href.indexOf("/mrs/acntpympup.do") < 0 && 		// 계좌이체
+				location.href.indexOf("/mrs/pay") < 0 && 				// 간편결제
+				location.href.indexOf("/adtnprdnew/prchpt/adtnrecppubmbl.do") < 0 && 
+				location.href.indexOf("/adtnprdnew/frps/frpsPrchGdMbl.do") < 0 &&
+				location.href.indexOf("/mbrs/mbrsscsn.do") < 0) {
+			/* location.href = "/mblIdx.do"; */
+			return false;
+		}
+	} else {
+		setCookie("IS_MOBILE_YN_WIDTH","N",365);
+	}
+	// 타이틀 수정
+	if ($("h2").length > 0) {
+		$("title").text($("title").text() + " - " + $("h2:eq(0)").text());
+	}
+	var $objBody = $("body");
+	if (!($objBody.hasClass("KO") || $objBody.hasClass("EN") ||  $objBody.hasClass("CN") ||  $objBody.hasClass("JP"))) {
+		$objBody.addClass(lngCd);
+	}
+	
+	
+	/* asis */
+	$("#lng_cd_navi option[value='" + lngCd + "'],#lng_cd_foot option[value='" + lngCd + "']").attr("selected","selected");
+	$("#lng_cd_navi,#lng_cd_foot").unbind("change").bind("change",function() {
+		var tempCd = this.value;
+		lngCd = (tempCd != null && tempCd != undefined && tempCd != "" && (tempCd == "EN" || tempCd == "CN" || tempCd == "JP" || tempCd == "KO")) ? tempCd : "KO";
+		setCookie("LNG_CD",lngCd,1);
+		lngCdCookie = lngCd;
+		//document.location.reload();
+		location.href = "/main.do";
+	}); 
+});
+
+
+if (lngCd == "KO") {
+	var dt = new Date();		//오늘날짜 전체
+	var yyyy  = dt.getFullYear();		//선택한 년도
+	var mm    = dt.getMonth()+1;		//선택한 월
+	var mm2Len = Number(mm) < 10 ? "0"+mm : mm;			// 선택ㅡㅜ?ㅌ월 ex:01 두글자로 변환
+	var ddTo    = Number(dt.getDate()) < 10 ? "0"+dt.getDate() : dt.getDate(); 			// 숫자형
+	var yymmddD0 = yyyy+""+mm2Len+""+ddTo;		//오늘날짜
+	
+	var url = window.location.pathname;
+
+	if (yymmddD0 < 20200128) {
+		if (url == "/main.do")
+			location.href="/mainExp.do";
+	}
+}
+
+</script>
+<script type="text/javascript" src="/koBus/js/common/ui.js"></script>
+<script type="text/javascript" src="/koBus/js/common/plugin.js"></script>
+<script type="text/javascript" src="/koBus/js/common/common.js"></script>
+
+<script type="text/javascript" src="/koBus/js/common/jquery.number.js"></script>
+<script type="text/javascript" src="/koBus/js/common/security.js"></script>
+	
+	
+<link rel="stylesheet" type="text/css" href="/koBus/css/common/style.css"><script type="text/javascript" src="../js/common/new-kor-ui.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script></head>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
+
+
+<body class="KO">
+	<!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
+	<nav id="skip">
+		<ul>
+			<li><a href="https://www.kobus.co.kr/mrs/stplcfmpym.do#new-kor-content">본문 바로가기</a></li>
+			<li><a href="https://www.kobus.co.kr/mrs/stplcfmpym.do#new-kor-gnb">주메뉴 바로가기</a></li>
+			<li><a href="https://www.kobus.co.kr/mrs/stplcfmpym.do#new-kor-footer">푸터 바로가기</a></li>
+		</ul>
+	</nav>
+
+	<!-- 메인 클래스 : wrapper-main -->
+	<div class="wrapper wrapper-kor wrapper-sub">
+		
+	
+		<!-- quick -->
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 퀵메뉴 : 서브페이지에만 적용 -->
+<nav id="new-kor-quickmenu" class="fixed">
+	<ul class="quickmenu-list">
+		<li>
+			<a href="https://www.kobus.co.kr/mrs/rotinf.do">
+				<span class="ico"><img src="/koBus/images/ico-quick-menu01.png" alt=""></span>
+				<span class="text">고속버스 예매</span>
+			</a>
+		</li>
+		<li>
+			<a href="https://www.kobus.co.kr/mrs/mrscfm.do">
+				<span class="ico"><img src="/koBus/images/ico-quick-menu02.png" alt=""></span>
+				<span class="text">예매확인</span>
+			</a>
+		</li>
+		<li>
+			<a href="https://www.kobus.co.kr/oprninf/arscgd/oprnArscGd.do">
+				<span class="ico"><img src="/koBus/images/ico-quick-menu03.png" alt=""></span>
+				<span class="text">도착시간 안내</span>
+			</a>
+		</li>
+		<li>
+			<a href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">
+				<span class="ico"><img src="/koBus/images/ico-quick-menu04.png" alt=""></span>
+				<span class="text">프리패스 구매</span>
+			</a>
+		</li>
+		<li>
+			<a href="https://www.kobus.co.kr/adtnprdnew/pass/passPrchGd.do">
+				<span class="ico"><img src="/koBus/images/ico-quick-menu05.png" alt=""></span>
+				<span class="text">정기권 구매</span>
+			</a>
+		</li>
+		<li class="to-top">
+			<a href="javascript:void(0)">
+				<span class="ico"><img src="/koBus/images/common/ico-to-top.png" alt=""></span>
+				<span class="text">TOP</span>
+			</a>
+		</li>
+	</ul>
+</nav>
+
+		
+		<!-- header -->
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function () {
+	var langCd = 'KO';
+	var langLi = $(".dropdown-wrap.lang-select .dropdown-list li");
+	$.each(langLi, function (ix, el) {
+		var langItem = $(el).children('a');
+		var lang  = langItem.data('lang');
+		if (langCd == lang){
+			dropdown_process(langItem);
+		}
+	});
+	
+	$('.title_wrap').hide();
+});
+</script>
+
+<!-- 헤더 -->
+<header id="new-kor-header">
+	<div class="top-menu-area">
+		<div class="container">
+			<h1 id="logo">
+				<a href="https://www.kobus.co.kr/main.do">
+					<img src="/koBus/images/logo.png" alt="KOBUS 전국고속버스운송사업조합">
+				</a>
+			</h1>
+			<nav class="util-menus">
+				
+				
+				
+				
+					
+						<ul class="util-list">
+							
+							
+								<li class="id-area"><strong class="login-id">migamsu94@gmail.com</strong></li>
+								<li><a href="https://www.kobus.co.kr/mbrs/lgn/logoutMain.do" class="logout">로그아웃</a></li>
+							
+							
+							<li><a href="https://www.kobus.co.kr/mbrs/mbrspage/myPageMain.do">마이페이지</a></li>
+							<li><a href="https://www.kobus.co.kr/mbrs/trprinqr/pymPtInqr.do">결제내역조회</a></li>
+							<li><a href="https://www.kobus.co.kr/etc/sitemap/SiteMap.do">사이트맵</a></li>
+						</ul>
+						
+						<div class="dropdown-wrap lang-select">
+							<a href="javascript:void(0)" class="btn-dropdown" title="언어선택" aria-expanded="false">
+								<span class="text">한국어</span><i class="ico ico-arrow-down"></i></a>
+							<ul class="dropdown-list" style="display: none;">
+								<li class="selected"><a href="javascript:void(0)" data-lang="KO" title="선택됨">한국어</a></li>
+								<li><a href="javascript:void(0)" data-lang="EN">English</a></li>
+								<li><a href="javascript:void(0)" data-lang="CN">中文</a></li>
+								<li><a href="javascript:void(0)" data-lang="JP">日本語</a></li>
+							</ul>
+						</div>
+					
+					
+					
+					
+				
+			</nav>
+		</div>
+	</div>
+	<nav class="gnb-menu-area">
+		<div class="container">
+			<div class="gnb-area">
+				<ul id="new-kor-gnb">
+					<li>
+						<a href="javascript:void(0)">고속버스예매</a>
+						<ul>
+							<li>
+								
+									
+									
+										<a href="https://www.kobus.co.kr/mrs/rotinf.do">고속버스 예매</a>
+									
+								
+							</li>
+							
+							<li>
+								
+									
+									
+										<a href="https://www.kobus.co.kr/mrs/mrscfm.do">예매확인/취소/변경</a>
+									
+								
+							</li>
+							
+							
+								<li><a href="https://www.kobus.co.kr/mrs/mrsrecplist.do">영수증발행</a></li>
+							
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0)">운행정보</a>
+						<ul>
+							<li><a href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do">시간표 조회</a></li>
+							<li><a href="https://www.kobus.co.kr/oprninf/arscgd/oprnArscGd.do">도착시간 안내</a></li>
+						</ul>
+					</li>
+					
+					
+						<li>
+							<a href="javascript:void(0)">프리패스/정기권</a>
+							<ul>
+								<li><a href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스 여행권</a></li>
+								<li><a href="https://www.kobus.co.kr/adtnprdnew/pass/passPrchGd.do">정기권</a></li>
+								<li><a href="https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do">상품 구매내역</a></li>
+							</ul>
+						</li>
+					
+					
+					<li>
+						<a href="javascript:void(0)">이용안내</a>
+						<ul>
+							<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">예매 안내</a></li>
+							<li><a href="https://www.kobus.co.kr/ugd/mrsgd/MrdgdPrch.do">결제수단 안내</a></li>
+							<li><a href="https://www.kobus.co.kr/ugd/rygd/Rygd.do">승차권 환불안내</a></li>
+							<li><a href="https://www.kobus.co.kr/ugd/mlggd/Mlggd.do">프리미엄 마일리지</a></li>
+							
+							<li><a href="https://www.kobus.co.kr/ugd/trtrgd/Trtrgd.do">휴게소 환승안내</a></li>
+							<li><a href="https://www.kobus.co.kr/ugd/trmlgd/Trmlgd.do">고속버스 터미널</a></li>
+							<li><a href="https://www.kobus.co.kr/ugd/cacmgd/Cacmgd.do">고속버스 운송회사</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0)">고객지원</a>
+						<ul>
+							<li><a href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">공지사항</a></li>
+							<li><a href="https://www.kobus.co.kr/cscn/qna/readQnaList.do">자주찾는 질문</a></li>
+							<li><a href="https://www.kobus.co.kr/cscn/lossClnc/readLossClncList.do">유실물센터 안내</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="links">
+				<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
+					<img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
+					<i class="ico ico-arrow-new-window"></i>
+				</a> -->
+				
+				<a href="https://www.kobus.co.kr/cscn/jobmttr/readJobList.do" class="btn btn-job" title="새창" target="_blank">
+					<img src="/koBus/images/ico-job-offer.png" alt="">승무사원 모집
+					<i class="ico ico-arrow-new-window"></i>	
+				</a>
+			</div>
+			<div class="bg-layer">
+				<a href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249" title="새창" class="gnb-baaner">
+					<iframe src="/koBus/html/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)" class="ad-frame"></iframe>
+				</a>
+			</div>
+		</div>
+	</nav>
+</header>
+
+		
+		<!-- breadcrumb -->
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 브레드크럼 -->
+<nav id="new-kor-breadcrumb">
+	<div class="container">
+		
+		<ol class="breadcrumb-list">
+			<li><i class="ico ico-home"></i><span class="sr-only">홈</span></li>
+			 
+			<li>
+				<div class="dropdown-wrap breadcrumb-select">
+					
+					
+						
+					
+						
+					
+						
+							<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택" aria-expanded="false">
+								<span class="text">프리패스/정기권</span><i class="ico ico-dropdown-arrow"></i></a>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+					
+					<ul class="dropdown-list" style="display: none;">
+						
+							
+							
+							
+							
+							
+							<li><a href="https://www.kobus.co.kr/mrs/rotinf.do">고속버스예매</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
+						
+							
+							
+							
+							
+								
+								
+								
+							
+							
+							<li class="selected"><a href="javascript:void(0)" title="선택됨">프리패스/정기권</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
+						
+					</ul>
+				</div>
+			</li>
+			
+			<li>
+				<div class="dropdown-wrap breadcrumb-select">
+					
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+							<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택" aria-expanded="false">
+								<span class="text">프리패스 여행권</span><i class="ico ico-dropdown-arrow"></i></a>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+					
+					<ul class="dropdown-list" style="display: none;">
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+								
+								
+								
+								
+									
+									
+									
+								
+								
+								<li class="selected"><a href="javascript:void(0)" title="선택됨">프리패스 여행권</a></li>
+							
+						
+							
+								
+								
+								
+								
+								
+								<li><a href="https://www.kobus.co.kr/adtnprdnew/pass/passPrchGd.do">정기권</a></li>
+							
+						
+							
+								
+								
+								
+								
+								
+								<li><a href="https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do">상품 구매내역</a></li>
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+					</ul>
+				</div>
+			</li>
+		</ol>
+		
+	</div>
+</nav>
+
+		
+		<article id="new-kor-content">
+			
+
+
+<script type="text/javascript" src="/koBus/js/FrpsPrch.js"></script>
+<script type="text/javascript" src="/koBus/js/ReadLgnInf.js"></script>
+
+<!-- 20200617 yahan -->
+<script type="text/javascript" src="/koBus/js/transkey.js"></script><script type="text/javascript" src="/koBus/js/TranskeyLibPack_op.js"></script><script type="text/javascript" src="/koBus/js/rsa_oaep-min.js"></script><script type="text/javascript" src="/koBus/js/jsbn-min2.js"></script><script type="text/javascript" src="/koBus/js/typedarray.js"></script><script type="text/javascript" src="/koBus/images/transkeyServlet"></script><script type="text/javascript" src="/koBus/images/transkeyServlet(1)"></script>
+<link rel="stylesheet" type="text/css" href="/koBus/css/transkey.css"> 
+<script>
+	$(function(){ initTranskey(); })
+</script>
+
+
+	<div class="title_wrap in_process freepassT" style="display: none;">
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+<a href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#" class="back">back</a>
+<a href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#" class="mo_toggle">메뉴</a>
+
+
+		<h2>고속버스 프리패스 여행권</h2>
+		<ol class="process">
+			<li> 구매정보안내</li>
+			<li class="active">구매정보입력</li>
+			<li class="last">구매완료</li>
+		</ol>
+	</div>
+			
+	
+		<!-- 타이틀 -->
+		<div class="content-header" data-page-title="프리패스 여행권(구매정보입력) | 프리패스/정기권 | 고속버스통합예매">
+			<div class="container">
+				<div class="title-area">
+					<h2 class="page-title">프리패스 여행권</h2>
+					<ol class="process">
+						<li><span class="num">1</span> 구매정보안내</li>
+						<li class="active" title="현재 단계"><span class="num">2</span> 구매정보입력</li>
+						<li><span class="num">3</span> 구매완료</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	
+		
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+
+ 
+		
+	
+	
+		<div class="content-body pass_ticket">
+			<div class="container">
+	
+
+	<form name="frpsPrchFrm" id="frpsPrchFrm" method="post">
+		<input type="hidden" id="exdtSttDt" name="exdtSttDt" value="20250611">
+		<input type="hidden" id="exdtEndDt" name="exdtEndDt" value="">
+		<input type="hidden" id="adtnDeprTrmlNo" name="adtnDeprTrmlNo" value="">
+		<input type="hidden" id="adtnArvlTrmlNo" name="adtnArvlTrmlNo" value="">
+		<input type="hidden" id="cardExdt" name="cardExdt" value="">
+		<input type="hidden" id="cardNo" name="cardNo" value="">
+		<input type="hidden" name="userDvsCd" id="userDvsCd" value="1"><!-- 사용자구분 1:개인 , 2:법인, 3:외국인   -->		
+		
+		<input type="hidden" id="adtnCpnNo" name="adtnCpnNo" value="">
+		<input type="hidden" id="adtnDeprNm" name="adtnDeprNm" value="">
+		<input type="hidden" id="adtnArvlNm" name="adtnArvlNm" value="">
+		<input type="hidden" id="adtnPrdUseClsNm" name="adtnPrdUseClsNm" value="">
+		<input type="hidden" id="adtnPrdUseNtknNm" name="adtnPrdUseNtknNm" value="">
+		<input type="hidden" id="wkdWkeNtknNm" name="wkdWkeNtknNm" value="">
+		<input type="hidden" id="timSttDte" name="timSttDte" value="">
+		<input type="hidden" id="timEndDte" name="timEndDte" value="">
+		<input type="hidden" id="prchAmt" name="prchAmt" value="">
+		<input type="hidden" id="fulTerm" name="fulTerm" value="">
+		
+		<input type="hidden" id="adtnPrdUseClsCd" name="adtnPrdUseClsCd" value="">
+		<input type="hidden" id="adtnPrdUseNtknCd" name="adtnPrdUseNtknCd" value="">
+		<input type="hidden" id="wkdWkeNtknCd" name="wkdWkeNtknCd" value="">
+		<input type="hidden" id="adtnPrdUsePsbDno" name="adtnPrdUsePsbDno" value="">
+		<input type="hidden" id="adtnPrdSno" name="adtnPrdSno" value="">
+		
+		<input type="hidden" id="frpsPrchGdEvent" name="frpsPrchGdEvent" value="">
+		
+		<input type="hidden" name="pymType" id="pymType" value="card"><!-- 결제타입 card:카드,acnt:계좌이체, famt:정액권,perd:정기권,milage:마일리지   -->
+		<input type="hidden" name="track2Data" id="track2Data" value=""><!-- 간편결제 -->
+		<input type="hidden" name="authInf" id="authInf" value=""><!-- 간편결제 -->
+		
+			<div class="section">
+					<div class="agreement_wrap">
+						<div class="agreement_tit">
+							<h4 class="first">서비스 이용약관 동의</h4>
+						</div>
+						<div class="agreement_cont scrollbar-inner">
+							<iframe src="/koBus/cmn/SvcUtlzStplAgrm.do?type=서비스" frameborder="0" scrolling="no"  width="100%" title="서비스 이용약관 내용" onload="resize(this);"></iframe>
+						</div>
+						<span class="custom_check chk_blue">
+							<input type="checkbox" id="agree1" onclick="fnChgCfmBtn();">
+							<label for="agree1">동의</label>
+						</span>
+					</div>
+					<div class="agreement_wrap">
+						<div class="agreement_tit">
+							<h4>운송약관 동의</h4>
+						</div>
+						<div class="agreement_cont scrollbar-inner">
+							<iframe src="/koBus/cmn/TransitStplAgrm.do?type=운송" frameborder="0" scrolling="no" width="100%" height="100" title="운송약관 동의 내용" onload="resize(this);"></iframe>
+						</div>
+						<span class="custom_check chk_blue">
+							<input type="checkbox" id="agree2" onclick="fnChgCfmBtn();">
+							<label for="agree2">동의</label>
+						</span>
+					</div>
+					<div class="agreement_wrap">
+						<div class="agreement_tit">
+							<h4>개인정보 수집 및 이용 동의</h4>
+						</div>
+						<div class="agreement_cont scrollbar-inner">
+							<!-- iframe src="/cmn/IndlInfClcnUtlzAgrm.do" frameborder="0" scrolling="no" width="100%" height="130" title="개인정보 처리방침" onload="resize(this);"></iframe -->
+							<div class="terms_wrap">
+                                <h1>개인정보 수집 및 이용 동의</h1>
+                            <dl>
+                                <dt><span class="emphasis">1. 수집 및 이용의 목적</span></dt><!-- 181121 수정 -->
+                                <dd>
+                                    <p>고속버스 승차권 온라인 예매 서비스의 제공</p>		
+                                </dd>
+                                <dt>2. 수집하는 항목</dt>
+                                <dd>
+                                    <p>신용카드 번호ㆍ유효기간ㆍ신용카드 비밀번호 앞 2자리, 생년월일, 휴대전화번호</p>			
+                                </dd>
+                                <dt><span class="emphasis">3. 보유 및 이용 기간</span></dt><!-- 181121 수정 -->
+                                <dd>
+                                    <p>5년 (근거: 전자상거래 등에서의 소비자 보호에 관한 법률)</p>			
+                                </dd>
+                                <dt>4. 개인정보 수집 및 이용 동의 거부 시 프리패스 구매 하실 수 없습니다.</dt><!-- 181121 추가 -->
+                            </dl>
+                            <p>시행일자 : 2017년 5월 18일 </p>
+                            </div>  
+						</div>
+						<span class="custom_check chk_blue">
+							<input type="checkbox" id="agree3" onclick="fnChgCfmBtn();">
+							<label for="agree3">동의</label>
+						</span>
+					</div>	
+					<p class="agree_all chk_bor">
+						<span class="custom_check chk_purple">
+							<input type="checkbox" id="agreeAll">
+							<label for="agreeAll">전체 약관에 동의합니다.</label>
+						</span>
+					</p>
+				</div>
+			<!-- 181218 수정 -->
+			<div class="section">
+				<h4 class="first">구매 선택 사항</h4>
+				<div class="custom_input type3">
+					<div class="line_box">
+						<div class="dl_tbl_wrap col2">
+							<dl class="dl_tbl1">
+								<dt><span>시작일자</span></dt>
+								<dd>
+									<div class="box_inputForm click_box date_picker_wrap">
+										<strong class="label">사용시작일</strong>
+										<p class="text">
+											<input type="text" id="datepickerItem" tabindex="-1" readonly=""><button type="button" class="datepicker-btn"></button>
+											<label for="datepickerItem" class="text_date text_date1"></label>										
+											<!-- <span class="text_date text_date1"></span>
+											<input type="text" id="datepickerItem" readonly> -->
+										</p>
+									</div>
+								</dd>
+							</dl>
+							<dl class="dl_tbl1">
+								<dt><span>생년월일</span></dt>
+								<dd>
+									<!-- 181219 수정 -->
+									<div class="box_inputForm desc_wrap">
+										<div class="box_inputForm intxt">
+											<label for="mbrsBrdt" class="label">생년월일 6자리(YYMMDD)</label>
+											<span class="box_label">
+												<input type="text" name="mbrsBrdt" id="mbrsBrdt" placeholder="예)1980년11월11일 -&gt; 801111" class="input" maxlength="6" onkeyup="fn_chkMonth(this, 3)">
+											</span>
+										</div>
+										<p class="desc">※ 주민등록증 생년월일로 기입 (승차권 결제 시 확인 필요)</p>
+									</div>
+									<!-- //181219 수정 -->
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="line_box">
+						<dl class="dl_tbl1">
+							<dt><span>구매옵션</span></dt>
+							<dd>
+								<div class="boxinput_wrap col2 clfix">
+									<div class="box_inputForm desc_wrap"> <!-- 190319 추가 - wrapper -->
+										<div class="box_inputForm click_box inselect no-strong tooltip_wrap"> <!-- 190121 수정 : tooltip_wrap 클래스 추가 -->
+											<!-- 190121 추가 -->
+											<a href="javascript:void(0)" class="tip_click" aria-expanded="false"><span class="sr-only">옵션 안내</span></a>
+											<div class="tooltip" style="display: none;">
+												<p class="tit">옵션 안내</p>
+												<ul class="desc_list">
+													<li>이용권종 : 일반권(성인)</li>
+													<li>버스이용등급 :
+														<ul class="dash_list">
+															<li>우등 : 우등고속, 심야우등(심우) 탑승 가능</li>
+															<li>고속 : 일반고속, 심야고속(심고) 탑승 가능</li>
+															<li>전체 : 우등, 고속 모두 탑승 가능</li>
+														</ul>
+													</li>
+													<li>사용일 :
+														<!-- 190319 수정 -->
+														<ul class="dash_list">
+															<li>3일권 : 금~일 포함</li>
+															<li>4일권 : 금~일 제외</li>
+															<li>5일권 : 금~일 포함</li>
+															<li>7일권 : 금~일 포함</li>
+														</ul>
+														<!-- //190319 수정 -->
+													</li>
+												</ul>
+												<a href="javascript:void(0)" class="close"><span class="sr-only">닫기</span></a>
+											</div>
+											
+											
+											<!-- 웹 접근성 개선 셀렉트 박스 UI -->
+											
+												<div class="dropdown-wrap select-default">
+													<a href="javascript:void(0)" class="btn-dropdown" title="구매옵션 선택" aria-expanded="false" id="optSelectric">
+														<span class="text">구매옵션을 선택하세요</span></a>
+													<ul class="dropdown-list" id="selOptionLi">
+														<!-- <li><a href="javascript:void(0)">옵션1</a></li>
+														<li><a href="javascript:void(0)">옵션2</a></li> -->
+													</ul>
+													<input type="hidden" name="selOption" id="selOption" value="">
+													<input type="hidden" name="selOptionText" id="selOptionText" value="">
+												</div>
+											
+											<!-- //190121 추가 -->
+										</div>
+										<p class="desc" id="tmpPsbYN" style="display: none;">※ 해당 옵션은 임시차 배차도 사용 가능합니다.</p> <!-- 190319 추가 -->
+									</div>
+									<!-- 190319 추가 -->
+									<div class="box_inputForm intxt input_noti no-strong" id="divTermDesc" style="display: none;">
+										<span class="box_label">해당 상품의 사용 기간은 <span id="spanTermDt"></span> 입니다.<br>해당 기간 중에만 사용이 가능합니다.</span>
+									</div>
+									<!-- //190319 추가 -->
+								</div>
+							</dd>
+						</dl>
+					</div>
+					<!-- //190118 추가 : 구매옵션 -->
+					<!-- <div class="line_box">
+						<div class="dl_tbl_wrap col2">
+							<dl class="dl_tbl1 h50">
+								<dt><span>이용권종</span></dt>
+								<dd>
+									<div class="box_radioForm" id="kindList">
+									</div>
+								</dd>
+							</dl>
+							<dl class="dl_tbl1 h50">
+								<dt><span>상품종류</span></dt>
+								<dd>
+									<div class="box_radioForm" id="weekList">
+									</div>
+								</dd>
+							</dl>
+						</div>
+						<dl class="dl_tbl1 h50">
+							<dt><span>버스<br>이용등급</span></dt>
+							<dd>
+								<div class="box_radioForm" id="gradeList">
+								</div>
+							</dd>
+						</dl>
+					</div> -->
+					<div class="line_box">
+						<ul class="desc_list marT10">
+							<li>터미널 창구 방문 시 프리패스 번호+생년월일(터미널 창구 발권 시 신분증 제출)을 지참하셔야 승차권 발권이 가능합니다.</li>
+							<li>사용기간 내 출발 차량 예매 시 부가상품 사용이 가능하며, 명절 특송 기간에는 사용 불가 합니다.</li>
+							<li>구매 후 입력하신 휴대폰번호로 <span class="accent">프리패스 번호와 사용일자 정보가 발송</span>됩니다. 구매하시기 전 마이페이지에서 휴대폰 번호를 다시 한 번 확인해주세요.</li>
+						</ul>
+						<!-- 20190509 추가 -->
+						<p class="tit marT10"><strong>취소수수료 안내</strong></p>
+						<ul class="desc_list marT10">
+							<li>고속버스 프리패스는 사용 시작 1일 후까지 취소가 가능하며, 취소 시 전액 환불 됩니다.</li>
+							<li class="accent2"><strong>승차권이 발권상태일 경우에는 취소/변경/환불이 불가합니다.</strong></li>
+						</ul>
+						<p class="tit marT10"><strong>유의사항</strong></p>
+						<ul class="desc_list marT10">
+							<li>프리패스를 통한 승차권은&nbsp;본인에 한하여&nbsp;예매, 발권이 가능합니다. (상품 양도 불가)</li>
+							<li class="accent2"><strong>사용 기간 내&nbsp;동일 노선의 중복 사용은 불가합니다. (편도기준)</strong></li>
+							<li class="accent2"><strong>프리패스 노선 운행 회사(8개사)</strong><br>금호고속, 동부고속, 동양고속, 삼화고속, 속리산고속, 중앙고속, 천일고속, 한일고속<br>* 상기 8개사를 제외한 다른 회사 차량은 이용 불가</li>
+							<li class="accent2"><strong>고속버스 프리패스로는 통학, 통근 등이 불가합니다.</strong></li>
+							<li>프리패스 번호 미지참시 터미널에서 승차권 발행이 불가하니 분실하지 않도록 유의하시기 바랍니다.</li>
+							<li>이용하시기 전에 사용 가능 노선을 반드시 확인하세요.</li>
+							<li>명절 특송 기간에는 사용 불가하며, 본 프리패스는 사용 개시 1일 경과 후 교환 및 환불이 불가합니다.</li>
+						</ul>
+						<!-- //20190509 추가 -->
+					</div>
+				</div>
+			</div>
+			<!-- //181218 수정 -->
+
+			<h4 class="mo_page">결제정보 입력</h4>
+			<div class="custom_input clfix">
+				<div class="tab_wrap inradio tab_type2">
+					<ul class="tabs clfix col1" id="payTyepAllUl">
+							<li id="cardLi" class="active"><input type="radio" id="payType1" name="payType" title="선택됨"><label for="payType1">카드결제</label></li>
+							
+					</ul>
+				<ul class="desc_list">
+					<li>모든 결제정보는 암호화 처리 후 안전하게 전송됩니다.</li>
+					<li>구매가 완료된 후 구매 확인 메뉴를 통해 구매내역을 확인 하시기 바랍니다.</li>
+					<li>비밀번호 입력 오류가 3회 이상 발생할 경우 홈페이지에서 결제가 불가하니 카드사/은행을 방문하셔서 처리 후 다시 시도 바랍니다.</li>
+				</ul>
+					
+							
+							
+				</div>
+				<div class="payment_sum" style="height: 382px;">
+					<div class="tbl_type3">
+						<table class="taR">
+							<caption>결제 정보 표이며 이용권종, 상품종류, 버스이용등급, 사용일자, 결제금액 정보 제공</caption>
+							<colgroup>
+								<col style="width:105px;">
+								<col style="width:*;">
+							</colgroup>
+							<tbody>
+								<tr>
+									<th scope="row">이용권종</th>
+									<td id="kindTd"></td>
+								</tr>
+								<tr>
+									<th scope="row">상품종류</th>
+									<td id="weekTd"></td>
+								</tr>
+								<tr>
+									<th scope="row">버스이용등급</th>
+									<td id="gradeTd"></td>
+								</tr>
+								<tr><!-- 두 달에 걸쳐 있을 때 -->
+									<th scope="row">사용일자</th>
+									<td><span class="useDate" id="fulTermTd"></span></td>
+								</tr>
+								<tr class="total">
+									<th scope="row" class="txt_black">결제금액</th>
+									<td class="totalPrice" id="pubAmt">0 원</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<p class="btn bottom">
+						<button type="button" class="btnL btn_confirm ready" id="goPrdprchFn">결제하기</button>
+					</p>
+				</div>
+			</div>
+
+			
+		<input type="hidden" id="hidfrmId" name="hidfrmId" value="frpsPrchFrm"><input type="hidden" id="transkeyUuid_frpsPrchFrm" name="transkeyUuid_frpsPrchFrm" value="98d0e138207388f33c8beae202e2c7818f9cb8ade34dde37d6c3f3970d1c41d5"><input type="hidden" id="transkey_cardNum3_frpsPrchFrm" name="transkey_cardNum3_frpsPrchFrm" value=""><input type="hidden" id="transkey_HM_cardNum3_frpsPrchFrm" name="transkey_HM_cardNum3_frpsPrchFrm" value=""><input type="hidden" id="transkey_cardNum4_frpsPrchFrm" name="transkey_cardNum4_frpsPrchFrm" value=""><input type="hidden" id="transkey_HM_cardNum4_frpsPrchFrm" name="transkey_HM_cardNum4_frpsPrchFrm" value=""><input type="hidden" id="transkey_cardPwd_frpsPrchFrm" name="transkey_cardPwd_frpsPrchFrm" value=""><input type="hidden" id="transkey_HM_cardPwd_frpsPrchFrm" name="transkey_HM_cardPwd_frpsPrchFrm" value=""></form>	
+	</div>
+
+	</div>
+
+<!-- 로그인! -->
+
+
+<!-- 사용가능노선 팝업 -->
+
+
+<!-- 고속버스 프리패스 사용가능 노선 안내 -->
+	
+
+
+<form name="payDtaFrm" id="payDtaFrm" method="post"> <!-- 간편결제용 FORM  -->
+	<input type="hidden" name="payMethodCd" id="payMethodCd" value="">
+	<input type="hidden" name="goodsName" id="goodsName" value="고속버스 프리패스 여행권">
+	<input type="hidden" name="goodsCnt" id="goodsCnt" value="1">
+	<input type="hidden" name="goodsPrice" id="goodsPrice" value="0">
+</form>
+
+		</article>
+
+		<!-- footer -->
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 푸터 -->
+<footer id="new-kor-footer">
+	<div class="container">
+		<div class="footer-top-cont">
+			<ul class="express-bus-company-list">
+				<li>
+					<a href="http://www.kumhobuslines.co.kr/" target="_blank" title="새창"><img src="/koBus/images/logo-kumho-express.png" alt="금호고속"></a>
+				</li>
+				<li>
+					<a href="http://www.dongbubus.com/" target="_blank" title="새창"><img src="/koBus/images/logo-dongbu-express.png" alt="동부고속"></a>
+				</li>
+				<li>
+					<a href="http://www.songnisanbuslines.co.kr/" target="_blank" title="새창"><img src="/koBus/images/logo-sokrisan-express.png" alt="속리산고속"></a>
+				</li>
+				<li>
+					<a href="http://www.dyexpress.co.kr/" target="_blank" title="새창"><img src="/koBus/images/logo-dongyang-express.png" alt="동양고속"></a>
+				</li>
+				<li>
+					<a href="http://www.samhwaexpress.co.kr/" target="_blank" title="새창"><img src="/koBus/images/logo-samhwa-express.png" alt="삼화고속"></a>
+				</li>
+				<li>
+					<a href="http://www.jabus.co.kr/" target="_blank" title="새창"><img src="/koBus/images/logo-joongang-express.png" alt="중앙고속"></a>
+				</li>
+				<li>
+					<a href="http://www.chunilexpress.co.kr/" target="_blank" title="새창"><img src="/koBus/images/logo-chunil-express.png" alt="천일고속"></a>
+				</li>
+				<li>
+					<a href="http://www.hanilexpress.co.kr/" target="_blank" title="새창"><img src="/koBus/images/logo-hanil-express.png" alt="한일고속"></a>
+				</li>
+			</ul>
+			<!-- dropdown-top 클래스 추가 시, 드롭다운 목록 위로 노출 -->
+			<div class="dropdown-wrap dropdown-top related-sites-select">
+				<a href="javascript:void(0)" class="btn-dropdown" title="관련사이트 이동" aria-expanded="false"><span class="text">관련사이트</span><i class="ico ico-arrow-down"></i></a>
+				<ul class="dropdown-list" style="display: none;">
+					<li class="selected">
+						<a href="https://www.kobus.co.kr/wchr/main.do" target="_blank" title="새창">장애인 휠체어 사이트</a>
+					</li>
+					<li><a href="https://www.tago.go.kr/" target="_blank" title="새창">국가대중교통정보센터</a></li>
+					<li><a href="https://www.intis.or.kr/" target="_blank" title="새창">인천장애인콜택시</a></li>
+					<li><a href="http://www.shinsegaecentralcity.com/" target="_blank" title="새창">센트럴시티터미널</a></li>
+					<li><a href="https://txbus.t-money.co.kr/" target="_blank" title="새창">시외버스 통합예매시스템</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer-bottom-cont">
+			<address class="address">
+				<ul class="policy-list">
+					<li><a href="https://www.kobus.co.kr/etc/svcstpl/SvcStpl.do">서비스 이용약관</a></li>
+					<li><a href="https://www.kobus.co.kr/etc/indlstpl/IndlStpl.do" class="text-bold">개인정보 처리방침</a></li>
+					<li><a href="https://www.kobus.co.kr/etc/busstpl/BusStpl.do">고속버스 운송약관</a></li>
+					<li><a href="http://www.tmoney.co.kr/" target="_blank" title="새창">티머니</a></li>
+				</ul>
+				<ul class="contact">
+					<li>고객센터 : 1644-9030</li>
+					<li>서울특별시 서초구 신반포로 194</li>
+					<li>대표자 : 김용성</li>
+					<li>통신판매업신고 : 2009-서울서초 0587호</li>
+				</ul>
+				<p class="copyright">COPYRIGHT© 2016. WWW.KOBUS.CO.KR . ALL RIGHT RESERVED</p>
+			</address>
+			<ul class="greeting-btn-list">
+				<li>
+					<a href="http://www.wa.or.kr/board/list.asp?search=total&amp;SearchString=%B0%ED%BC%D3%B9%F6%BD%BA&amp;BoardID=0006" target="_blank" title="새창"><img src="/koBus/images/logo-accessibility2.png" alt="(사)한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크(WA인증마크)" height="40"></a>
+				</li>
+				<li>
+					<a href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do" title="이사장 인사말 바로가기"><img src="/koBus/images/logo-kobus.png" alt="KOBUS 전국고속버스운송사업조합"></a>
+				</li>
+				<li>
+					<a href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do" title="협회장 인사말 바로가기"><img src="/koBus/images/logo-npvtba-express.png" alt="전국여객자동차터미널사업자협회"></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</footer>
+
+	</div>
+
+
+	
+
+
+
+
+
+<div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"><div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div></div><div class="remodal-overlay remodal-is-closed" style="display: none;"></div><div class="remodal-wrapper freeRoute remodal-is-closed" style="display: none; height: 955px;"><div class="remodal pop_use_route pop_pass_route remodal-is-initialized freeRoute remodal-is-closed" data-remodal-id="popFreepassUseRoute" role="dialog" data-remodal-options="modifier: freeRoute" tabindex="-1">
+	<div class="title">
+		<h2><span class="mo_hide">고속버스 프리패스</span> 사용 가능 노선 안내</h2>
+	</div>
+	<div class="scroll-wrapper cont scrollbar-inner" style="position: relative;"><div class="cont scrollbar-inner scroll-content" style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 0px;">
+		<div class="cont_inner"> <!-- 190121 추가 : cont_inner -->
+			<div class="start_area">
+				<p>출발지역과 터미널을 선택하시고 사용 가능한 노선을 꼭 확인하세요.</p>
+				<p>고속 노선에 한해서만 승차권 발권이 가능합니다.</p>
+				<div class="boxinput_wrap col2 clfix">
+					<div class="box_inputForm click_box inselect">
+						<strong class="label">출발지역</strong>
+						
+						
+						<!-- 웹 접근성 개선 셀렉트 박스 UI -->
+						
+							<div class="dropdown-wrap select-default">
+								<a href="javascript:void(0)" class="btn-dropdown" title="출발지역 선택" aria-expanded="false">
+									<span class="text">선택</span></a>
+								<ul class="dropdown-list" id="deprAreaLi" style="display: none;">
+									<li><a href="javascript:fnDeprTrmlSet(&#39;11&#39;);">서울</a></li>
+									<li><a href="javascript:fnDeprTrmlSet(&#39;28&#39;);">인천/경기</a></li>
+									<li><a href="javascript:fnDeprTrmlSet(&#39;42&#39;);">강원</a></li>
+									<li><a href="javascript:fnDeprTrmlSet(&#39;30&#39;);">대전/충남</a></li>
+									<li><a href="javascript:fnDeprTrmlSet(&#39;43&#39;);">충북</a></li>
+									<li><a href="javascript:fnDeprTrmlSet(&#39;29&#39;);">광주/전남</a></li>
+									<li><a href="javascript:fnDeprTrmlSet(&#39;45&#39;);">전북</a></li>
+									<li><a href="javascript:fnDeprTrmlSet(&#39;26&#39;);">부산/경남</a></li>
+									<li><a href="javascript:fnDeprTrmlSet(&#39;27&#39;);">대구/경북</a></li>
+								</ul>
+								<input type="hidden" name="deprArea" id="deprArea" value="">
+							</div>
+						
+					</div>
+					<div class="box_inputForm click_box inselect">
+						<strong class="label">출발터미널</strong>
+						
+						
+						<!-- 웹 접근성 개선 셀렉트 박스 UI -->
+						
+							<div class="dropdown-wrap select-default">
+								<a href="javascript:void(0)" class="btn-dropdown" title="출발터미널 선택" aria-expanded="false">
+									<span class="text">선택</span></a>
+								<ul class="dropdown-list" id="deprTrmlLi" style="display: none;">
+									<!-- <li><a href="javascript:void(0)">옵션1</a></li>
+									<li><a href="javascript:void(0)">옵션2</a></li> -->
+								</ul>
+								<input type="hidden" name="deprTrml" id="deprTrml" value="">
+							</div>
+						
+					</div>
+				</div>
+			</div>
+	
+			<div class="arrive_area">
+				<h3 class="pop_h3 mob_h3">도착터미널</h3>
+				<ul class="route_list clfix" id="arvlTrml">
+					<li><span>서울경부</span></li>
+				</ul>
+			</div>
+			
+			<ul class="desc_list">
+				<li>노선별 운행시간표는 <a href="/koBus/kobusSchedule.do" class="accent" target="_blank" title="새창">[시간표조회]</a> 메뉴에서 확인 가능합니다.</li>
+				<li>승차권은 고속버스 프리패스를 구매하신 후 <a href="https://www.kobus.co.kr/mrs/rotinf.do" class="accent" target="_blank" title="새창">[고속버스예매]</a>에서 예매 가능합니다.</li>
+			</ul>
+		</div> <!-- //190121 추가 : cont_inner -->
+	</div><div class="scroll-element scroll-x"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div><div class="scroll-element scroll-y"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div></div>
+	<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+<div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="display: block;"><a class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click" title="이전달"><span class="ui-icon ui-icon-circle-triangle-w">이전달</span></a><a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="다음달"><span class="ui-icon ui-icon-circle-triangle-e">다음달</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-year">2025</span>.&nbsp;<span class="ui-datepicker-month">6</span></div><caption>날짜 선택 달력</caption><thead><tr><th scope="col" class="ui-datepicker-week-end"><span title="일요일">일</span></th><th scope="col"><span title="월요일">월</span></th><th scope="col"><span title="화요일">화</span></th><th scope="col"><span title="수요일">수</span></th><th scope="col"><span title="목요일">목</span></th><th scope="col"><span title="금요일">금</span></th><th scope="col" class="ui-datepicker-week-end"><span title="토요일">토</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">1</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">2</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">3</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">4</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">5</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">6</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">7</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">8</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">9</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">10</a></td><td class=" ui-datepicker-days-cell-over ui-datepicker-today ui-datepicker-current-day ui-datepicker-today" title="오늘" data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">11</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">12</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">13</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">14</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">15</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">16</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">17</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">18</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">19</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">20</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">21</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">22</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">23</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">24</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">25</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">26</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">27</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">28</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">29</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrch.do?prdprchVal=1#">30</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table><div id="cardNum3_layout" class="transkey_divLayout"><div class="transkey_numberMainDiv" id="cardNum3_mainDiv" onmousemove="tk.showCursor(event,false);" onmouseout="tk.hideCursor(event);" onmouseover="tk.visibleCursor();"><div style="width:240px; height: 24px; margin-left:4px;"><div id="cardNum3_dragDiv" class="transkey_numberDragDiv" onmousedown="tk.dragstart(event, this);" onmousewheel="tk.dragend(event);" onmouseup="tk.dragend(event);" role="button"></div><div id="first_focus" class="transkey_div_3" style="height: 80px; left:124px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,0);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:164px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,1);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,2);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,3);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,4);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:124px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,5);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,6);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:44px; margin-top: 24px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,7);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:40px" onclick="tk.start(event,8);" role="button" tabindex="0" "=""></div><div class="transkey_div_3_3" style="bottom:80px" onclick="tk.start(event,9);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:120px" onclick="tk.start(event,10);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,11);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:4px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_l" aria-label="왼쪽 엔터" onclick="tk.start(event,13);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_l" id="tk_del" aria-label="삭제" onclick="tk.start(event,15);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:204px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_r" aria-label="오른쪽 엔터" onclick="tk.start(event,14);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_r" id="tk_del" aria-label="삭제" onclick="tk.start(event,16);" role="button" tabindex="0"></div></div><div id="tk_close" style="position: absolute; width: 25px; height: 25px; left:220px;" onclick="tk.start(event,12);" role="button" tabindex="0"></div></div></div><div id="cardNum3_layoutSingle" class="transkey_single"><iframe id="cardNum3_block" title="가상키보드" frameborder="10" style="z-index:-1; position:absolute; visibility: hidden; left: 0px; top: 0px; width: 100%; height: 100%; " src="/koBus/html/saved_resource.html"></iframe></div><div class="transkey_pKey" id="cardNum3_pKey"><img alt="" src="/koBus/images/p_key.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum3n_p_enterKey_L"><img alt="" src="/koBus/images/n_p_enterkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum3n_p_enterKey_R"><img alt="" src="/koBus/images/n_p_enterkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum3n_p_backKey_L"><img alt="" src="/koBus/images/n_p_backkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum3n_p_backKey_R"><img alt="" src="/koBus/images/n_p_backkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div id="cardNum3_fakeMouseDiv" class="transkey_fakeMouse"><img alt="" src="/koBus/images/fake.gif" id="fakeMouseImg"></div><div id="cardNum3_osMouseDiv" class="transkey_osMouse" onmousedown="tk.start(event,-1,true);"><img alt="" src="/koBus/images/fake.gif" id="osMouseImg" onmousemove="tk.showCursor(event,true);" onmouseout="tk.hideCursor(event);"></div><div id="cardNum3_singleMouseTypeDiv" class="transkey_numberSingleMouseType" onmousedown="tk.setMultiCursor(false);" role="button" tabindex="0" aria-label="기본마우스를 사용합니다."><img alt="" src="/koBus/images/single_s.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="slngleMouseTypeImg"></div><div id="cardNum3_blankOverDiv" class="transkey_numberBlankOver" onmouseover="tk.pauseKeyboard(false);" onclick="tk.pauseKeyboard(false);" tabindex="0" aria-label="마우스를 가운데로 이동 또는 클릭해주세요"><img src="/koBus/images/blank_over.gif" alt="마우스이동" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankOverImg"></div><div id="cardNum3_multiMouseTypeDiv" class="transkey_numberMultiMouseType" onclick="tk.setMultiCursor(true);" role="button" aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."><img src="/koBus/images/multi_s.png" alt="멀티마우스" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="multiMouseTypeImg"></div><div id="cardNum3_blankDiv" class="transkey_numberBlank"><img alt="TOUCH EN transkey" src="/koBus/images/blank.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankImg"></div></div><div id="cardNum4_layout" class="transkey_divLayout"><div class="transkey_numberMainDiv" id="cardNum4_mainDiv" onmousemove="tk.showCursor(event,false);" onmouseout="tk.hideCursor(event);" onmouseover="tk.visibleCursor();"><div style="width:240px; height: 24px; margin-left:4px;"><div id="cardNum4_dragDiv" class="transkey_numberDragDiv" onmousedown="tk.dragstart(event, this);" onmousewheel="tk.dragend(event);" onmouseup="tk.dragend(event);" role="button"></div><div id="first_focus" class="transkey_div_3" style="height: 80px; left:124px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,0);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:164px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,1);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,2);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,3);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,4);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:124px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,5);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,6);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:44px; margin-top: 24px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,7);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:40px" onclick="tk.start(event,8);" role="button" tabindex="0" "=""></div><div class="transkey_div_3_3" style="bottom:80px" onclick="tk.start(event,9);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:120px" onclick="tk.start(event,10);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,11);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:4px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_l" aria-label="왼쪽 엔터" onclick="tk.start(event,13);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_l" id="tk_del" aria-label="삭제" onclick="tk.start(event,15);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:204px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_r" aria-label="오른쪽 엔터" onclick="tk.start(event,14);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_r" id="tk_del" aria-label="삭제" onclick="tk.start(event,16);" role="button" tabindex="0"></div></div><div id="tk_close" style="position: absolute; width: 25px; height: 25px; left:220px;" onclick="tk.start(event,12);" role="button" tabindex="0"></div></div></div><div id="cardNum4_layoutSingle" class="transkey_single"><iframe id="cardNum4_block" title="가상키보드" frameborder="10" style="z-index:-1; position:absolute; visibility: hidden; left: 0px; top: 0px; width: 100%; height: 100%; " src="/koBus/html/saved_resource(1).html"></iframe></div><div class="transkey_pKey" id="cardNum4_pKey"><img alt="" src="/koBus/images/p_key.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum4n_p_enterKey_L"><img alt="" src="/koBus/images/n_p_enterkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardNum4n_p_enterKey_R"><img alt="" src="/koBus/images/n_p_enterkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum4n_p_backKey_L"><img alt="" src="/koBus/images/n_p_backkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardNum4n_p_backKey_R"><img alt="" src="/koBus/images/n_p_backkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div id="cardNum4_fakeMouseDiv" class="transkey_fakeMouse"><img alt="" src="/koBus/images/fake.gif" id="fakeMouseImg"></div><div id="cardNum4_osMouseDiv" class="transkey_osMouse" onmousedown="tk.start(event,-1,true);"><img alt="" src="/koBus/images/fake.gif" id="osMouseImg" onmousemove="tk.showCursor(event,true);" onmouseout="tk.hideCursor(event);"></div><div id="cardNum4_singleMouseTypeDiv" class="transkey_numberSingleMouseType" onmousedown="tk.setMultiCursor(false);" role="button" tabindex="0" aria-label="기본마우스를 사용합니다."><img alt="" src="/koBus/images/single_s.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="slngleMouseTypeImg"></div><div id="cardNum4_blankOverDiv" class="transkey_numberBlankOver" onmouseover="tk.pauseKeyboard(false);" onclick="tk.pauseKeyboard(false);" tabindex="0" aria-label="마우스를 가운데로 이동 또는 클릭해주세요"><img src="/koBus/images/blank_over.gif" alt="마우스이동" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankOverImg"></div><div id="cardNum4_multiMouseTypeDiv" class="transkey_numberMultiMouseType" onclick="tk.setMultiCursor(true);" role="button" aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."><img src="/koBus/images/multi_s.png" alt="멀티마우스" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="multiMouseTypeImg"></div><div id="cardNum4_blankDiv" class="transkey_numberBlank"><img alt="TOUCH EN transkey" src="/koBus/images/blank.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankImg"></div></div><div id="cardPwd_layout" class="transkey_divLayout"><div class="transkey_numberMainDiv" id="cardPwd_mainDiv" onmousemove="tk.showCursor(event,false);" onmouseout="tk.hideCursor(event);" onmouseover="tk.visibleCursor();"><div style="width:240px; height: 24px; margin-left:4px;"><div id="cardPwd_dragDiv" class="transkey_numberDragDiv" onmousedown="tk.dragstart(event, this);" onmousewheel="tk.dragend(event);" onmouseup="tk.dragend(event);" role="button"></div><div id="first_focus" class="transkey_div_3" style="height: 80px; left:124px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,0);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:164px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,1);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,2);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,3);" role="button" tabindex="0"></div><div class="transkey_div_3_2" onclick="tk.start(event,4);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:124px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,5);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; top:104px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,6);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:44px; margin-top: 24px;"><div class="transkey_div_3_3" style="bottom:0px" onclick="tk.start(event,7);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:40px" onclick="tk.start(event,8);" role="button" tabindex="0" "=""></div><div class="transkey_div_3_3" style="bottom:80px" onclick="tk.start(event,9);" role="button" tabindex="0"></div><div class="transkey_div_3_3" style="bottom:120px" onclick="tk.start(event,10);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height: 80px; left:84px; margin-top: 24px;"><div class="transkey_div_3_2" onclick="tk.start(event,11);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:4px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_l" aria-label="왼쪽 엔터" onclick="tk.start(event,13);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_l" id="tk_del" aria-label="삭제" onclick="tk.start(event,15);" role="button" tabindex="0"></div></div><div class="transkey_div_3" style="height:160px; left:204px; margin-top: 24px;"><div class="transkey_div_3_4" id="tk_enter_r" aria-label="오른쪽 엔터" onclick="tk.start(event,14);" role="button" tabindex="0"></div><div class="transkey_div_3_4 del_r" id="tk_del" aria-label="삭제" onclick="tk.start(event,16);" role="button" tabindex="0"></div></div><div id="tk_close" style="position: absolute; width: 25px; height: 25px; left:220px;" onclick="tk.start(event,12);" role="button" tabindex="0"></div></div></div><div id="cardPwd_layoutSingle" class="transkey_single"><iframe id="cardPwd_block" title="가상키보드" frameborder="10" style="z-index:-1; position:absolute; visibility: hidden; left: 0px; top: 0px; width: 100%; height: 100%; " src="/koBus/html/saved_resource(2).html"></iframe></div><div class="transkey_pKey" id="cardPwd_pKey"><img alt="" src="/koBus/images/p_key.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardPwdn_p_enterKey_L"><img alt="" src="/koBus/images/n_p_enterkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_enterKey" id="cardPwdn_p_enterKey_R"><img alt="" src="/koBus/images/n_p_enterkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardPwdn_p_backKey_L"><img alt="" src="/koBus/images/n_p_backkey_l.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div class="transkey_n_p_backKey" id="cardPwdn_p_backKey_R"><img alt="" src="/koBus/images/n_p_backkey_r.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;"></div><div id="cardPwd_fakeMouseDiv" class="transkey_fakeMouse"><img alt="" src="/koBus/images/fake.gif" id="fakeMouseImg"></div><div id="cardPwd_osMouseDiv" class="transkey_osMouse" onmousedown="tk.start(event,-1,true);"><img alt="" src="/koBus/images/fake.gif" id="osMouseImg" onmousemove="tk.showCursor(event,true);" onmouseout="tk.hideCursor(event);"></div><div id="cardPwd_singleMouseTypeDiv" class="transkey_numberSingleMouseType" onmousedown="tk.setMultiCursor(false);" role="button" tabindex="0" aria-label="기본마우스를 사용합니다."><img alt="" src="/koBus/images/single_s.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="slngleMouseTypeImg"></div><div id="cardPwd_blankOverDiv" class="transkey_numberBlankOver" onmouseover="tk.pauseKeyboard(false);" onclick="tk.pauseKeyboard(false);" tabindex="0" aria-label="마우스를 가운데로 이동 또는 클릭해주세요"><img src="/koBus/images/blank_over.gif" alt="마우스이동" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankOverImg"></div><div id="cardPwd_multiMouseTypeDiv" class="transkey_numberMultiMouseType" onclick="tk.setMultiCursor(true);" role="button" aria-label="멀티마우스를 사용합니다. 사용하시려면 키보드 클릭 후 마우스를 가운데로 이동 또는 클릭해주세요."><img src="/koBus/images/multi_s.png" alt="멀티마우스" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="multiMouseTypeImg"></div><div id="cardPwd_blankDiv" class="transkey_numberBlank"><img alt="TOUCH EN transkey" src="/koBus/images/blank.png" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;" id="blankImg"></div></div></body></html>

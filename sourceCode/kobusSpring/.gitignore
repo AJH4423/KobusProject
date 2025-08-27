@@ -1,0 +1,43 @@
+# ----------------------------
+# Maven build output
+/target/
+
+# Eclipse IDE files
+.classpath
+.project
+.settings/
+
+# Eclipse WTP (Web Tools Platform)
+# m2e-wtp plugin outputs
+/.apt_generated
+/.factorypath
+
+# IntelliJ IDEA (혹시 같이 쓰는 경우)
+/.idea/
+/*.iml
+
+# OS 별 임시파일
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temp files
+tmp/
+*.tmp
+
+# Backup files
+*.bak
+*~
+
+# 기타 빌드 결과물
+*.class
+
+# 특정 경로 하위 빌드 파일 (중복 방지)
+/m2e-wtp/
+/web-resources/
+/build/
+
+# Tiles, Spring 설정 캐시 무시
+META-INF/

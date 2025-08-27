@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="org.kobus.spring.mapper.pay.PassRotLinInfMapper">
+
+	<!-- 정기권 노선 목록 -->
+	<select id="getAllRoutes"
+		resultType="org.kobus.spring.domain.pay.SeasonTicketRouteDTO">
+		SELECT
+	        m.ROUTE_ID AS routeId,
+	        m.DEPR_NM AS deprNm,
+	        m.ARVL_NM AS arvlNm,
+	        m.ADTN_PRD_SELL_STT_DT AS adtnPrdSellSttDt,
+	        d.SUB_ROUTE_ID AS subRouteId,
+	        d.ADTN_DEPR_NM AS adtnDeprNm,
+	        d.ADTN_ARVL_NM AS adtnArvlNm,
+	        d.ADTN_DEPR_CD AS adtnDeprCd,
+	        d.ADTN_ARVL_CD AS adtnArvlCd
+	    FROM
+	        SEASON_TICKET_MAIN_ROUTE m
+	    JOIN
+	        SEASON_TICKET_ROUTE_DETAIL d ON m.ROUTE_ID = d.ROUTE_ID
+	    ORDER BY
+	        m.ADTN_PRD_SELL_STT_DT DESC
+	</select>
+
+	<!-- 정기권 구매 옵션 목록 -->
+	<select id="getOptionsByRouteId"
+        parameterType="String"
+        resultType="org.kobus.spring.domain.pay.SeasonTicketOptionDTO">
+	    SELECT
+	        ADTN_PRD_USE_CLS_CD AS adtnPrdUseClsCd,
+	        ADTN_PRD_USE_CLS_NM AS adtnPrdUseClsNm,
+	        ADTN_PRD_USE_PSB_DNO AS adtnPrdUsePsbDno,
+	        ADTN_PRD_USE_NTKN_CD AS adtnPrdUseNtknCd,
+	        ADTN_PRD_USE_NTKN_NM AS adtnPrdUseNtknNm,
+	        WKD_WKE_NTKN_CD AS wkdWkeNtknCd,
+	        WKD_WKE_NTKN_NM AS wkdWkeNtknNm,
+	        ADTN_PRD_SNO AS adtnPrdSno,
+	        ROUTE_ID AS routeId
+	    FROM SEASON_TICKET_OPTION
+	    WHERE ROUTE_ID = #{routeId}
+	    ORDER BY ADTN_PRD_SNO
+	</select>
+
+</mapper>

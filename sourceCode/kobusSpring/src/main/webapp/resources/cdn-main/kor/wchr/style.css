@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+/* 기존 스타일 : 개선시 주석 예정 */
+@import url("/koBus/css/kor/reset.css");
+@import url("/koBus/css/kor/plugin.css");
+@import url("/koBus/css/kor/layout.css");
+@import url("/koBus/css/kor/content.css");
+@import url("/koBus/css/ui.jqgrid.custom.css");
+
+/* 신규 추가 스타일 - 반드시 scss에서 수정 : renewal.scss */
+@import url("/koBus/css/kor/renewal_kor.css");
+
+/* 사이트별 오버라이드 스타일 - 하단에 css 추가 가능 */

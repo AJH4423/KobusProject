@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="org.kobus.spring.mapper.member.MemberMyPageMapper">
+  	
+  	<!-- 예매내역 개수확인 -->
+  	<select id="reservationCount" parameterType="String" resultType="int">
+  		SELECT COUNT(*) AS reservation_count 
+		FROM reservation r 
+		JOIN kobusUser u ON r.kusID = u.kusID
+		WHERE u.id = #{auth}
+  	</select>
+  	
+  	<!-- 정기권 개수 확인 -->
+  	<select id="popCouponCount" parameterType="String" resultType="int">
+  		SELECT COUNT(*) AS popCoupon_count
+		FROM season_ticket_payment p
+		JOIN kobusUser u ON p.kusID = u.kusID
+		WHERE u.id = #{auth}
+  	</select>
+  	
+  	<!-- 프리패스 쿠폰개수 확인 -->
+  	<select id="freeCouponCount" parameterType="String" resultType="int">
+  		SELECT COUNT(*) AS freeCoupon_count
+		FROM FREE_PASS_PAYMENT frp
+		JOIN kobusUser u ON frp.kusID = u.kusID
+		WHERE u.id = #{auth}
+  	</select>
+  	
+  	<!-- 휴대폰번호 확인 -->
+  	<select id="getTelNum" parameterType="String" resultType="String">
+  		SELECT tel
+		FROM kobusUser
+		WHERE id = #{auth}
+  	</select>
+  	
+  	<!-- 현재 비밀번호 가져오기 -->
+  	<select id="getOldPw" parameterType="String" resultType="String">
+  		SELECT passwd
+		FROM kobusUser
+		WHERE id = #{auth}
+  	</select>
+  	
+  	<!-- 비밀번호 업데이트 -->
+  	<update id="updatePw" parameterType="String">
+  		UPDATE kobusUser
+		SET passwd = #{changePw} 
+		WHERE id = #{auth}
+  	</update>
+  	
+  	<!-- 전화번호 업데이트 -->
+  	<update id="updateTel" parameterType="String">
+  		UPDATE kobusUser
+		SET tel = #{changeTel} 
+		WHERE id = #{auth} 
+  	</update>
+  	
+  	<!-- 회원 삭제 -->
+  	<delete id="deleteUsr" parameterType="String">
+  		DELETE FROM kobusUser
+		WHERE id = #{auth}
+  	</delete>
+  	
+  </mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+	
+	<!-- css, js, image, static(정적) 등등	보안 필터 체인 X -->	
+	<security:http pattern="/static/**" security="none"></security:http>	
+	<security:http pattern="/design/**" security="none"></security:http>
+	<security:http pattern="/css/**" security="none"></security:http>
+	<security:http pattern="/js/**" security="none"></security:http> 		
+		
+	<!-- 접근 제어 태그, 식을 사용 여부 -->
+	<security:http use-expressions="true">
+	  <!-- 주소 추가예정 -->
+	  <security:intercept-url pattern="/page/logonMyPage.do" access="hasRole('ROLE_USER')" />
+	  <security:intercept-url pattern="/manageReservations.do" access="hasRole('ROLE_USER')" />
+	  <security:intercept-url pattern="/kobusSeat.do" access="hasRole('ROLE_USER')" />
+	  <security:intercept-url pattern="/adminPage.do" access="hasRole('ROLE_ADMIN')" />
+	  <security:intercept-url pattern="/**" access="permitAll" />
+	  <!-- <security:intercept-url pattern="/main.do" access="permitAll" /> --> 
+	  
+	
+	 <!-- login-processing-url="/koBus/login" -->
+	  <security:form-login
+	      login-page="/page/logonMain.do"	      
+	      default-target-url="/main.do"
+	      authentication-failure-url="/page/logonMain.do?error=true"
+	      authentication-success-handler-ref="customLoginSuccessHandler"	     
+	  />
+
+	   <security:access-denied-handler ref="customAccessDeniedHandler" />
+	   
+	   <security:logout 
+	   invalidate-session="true" 
+	   logout-success-url="/page/logonMain.do?logout=ok" 
+	   logout-url="/logOut.do"
+	    />	   
+	  
+	</security:http>
+	
+	<!-- PasswordEncoder -->
+	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	
+	<security:authentication-manager>	 
+	  <security:authentication-provider>
+	    <security:jdbc-user-service 
+	    data-source-ref="dataSource"
+	    users-by-username-query="SELECT id AS USERNAME, passwd AS PASSWORD,  1 as  enabled FROM kobusUser WHERE id = ?"
+	    authorities-by-username-query="SELECT username , authority  FROM kouserAuthorities WHERE username = ?" 
+	    />
+	    <security:password-encoder ref="bCryptPasswordEncoder" />
+	  </security:authentication-provider>
+	</security:authentication-manager>
+
+</beans>
+
+
+
+
+
+
+

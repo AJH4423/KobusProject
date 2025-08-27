@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="org.kobus.spring.mapper.pay.FreePassPaymentMapper">
+
+    <insert id="insertFreepassPayment" parameterType="org.kobus.spring.domain.pay.FreepassPaymentDTO">
+      <!-- 프리패스 결제 -->
+        <selectKey keyProperty="freePassPayId" resultType="String" order="BEFORE">
+            SELECT CONCAT('FPP', LPAD(SEQ_FREE_PASS_PAYMENT.NEXTVAL, 8, '0')) FROM DUAL
+        </selectKey>
+
+        INSERT INTO FREE_PASS_PAYMENT (
+            FREE_PASS_PAY_ID,
+            PAYMENT_ID,
+            ADTN_PRD_SNO,
+            KUSID,
+            START_DATE
+        ) VALUES (
+            #{freePassPayId},
+            #{paymentId},
+            #{adtnPrdSno},
+            #{kusid},
+            #{startDate}
+        )
+    </insert>
+    
+    <!-- 정기권 결제 -->
+    <insert id="insertSeasonTicketPayment" parameterType="org.kobus.spring.domain.pay.STPaymentSet">
+        INSERT INTO season_ticket_payment (
+            season_pay_id, payment_id, kusid, start_date
+        ) VALUES (
+            SEQ_SEASON_TICKET_PAYMENT.NEXTVAL, #{paymentId}, #{kusid}, #{startDate}
+        )
+    </insert>
+
+    <!-- 정기권 옵션 -->
+    <insert id="insertSeasonTicketOption" parameterType="org.kobus.spring.domain.pay.STPaymentSet">
+        INSERT INTO season_ticket_option (
+            adtn_prd_sno, adtn_prd_use_cls_cd, adtn_prd_use_cls_nm,
+            adtn_prd_use_psb_dno, adtn_prd_use_ntkn_cd, adtn_prd_use_ntkn_nm,
+            wkd_wke_ntkn_cd, wkd_wke_ntkn_nm, price
+        ) VALUES (
+            #{adtnPrdSno}, #{adtnPrdUseClsCd}, #{adtnPrdUseClsNm},
+            #{adtnPrdUsePsbDno}, #{adtnPrdUseNtknCd}, #{adtnPrdUseNtknNm},
+            #{wkdWkeNtknCd}, #{wkdWkeNtknNm}, #{price}
+        )
+    </insert>
+
+    <!-- 메인 노선 -->
+    <insert id="insertMainRoute" parameterType="org.kobus.spring.domain.pay.STPaymentSet">
+        INSERT INTO SEASON_TICKET_MAIN_ROUTE (
+            route_id, depr_nm, arvl_nm, adtn_prd_sell_stt_dt
+        ) VALUES (
+            #{routeId}, #{deprNm}, #{arvlNm}, #{adtnPrdSellSttDt}
+        )
+    </insert>
+
+    <!-- 서브 노선 -->
+    <insert id="insertSubRoute" parameterType="org.kobus.spring.domain.pay.STPaymentSet">
+        INSERT INTO SEASON_TICKET_ROUTE_DETAIL (
+            sub_route_id, adtn_depr_nm, adtn_arvl_nm, adtn_depr_cd, adtn_arvl_cd
+        ) VALUES (
+            #{subRouteId}, #{adtnDeprNm}, #{adtnArvlNm}, #{adtnDeprCd}, #{adtnArvlCd}
+        )
+    </insert>
+
+</mapper>

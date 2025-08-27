@@ -1,0 +1,1693 @@
+<html lang="ko" class="pc"><head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	
+		
+		
+			<title>예매정보입력(노선조회) | 고속버스예매 | 고속버스예매 | 고속버스통합예매</title>
+		
+		
+		
+		
+		
+	
+	
+	
+	<link rel="shortcut icon" href="/images/favicon.ico">
+	
+		
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript">
+/*********************************************
+ * 상수
+ *********************************************/
+</script>
+
+
+<link rel="stylesheet" type="text/css" href="/koBus/css/ui.jqgrid.custom.css">
+
+<script type="text/javascript" src="/koBus/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+//쿠키 가져오기
+function getCookie( name ) {
+	var nameOfCookie = name + "=";
+	var x = 0;
+	while ( x <= document.cookie.length ) {
+		var y = (x+nameOfCookie.length);
+		if ( document.cookie.substring( x, y ) == nameOfCookie ) { 
+			if ( (endOfCookie=document.cookie.indexOf( ";", y )) == -1 ) {
+				endOfCookie = document.cookie.length;
+			}
+			return unescape( document.cookie.substring( y, endOfCookie ) );
+		}
+		x = document.cookie.indexOf( " ", x ) + 1;
+		if ( x == 0 ) {
+			break;
+		}
+	}
+	return ""; 
+}
+//쿠키 넣기
+function setCookie( name, value, expiredays ) {
+	var todayDate = new Date();
+	todayDate.setDate( todayDate.getDate() + expiredays );
+	document.cookie = name + "=" + escape( value ) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+}
+
+// 상단 네비게이션, 모바일 좌측, 모바일 하단 언어선택 설정
+var lngCdCookie = getCookie("LNG_CD");
+
+lngCdCookie = (lngCdCookie != null && lngCdCookie != undefined && lngCdCookie != "") ? lngCdCookie : "";
+var lngCd = (lngCdCookie == "EN" || lngCdCookie == "CN" || lngCdCookie == "JP" || lngCdCookie == "KO") ? lngCdCookie : "KO";
+$(document).ready(function() {
+	if (navigator.userAgent.toUpperCase().indexOf("MSIE 5") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 6") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 7") >= 0 || navigator.userAgent.toUpperCase().indexOf("MSIE 8") >= 0) {
+		// IE 8 이하
+		if (location.href.indexOf("/underIE8.do") < 0) {
+			// IE 8 이하 페이지 아님
+			location.href = "/underIE8.do";
+			return false;
+		}
+	}
+	if (window.innerWidth < 768) {
+		setCookie("IS_MOBILE_YN_WIDTH","Y",365);
+		if (lngCd == "KO" && location.href.indexOf("/cmn/") < 0 && 
+				location.href.indexOf("/underIE8.do") < 0 && 
+				location.href.indexOf("/mrs/mrsrecppub.do") < 0 && 
+				location.href.indexOf("/mrs/mrsrecppub4.do") < 0 && 
+				location.href.indexOf("/mrs/mrsmbltck.do") < 0 &&
+				location.href.indexOf("/mrs/acntpympup.do") < 0 && 		// 계좌이체
+				location.href.indexOf("/mrs/pay") < 0 && 				// 간편결제
+				location.href.indexOf("/adtnprdnew/prchpt/adtnrecppubmbl.do") < 0 && 
+				location.href.indexOf("/adtnprdnew/frps/frpsPrchGdMbl.do") < 0 &&
+				location.href.indexOf("/mbrs/mbrsscsn.do") < 0) {
+			location.href = "/mblIdx.do";
+			return false;
+		}
+	} else {
+		setCookie("IS_MOBILE_YN_WIDTH","N",365);
+	}
+	// 타이틀 수정
+	if ($("h2").length > 0) {
+		$("title").text($("title").text() + " - " + $("h2:eq(0)").text());
+	}
+	var $objBody = $("body");
+	if (!($objBody.hasClass("KO") || $objBody.hasClass("EN") ||  $objBody.hasClass("CN") ||  $objBody.hasClass("JP"))) {
+		$objBody.addClass(lngCd);
+	}
+	
+	
+	/* asis */
+	$("#lng_cd_navi option[value='" + lngCd + "'],#lng_cd_foot option[value='" + lngCd + "']").attr("selected","selected");
+	$("#lng_cd_navi,#lng_cd_foot").unbind("change").bind("change",function() {
+		var tempCd = this.value;
+		lngCd = (tempCd != null && tempCd != undefined && tempCd != "" && (tempCd == "EN" || tempCd == "CN" || tempCd == "JP" || tempCd == "KO")) ? tempCd : "KO";
+		setCookie("LNG_CD",lngCd,1);
+		lngCdCookie = lngCd;
+		//document.location.reload();
+		location.href = "/main.do";
+	}); 
+});
+
+
+if (lngCd == "KO") {
+	var dt = new Date();		//오늘날짜 전체
+	var yyyy  = dt.getFullYear();		//선택한 년도
+	var mm    = dt.getMonth()+1;		//선택한 월
+	var mm2Len = Number(mm) < 10 ? "0"+mm : mm;			// 선택ㅡㅜ?ㅌ월 ex:01 두글자로 변환
+	var ddTo    = Number(dt.getDate()) < 10 ? "0"+dt.getDate() : dt.getDate(); 			// 숫자형
+	var yymmddD0 = yyyy+""+mm2Len+""+ddTo;		//오늘날짜
+	
+	var url = window.location.pathname;
+
+	if (yymmddD0 < 20200128) {
+		if (url == "/main.do")
+			location.href="/mainExp.do";
+	}
+}
+
+</script>
+<script type="text/javascript" src="/koBus/js/ui.js?v=0102"></script>
+<script type="text/javascript" src="/koBus/js/plugin.js"></script>
+<script type="text/javascript" src="/koBus/js/common.js?v=0102.1"></script>
+
+<script type="text/javascript" src="/koBus/js/jquery/jquery.number.js"></script>
+<script type="text/javascript" src="/koBus/js/security.js?v=0.3"></script>
+	
+	
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><link rel="stylesheet" type="text/css" href="/koBus/css/kor/style.css"><script type="text/javascript" src="/koBus/js/kor/new-kor-ui.js?v=0102.0"></script></head>
+
+
+	
+	
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
+
+
+<body class="KO" style="">
+	<!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
+	<nav id="skip">
+		<ul>
+			<li><a href="#new-kor-content">본문 바로가기</a></li>
+			<li><a href="#new-kor-gnb">주메뉴 바로가기</a></li>
+			<li><a href="#new-kor-footer">푸터 바로가기</a></li>
+		</ul>
+	</nav>
+
+	<!-- 메인 클래스 : wrapper-main -->
+	<div class="wrapper wrapper-kor wrapper-sub">
+		
+	
+		<!-- quick -->
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 퀵메뉴 : 서브페이지에만 적용 -->
+<nav id="new-kor-quickmenu" class="fixed">
+	<ul class="quickmenu-list">
+		<li>
+			<a href="/mrs/rotinf.do">
+				<span class="ico"><img src="/koBus/images/kor/layout/ico-quick-menu01.png" alt=""></span>
+				<span class="text">고속버스 예매</span>
+			</a>
+		</li>
+		<li>
+			<a href="/mrs/mrscfm.do">
+				<span class="ico"><img src="/koBus/images/kor/layout/ico-quick-menu02.png" alt=""></span>
+				<span class="text">예매확인</span>
+			</a>
+		</li>
+		<li>
+			<a href="/oprninf/arscgd/oprnArscGd.do">
+				<span class="ico"><img src="/koBus/images/kor/layout/ico-quick-menu03.png" alt=""></span>
+				<span class="text">도착시간 안내</span>
+			</a>
+		</li>
+		<li>
+			<a href="/adtnprdnew/frps/frpsPrchGd.do">
+				<span class="ico"><img src="/koBus/images/kor/layout/ico-quick-menu04.png" alt=""></span>
+				<span class="text">프리패스 구매</span>
+			</a>
+		</li>
+		<li>
+			<a href="/adtnprdnew/pass/passPrchGd.do">
+				<span class="ico"><img src="/koBus/images/kor/layout/ico-quick-menu05.png" alt=""></span>
+				<span class="text">정기권 구매</span>
+			</a>
+		</li>
+		<li class="to-top">
+			<a href="javascript:void(0)">
+				<span class="ico"><img src="/koBus/images/kor/layout/ico-to-top.png" alt=""></span>
+				<span class="text">TOP</span>
+			</a>
+		</li>
+	</ul>
+</nav>
+
+		
+		<!-- header -->
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function () {
+	var langCd = 'KO';
+	var langLi = $(".dropdown-wrap.lang-select .dropdown-list li");
+	$.each(langLi, function (ix, el) {
+		var langItem = $(el).children('a');
+		var lang  = langItem.data('lang');
+		if (langCd == lang){
+			dropdown_process(langItem);
+		}
+	});
+	
+	$('.title_wrap').hide();
+});
+</script>
+
+<!-- 헤더 -->
+<header id="new-kor-header">
+	<div class="top-menu-area">
+		<div class="container">
+			<h1 id="logo">
+				<a href="/main.do">
+					<img src="/koBus/images/kor/layout/logo.png" alt="KOBUS 전국고속버스운송사업조합">
+				</a>
+			</h1>
+			<nav class="util-menus">
+				
+				
+				
+				
+					
+						<ul class="util-list">
+							
+								<li><a href="/mbrs/lgn/loginMain.do" class="login">로그인</a></li>
+								<li><a href="/mbrs/mbrsjoin/mbrsJoin.do">회원가입</a></li>
+							
+							
+							
+							<li><a href="/mbrs/mbrspage/myPageMain.do">마이페이지</a></li>
+							<li><a href="/mbrs/trprinqr/pymPtInqr.do">결제내역조회</a></li>
+							<li><a href="/etc/sitemap/SiteMap.do">사이트맵</a></li>
+						</ul>
+						
+						<div class="dropdown-wrap lang-select">
+							<a href="javascript:void(0)" class="btn-dropdown" title="언어선택" aria-expanded="false">
+								<span class="text">한국어</span><i class="ico ico-arrow-down"></i></a>
+							<ul class="dropdown-list" style="display: none;">
+								<li class="selected"><a href="javascript:void(0)" data-lang="KO" title="선택됨">한국어</a></li>
+								<li><a href="javascript:void(0)" data-lang="EN">English</a></li>
+								<li><a href="javascript:void(0)" data-lang="CN">中文</a></li>
+								<li><a href="javascript:void(0)" data-lang="JP">日本語</a></li>
+							</ul>
+						</div>
+					
+					
+					
+					
+				
+			</nav>
+		</div>
+	</div>
+	<nav class="gnb-menu-area">
+		<div class="container">
+			<div class="gnb-area">
+				<ul id="new-kor-gnb">
+					<li>
+						<a href="javascript:void(0)">고속버스예매</a>
+						<ul>
+							<li>
+								
+									
+									
+										<a href="/mrs/rotinf.do">고속버스 예매</a>
+									
+								
+							</li>
+							
+							<li>
+								
+									
+									
+										<a href="/mrs/mrscfm.do">예매확인/취소/변경</a>
+									
+								
+							</li>
+							
+							
+								<li><a href="/mrs/mrsrecplist.do">영수증발행</a></li>
+							
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0)">운행정보</a>
+						<ul>
+							<li><a href="/oprninf/alcninqr/oprnAlcnPage.do">시간표 조회</a></li>
+							<li><a href="/oprninf/arscgd/oprnArscGd.do">도착시간 안내</a></li>
+						</ul>
+					</li>
+					
+					
+						<li>
+							<a href="javascript:void(0)">프리패스/정기권</a>
+							<ul>
+								<li><a href="/adtnprdnew/frps/frpsPrchGd.do">프리패스 여행권</a></li>
+								<li><a href="/adtnprdnew/pass/passPrchGd.do">정기권</a></li>
+								<li><a href="/adtnprdnew/prchpt/prdPrchPt.do">상품 구매내역</a></li>
+							</ul>
+						</li>
+					
+					
+					<li>
+						<a href="javascript:void(0)">이용안내</a>
+						<ul>
+							<li><a href="/ugd/mrsgd/Mrsgd.do">예매 안내</a></li>
+							<li><a href="/ugd/mrsgd/MrdgdPrch.do">결제수단 안내</a></li>
+							<li><a href="/ugd/rygd/Rygd.do">승차권 환불안내</a></li>
+							<li><a href="/ugd/mlggd/Mlggd.do">프리미엄 마일리지</a></li>
+							
+							<li><a href="/ugd/trtrgd/Trtrgd.do">휴게소 환승안내</a></li>
+							<li><a href="/ugd/trmlgd/Trmlgd.do">고속버스 터미널</a></li>
+							<li><a href="/ugd/cacmgd/Cacmgd.do">고속버스 운송회사</a></li>
+						</ul>
+					</li>
+					<li>
+						<a href="javascript:void(0)">고객지원</a>
+						<ul>
+							<li><a href="/cscn/ntcmttr/readNtcList.do">공지사항</a></li>
+							<li><a href="/cscn/qna/readQnaList.do">자주찾는 질문</a></li>
+							<li><a href="/cscn/lossClnc/readLossClncList.do">유실물센터 안내</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="links">
+				<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
+					<img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
+					<i class="ico ico-arrow-new-window"></i>
+				</a> -->
+				
+				<a href="/cscn/jobmttr/readJobList.do" class="btn btn-job" title="새창" target="_blank">
+					<img src="/koBus/images/kor/layout/ico-job-offer.png" alt="">승무사원 모집
+					<i class="ico ico-arrow-new-window"></i>	
+				</a>
+			</div>
+			<div class="bg-layer">
+				<a href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249" title="새창" class="gnb-baaner">
+					<iframe src="/koBus/html2/_ad-tubebox-002GNB.html" title="프레임 (전화번호안심 로그인)" class="ad-frame"></iframe>
+				</a>
+			</div>
+		</div>
+	</nav>
+</header>
+
+		
+		<!-- breadcrumb -->
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 브레드크럼 -->
+<nav id="new-kor-breadcrumb">
+	<div class="container">
+		
+		<ol class="breadcrumb-list">
+			<li><i class="ico ico-home"></i><span class="sr-only">홈</span></li>
+			 
+			<li>
+				<div class="dropdown-wrap breadcrumb-select">
+					
+					
+						
+							<a href="javascript:void(0)" class="btn-dropdown" title="대메뉴 선택" aria-expanded="false">
+								<span class="text">고속버스예매</span><i class="ico ico-dropdown-arrow"></i></a>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+					
+					<ul class="dropdown-list" style="display: none;">
+						
+							
+							
+							
+							
+								
+								
+								
+							
+							
+							<li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="/adtnprdnew/frps/frpsPrchGd.do">프리패스/정기권</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
+						
+							
+							
+							
+							
+							
+							<li><a href="/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
+						
+					</ul>
+				</div>
+			</li>
+			
+			<li>
+				<div class="dropdown-wrap breadcrumb-select">
+					
+					
+						
+							<a href="javascript:void(0)" class="btn-dropdown" title="하위메뉴 선택" aria-expanded="false">
+								<span class="text">고속버스예매</span><i class="ico ico-dropdown-arrow"></i></a>
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+						
+					
+					
+					<ul class="dropdown-list" style="display: none;">
+						
+							
+								
+								
+								
+								
+									
+									
+									
+								
+								
+								<li class="selected"><a href="javascript:void(0)" title="선택됨">고속버스예매</a></li>
+							
+						
+							
+								
+								
+								
+								
+								
+								<li><a href="/mrs/mrscfm.do">예매확인/취소/변경</a></li>
+							
+						
+							
+								
+								
+								
+								
+								
+								<li><a href="/mrs/mrsrecplist.do">영수증발행</a></li>
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+							
+						
+					</ul>
+				</div>
+			</li>
+		</ol>
+		
+	</div>
+</nav>
+
+		
+		<article id="new-kor-content" class="full">
+			
+
+<!-- 
+	노선조회팝업화면 호출시 RotInfPup.js와 RotInfPup.jsp를 호출해준다.
+	RotInfPup.js 에서 fnEmptyCssStup() 를 호출한다. 부모페이지에서 해당 function 생성해서 해당page에 맞는 내용으로 변경해준다.
+ -->
+<script type="text/javascript" src="/koBus/js/common/kor/popup/RotInfPup.js?v=0102.0"></script>
+<script type="text/javascript" src="/koBus/js/kor/mrs/rotinf/RotInf.js?v=0530"></script>
+<style>
+.oneway { width:100%; }
+
+@media screen and (max-width: 767px){
+   .route_box .oneway .radio_area { 
+        position: absolute; 
+        top: 5px; 
+        font-size: 15px; 
+        width: 50%; 
+        max-width: 100px; 
+        left: calc(50% - 100px); 
+        bottom: auto; 
+    }
+   .route_box .tabs.mobile_tabs { 
+        margin-bottom: 0px; 
+    }
+} 
+</style>
+
+<form name="rotInfFrm" id="rotInfFrm" method="post" action="/mrs/alcnSrch.do">
+	<input type="hidden" name="deprCd" id="deprCd" value=""><!-- 출발지코드 -->
+	<input type="hidden" name="deprNm" id="deprNm" value=""><!-- 출발지명 -->
+	<input type="hidden" name="arvlCd" id="arvlCd" value=""><!-- 도착지코드 -->
+	<input type="hidden" name="arvlNm" id="arvlNm" value=""><!-- 도착지명 -->
+	<input type="hidden" name="tfrCd" id="tfrCd" value=""><!-- 환승지코드 -->
+	<input type="hidden" name="tfrNm" id="tfrNm" value=""><!-- 환승지명 -->
+	<input type="hidden" name="tfrArvlFullNm" id="tfrArvlFullNm" value=""><!-- 환승지포함 도착지 명 -->
+	<input type="hidden" name="pathDvs" id="pathDvs" value="sngl"><!-- 직통sngl,환승trtr,왕복rtrp -->
+	<input type="hidden" name="pathStep" id="pathStep" value="1"><!-- 왕복,환승 가는편순번 -->
+	<input type="hidden" name="pathStepRtn" id="pathStepRtn" value="1"><!-- 왕복,환승 가는편순번 -->
+	<input type="hidden" name="crchDeprArvlYn" id="crchDeprArvlYn" value="N"><!-- 출도착지 스왑여부 -->
+	<input type="hidden" name="deprDtm" id="deprDtm" value="20250607"><!-- 가는날(편도,왕복) -->
+	<input type="hidden" name="deprDtmAll" id="deprDtmAll" value="2025. 6. 7. 토"><!-- 가는날(편도,왕복) -->
+	<input type="hidden" name="arvlDtm" id="arvlDtm" value="20250607"><!-- 오는날(왕복) -->
+	<input type="hidden" name="arvlDtmAll" id="arvlDtmAll" value="2025. 6. 7. 토"><!-- 오는날(왕복) -->
+	<input type="hidden" name="busClsCd" id="busClsCd" value="0"><!-- 버스등급 -->
+	<input type="hidden" name="abnrData" id="abnrData" value=""><!-- 결과값여부 -->
+	<input type="hidden" name="prmmDcYn" id="prmmDcYn" value="N"><!-- 시외우등할인대상노선 -->
+	<input type="hidden" name="takeTime" id="takeTime" value="0"><!-- 시외우등할인대상노선 -->
+	
+	<input type="hidden" name="extrComp" id="extrComp" value=""><!-- 거래처코드 -->
+	<input type="hidden" name="stdDtm" id="stdDtm" value="">
+	<input type="hidden" name="endDtm" id="endDtm" value="">
+</form>
+
+			<div class="loading" id="loading" style="height: 1553px; top: 180px; display: none;"><p class="load" style="margin-left: -53px;"><span class="sr-only">로딩중입니다</span></p></div>
+	
+			<div class="title_wrap in_process route_chk ticketingT" style="display: none;">
+				
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+
+
+<a href="#" class="back">back</a>
+<a href="#" class="mo_toggle">메뉴</a>
+
+ 
+				<h2>고속버스예매</h2>
+				<ol class="process">
+					<li class="active">예매정보입력</li>
+					<li>결제정보입력</li>
+					<li class="last">예매완료</li>
+				</ol>
+			</div>
+			
+			
+				<!-- 타이틀 -->
+				<div class="content-header" data-page-title="예매정보입력(노선조회) | 고속버스예매 | 고속버스예매 | 고속버스통합예매">
+					<div class="container">
+						<div class="title-area">
+							<h2 class="page-title">고속버스예매</h2>
+							<ol class="process">
+								<li class="active" title="현재 단계"><span class="num">1</span> 예매정보입력</li>
+								<li><span class="num">2</span> 결제정보입력</li>
+								<li><span class="num">3</span> 예매완료</li>
+							</ol>
+						</div>
+						<!-- 광고 배너 추후 추가 예정 -->
+						<!-- <iframe src="/html/_ad-frame.html" title="광고 프레임" class="ad-frame ad-frame-title"></iframe> -->
+					</div>
+				</div>
+						
+			
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+
+
+		
+		
+		
+		
+			<div class="content-body">
+				<div class="container">
+		
+			
+				<h3>노선조회</h3>
+				<div class="route_box">
+					<div class="tab_wrap" id="rtrpYnAll">
+						<ul class="tabs col2 clear">
+							<li class="oneway active" id="snglRotAll">
+								<a href="javascript:void(0)" onclick="fnPathDvsChk('snglRot');" title="선택됨">편도</a>
+								<p class="radio_area">
+									<span class="custom_radio" onclick="fnPathDvsChk('sngl')">
+										<input type="radio" id="r1" name="route" checked="checked">
+										<label for="r1">직통</label>
+									</span>
+									
+									
+										<span class="custom_radio" onclick="fnPathDvsChk('trtr')">
+											<input type="radio" id="r2" name="route">
+											<label for="r2">환승</label>
+										</span>
+									
+								</p>
+							</li>
+							
+								<li class="roundtrip" id="rtrpRotAll"><a href="javascript:void(0)" onclick="fnPathDvsChk('rtrp')">왕복</a></li>
+							
+						</ul>
+						 <div class="tab_cont clear">
+							<ul class="place">
+								
+									<li>
+										<!-- a href="#"-->
+										<a href="javascript:void(0)" id="readDeprInfoList" class="btn_pop_focus" onclick="fnReadDeprInfoList(event);">
+											<span class="name">출발지</span>
+											<p class="text empty"> <!-- 값이 있을경우 'empty' class가 없음 -->
+												<span class="empty_txt">선택</span><span class="val_txt" id="deprNmSpn"></span>
+											</p>
+											<!-- 값이 있을경우 'empty' class가 없음 -->
+										</a>
+										<button type="button" class="btn_change" onclick="fnCrchDeprArvl();" id="chgDeprArvl" style="display: block;">
+											<span class="sr-only">출발지, 도착지 교체</span>
+										</button>
+									</li>
+									<li>
+										<a href="javascript:void(0)" id="readArvlInfoList" class="btn_pop_focus" onclick="fnReadArvlInfoList(event);">
+											<span class="name">도착지</span> 
+											<p class="text empty">
+												<span class="empty_txt">선택</span><span class="val_txt" id="arvlNmSpn"></span>
+											</p>
+											<!-- 값이 없을경우 'empty' class가 있음 -->
+										</a>
+									</li>
+								
+								
+							</ul>
+							<ul class="date">
+								<li>
+									<div class="date_picker_wrap">
+										<span class="name">가는날</span>
+										<p class="text">
+											<!-- [2024 마크업 수정] -->
+											<input type="text" id="datepicker11" tabindex="-1" title="가는날" readonly="" class="hasDatepicker"><button type="button" class="datepicker-btn"><img class="ui-datepicker-trigger" src="/koBus/images/page/ico_calender.png" alt="가는날 선택 달력"></button>
+											<label for="datepicker11" class="text_date text_date1">2025. 6. 7. 토</label>
+											<!-- // [2024 마크업 수정] -->
+										</p>
+										
+											<span class="date_wrap">
+												<a href="javascript:void(0)" id="deprThddChc" class="active" onclick="fnYyDtmStup(0,'text_date1','0');" title="선택됨">오늘</a>
+												<a href="javascript:void(0)" id="deprNxdChc" onclick="fnYyDtmStup(1,'text_date1','0');">내일</a>
+											</span>
+										
+									</div>
+								</li>
+								<li class="return">
+									<div class="date_picker_wrap">
+										<span class="name">오는날</span>
+										<p class="text">
+											<!-- [2024 마크업 수정] -->
+											<input type="text" id="datepicker22" tabindex="-1" title="오는날" readonly="" class="hasDatepicker"><button type="button" class="datepicker-btn"><img class="ui-datepicker-trigger" src="/koBus/images/page/ico_calender.png" alt="오는날 선택 달력"></button>
+											<label for="datepicker22" class="text_date text_date2">2025. 6. 7. 토</label>
+											<!-- // [2024 마크업 수정] -->
+										</p>
+										<span class="date_wrap">
+											<a href="javascript:void(0)" id="arvlThddChc" class="active" onclick="fnYyDtmStup(0,'text_date2','0');" title="선택됨">오늘</a>
+											<a href="javascript:void(0)" id="arvlNxdChc" onclick="fnYyDtmStup(1,'text_date2','0');">내일</a>
+										</span>
+									</div>
+								</li>
+							</ul>
+							<div class="grade">
+								<span class="name">등급</span>
+								<p>
+									<span class="custom_radio custom_radio_area gradeAll" style="margin-left: 45.3333px;">
+										<input type="radio" id="busClsCd0" name="busClsCdR" onclick="fnBusClsCd(this)" value="0">
+										<label for="busClsCd0">전체</label>
+									</span>
+									<span class="custom_radio custom_radio_area grade1" style="margin-left: 45.3333px;">
+										<input type="radio" id="busClsCd7" name="busClsCdR" onclick="fnBusClsCd(this)" value="7">
+										<label for="busClsCd7">프리미엄</label>
+									</span>
+									<span class="custom_radio custom_radio_area grade2" style="margin-left: 45.3333px;">
+										<input type="radio" id="busClsCd1" name="busClsCdR" onclick="fnBusClsCd(this)" value="1">
+										<label for="busClsCd1">우등</label>
+									</span>
+									<span class="custom_radio custom_radio_area grade3" style="margin-left: 45.3333px;">
+										<input type="radio" id="busClsCd5" name="busClsCdR" onclick="fnBusClsCd(this)" value="2">
+										<label for="busClsCd5">일반</label>
+									</span>
+								</p>
+							</div>
+							<p class="check" id="alcnSrchBtn">
+								<button type="button" class="btn_confirm ready noHover btn_pop_focus" onclick="fnAlcnSrch();">조회하기</button>
+							</p>
+						 </div>
+					</div>
+				</div>
+				
+				
+					
+					
+					
+					
+						<div class="section">
+							<ul class="desc_list">
+								<li>당일출발 차량의 경우 출발시간 1시간 전까지 홈페이지 예매가 가능하며 1시간 미만 출발임박 차량의 예매를 원하시면 고속버스 모바일앱에서 예매하시기 바랍니다.</li>
+								<li>1회 최대 예매 매수는 6매입니다. (일부 시외우등 노선에 한정하여 10매까지 예매가능)</li>
+								<li>마일리지 구매 승차권은 프리미엄/편도 노선에 한정하여 각 1매씩 예매 가능합니다.(*회원대상)</li>
+								<li>일반고속 청소년(중, 고등학생) 할인은 터미널 현장에서 학생증 및 청소년증을 제시 해야만 할인이 적용되며 탑승 시 소지가 꼭 필요합니다.</li>
+								<li>할인 승차권 부정 사용 시 운임의 10배 부가운임을 요구할 수 있습니다.</li>
+							</ul>
+						</div>				
+						<div class="section">
+							<h4>취소수수료</h4>
+							<div class="tbl_type1">
+								<table class="MsoNormalTable __se_tbl table_type2" border="0" cellspacing="0" cellpadding="0" _se2_tbl_template="14">
+								    <caption>승차권 취소수수료에 대한 정보 제공</caption>
+								    <colgroup>
+								        <col style="width: 40%;">
+								        <col style="width: 20%;">
+								        <col style="width: 20%;">
+								        <col style="width: 20%;">
+								    </colgroup>
+								    <thead>
+								        <tr>
+								            <th class=" undraggable" colspan="4" scope="col">
+								                <p align="center" class="MsoNormal">
+								                    <b><span>개정(25.5.1일부터)</span></b>
+								                </p>
+								            </th>
+								        </tr>
+								        <tr>
+								            <th class=" undraggable" scope="col">
+								                <p align="center" class="MsoNormal">
+								                    <b><span style="color: #000;font-size: 10pt;">구분</span></b>
+								                </p>
+								            </th>
+								            <th class=" undraggable" scope="col">
+								                <p align="center" class="MsoNormal">
+								                    <b><span style="color: #000;font-size: 10pt;">월~목</span></b>
+								                </p>
+								            </th>
+								            <th class=" undraggable" scope="col">
+								                <p align="center" class="MsoNormal">
+								                    <b><span style="color: #000;font-size: 10pt;">금~일<br>공휴일</span></b>
+								                </p>
+								            </th>
+								            <th class=" undraggable" scope="col">
+								                <p align="center" class="MsoNormal">
+								                    <b><span style="color: #000;font-size: 10pt;">명절<br>(설,추석)</span></b>
+								                </p>
+								            </th>
+								        </tr>
+								    </thead>
+								    <tbody>
+								        <tr>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>2일전</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>0%</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>0%</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>0%</span>
+								                    </p>
+								                </b>
+								            </td>
+								        </tr>
+								        <tr>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>1일전 ~ 3시간 이전</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>5%</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>7.50%</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>10%</span>
+								                    </p>
+								                </b>
+								            </td>
+								        </tr>
+								        <tr class="type2">
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>3시간 미만 ~ 출발 전</span>
+								                    </p>
+								                </b>
+								                
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>10%</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>15%</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>20%</span>
+								                    </p>
+								                </b>
+								            </td>
+								        </tr>
+								        <tr>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>출발 후 ~ 도착예정시간 이전</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>25년: 50%<br>26년 : 60%<br>27년 : 70%</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>25년: 50%<br>26년 : 60%<br>27년 : 70%</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>25년: 50%<br>26년 : 60%<br>27년 : 70%</span>
+								                    </p>
+								                </b>
+								            </td>
+								        </tr>
+								        <tr>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>도착예정시간 초과</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>100%</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>100%</span>
+								                    </p>
+								                </b>
+								            </td>
+								            <td>
+								                <b>
+								                    <p align="center" class="MsoNormal">
+								                        <span>100%</span>
+								                    </p>
+								                </b>
+								            </td>
+								        </tr>
+								    </tbody>
+								</table>
+								<p style="font-size:14px;color:#000;margin-top:15px;">* 명절 취소수수료 기준은 설/추석 전전일, 전일, 당일 및 다음날에 적용합니다.</p>
+								<p style="font-size:14px;color:#000;">* 출발 이후부터 도착예정시간까지의 취소수수료 기준은 `25년 5월1일부터 `26년 4월30일까지는 50%, `26년 5월1일부터 `27년 4월30일까지는 60%, `27년 5월1일부터는 70%를 적용한다.</p>
+								<p style="font-size:14px;color:#000;">* 지정차 출발 당일에 승차권을 발행한 경우는 발행시점 기준 1시간 이내까지 취소수수료 미부과 (단, 지정차 출발 이후에는 승차권 발행시점과 상관없이 취소수수료 부과)</p>
+							</div>
+							<ul class="desc_list">
+								<li>사용하지 않은 모든 승차권은 지정차 출발 후 도착예정시간이 지나면 환불하실 수 없습니다.</li>
+								<li>취소수수료 산정은 날짜를 기준(시간 기준이 아님)으로 합니다.<br>홈페이지 예매 후 창구에서 발권 시 예매에 사용한 신용카드를 반드시 지참하셔야 합니다. 현행법상 신용카드는 타인에게 대여, 양도 할 수 없습니다.</li>
+								<li>홈티켓 발권 시 반드시 인쇄하신 홈티켓을 소지 하시고 차량에 탑승하시기 바랍니다. 홈티켓 분실 시  <a href="/mrs/mrscfmlgnchec.do" class="accent">[예매 확인/취소/변경]</a> 메뉴 혹은 출발지 터미널 창구에서 재발행 받으셔야 합니다.</li>
+								<li>모바일 티켓으로 예매하시면 [고속버스 모바일앱]의 [예매확인] 메뉴에서 승차권을 확인할 수 있습니다. 스마트폰에 고속버스 모바일앱을 설치 하여 승차권을 확인하시고 차량에 탑승하시기 바랍니다.</li><!-- 1103 -->
+								<li>본 홈페이지를 통한 승차권 예매는 실시간 온라인 처리가 되므로 회원장애나 기타 통신장애로 인하여 예매 성공여부를 확인하지 못한 경우에는 반드시 예매 확인/취소/변경 메뉴를 통하여 성공여부를 확인하시기 바랍니다.</li>
+								<li>출발시간이 지난 후에는 승차권을 발권받을 수 없습니다. 출발 당일 터미널 혼잡에 대비하여 출발시간보다 여유있게 터미널에 도착하셔서 발권 받으시기 바랍니다.</li>
+								<li>계좌이체를 이용할 경우 왕복 승차권 예매가 불가하오니 신용카드 결제 혹은 편도 승차권 예매를 이용하시기 바랍니다.</li>
+							</ul>
+						</div>
+					
+				
+
+				<div class="section">
+					<div class="customer_box">
+						<p class="desc">노선안내 및 좌석여부 기타사항은 각 출발지 터미널 안내센터를 이용해 주시기 바랍니다. </p>
+						<!-- <div class="info_tel">
+							<span>고속버스 홈페이지 고객센터</span>
+							<p><strong>1644-9030</strong>(전국 국번없이)</p>
+						</div> -->
+					</div>
+				</div>
+			</div>
+			
+			
+			
+				</div>
+			
+
+		<script type="text/javascript">
+		$(document).ready(function(){
+			cookiedata = document.cookie;
+		     if (cookiedata.indexOf("mobileInfoPup=done") < 0){
+// 20210621 yahan 팝업삭제
+// 				var popTmoney =  $('[data-remodal-id=popTmoney]').remodal();
+// 				popTmoney.open();
+		     }
+		});		
+		</script>
+
+		
+
+
+
+		<!-- 출/도착지 선택 레이어팝업 -->
+		
+
+		<!-- 161228 팝업수정 -->
+		<!-- 모바일티머니 고속버스 예매안내 팝업 -->
+		
+		<!-- //161228 팝업수정 -->
+
+
+		<!-- 시외노선 우등형 할인 안내 -->
+		
+
+
+<!-- 노선조회안내 팝업 - 서울~강릉 - 190227 추가 -->
+
+<!-- 노선조회안내 팝업 - 동서울~강릉 - 190227 추가 -->
+
+<!-- 노선조회안내 팝업 - 수원~삼척 - 190227 추가 -->
+
+<!-- 노선조회안내 팝업 - 서울경부~동해 - 190227 추가 -->
+
+<!-- 노선조회안내 팝업 속초 - 190227 추가 -->
+
+
+<!-- 노선조회안내 팝업 원주 - 190926 추가 -->
+
+
+<!-- 광양 임시터미널 안내 - 191031 추가 -->
+
+
+
+
+		</article>
+
+		<!-- footer -->
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 푸터 -->
+<footer id="new-kor-footer">
+	<div class="container">
+		<div class="footer-top-cont">
+			<ul class="express-bus-company-list">
+				<li>
+					<a href="http://www.kumhobuslines.co.kr" target="_blank" title="새창"><img src="/koBus/images/kor/layout/logo-kumho-express.png" alt="금호고속"></a>
+				</li>
+				<li>
+					<a href="http://www.dongbubus.com" target="_blank" title="새창"><img src="/koBus/images/kor/layout/logo-dongbu-express.png" alt="동부고속"></a>
+				</li>
+				<li>
+					<a href="http://www.songnisanbuslines.co.kr" target="_blank" title="새창"><img src="/koBus/images/kor/layout/logo-sokrisan-express.png" alt="속리산고속"></a>
+				</li>
+				<li>
+					<a href="http://www.dyexpress.co.kr" target="_blank" title="새창"><img src="/koBus/images/kor/layout/logo-dongyang-express.png" alt="동양고속"></a>
+				</li>
+				<li>
+					<a href="http://www.samhwaexpress.co.kr" target="_blank" title="새창"><img src="/koBus/images/kor/layout/logo-samhwa-express.png" alt="삼화고속"></a>
+				</li>
+				<li>
+					<a href="http://www.jabus.co.kr" target="_blank" title="새창"><img src="/koBus/images/kor/layout/logo-joongang-express.png" alt="중앙고속"></a>
+				</li>
+				<li>
+					<a href="http://www.chunilexpress.co.kr" target="_blank" title="새창"><img src="/koBus/images/kor/layout/logo-chunil-express.png" alt="천일고속"></a>
+				</li>
+				<li>
+					<a href="http://www.hanilexpress.co.kr" target="_blank" title="새창"><img src="/koBus/images/kor/layout/logo-hanil-express.png" alt="한일고속"></a>
+				</li>
+			</ul>
+			<!-- dropdown-top 클래스 추가 시, 드롭다운 목록 위로 노출 -->
+			<div class="dropdown-wrap dropdown-top related-sites-select">
+				<a href="javascript:void(0)" class="btn-dropdown" title="관련사이트 이동" aria-expanded="false"><span class="text">관련사이트</span><i class="ico ico-arrow-down"></i></a>
+				<ul class="dropdown-list" style="display: none;">
+					<li class="selected">
+						<a href="/wchr/main.do" target="_blank" title="새창">장애인 휠체어 사이트</a>
+					</li>
+					<li><a href="https://www.tago.go.kr" target="_blank" title="새창">국가대중교통정보센터</a></li>
+					<li><a href="https://www.intis.or.kr" target="_blank" title="새창">인천장애인콜택시</a></li>
+					<li><a href="http://www.shinsegaecentralcity.com" target="_blank" title="새창">센트럴시티터미널</a></li>
+					<li><a href="https://txbus.t-money.co.kr" target="_blank" title="새창">시외버스 통합예매시스템</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="footer-bottom-cont">
+			<address class="address">
+				<ul class="policy-list">
+					<li><a href="/etc/svcstpl/SvcStpl.do">서비스 이용약관</a></li>
+					<li><a href="/etc/indlstpl/IndlStpl.do" class="text-bold">개인정보 처리방침</a></li>
+					<li><a href="/etc/busstpl/BusStpl.do">고속버스 운송약관</a></li>
+					<li><a href="http://www.tmoney.co.kr" target="_blank" title="새창">티머니</a></li>
+				</ul>
+				<ul class="contact">
+					<li>고객센터 : 1644-9030</li>
+					<li>서울특별시 서초구 신반포로 194</li>
+					<li>대표자 : 김용성</li>
+					<li>통신판매업신고 : 2009-서울서초 0587호</li>
+				</ul>
+				<p class="copyright">COPYRIGHT© 2016. WWW.KOBUS.CO.KR . ALL RIGHT RESERVED</p>
+			</address>
+			<ul class="greeting-btn-list">
+				<li>
+					<a href="http://www.wa.or.kr/board/list.asp?search=total&amp;SearchString=%B0%ED%BC%D3%B9%F6%BD%BA&amp;BoardID=0006" target="_blank" title="새창"><img src="/koBus/images/kor/layout/logo-accessibility2.png" alt="(사)한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크(WA인증마크)" height="40"></a>
+				</li>
+				<li>
+					<a href="/ugd/bustrop/Bustrop.do" title="이사장 인사말 바로가기"><img src="/koBus/images/kor/layout/logo-kobus.png" alt="KOBUS 전국고속버스운송사업조합"></a>
+				</li>
+				<li>
+					<a href="/ugd/trmlbizr/Trmlbizr.do" title="협회장 인사말 바로가기"><img src="/koBus/images/kor/layout/logo-npvtba-express.png" alt="전국여객자동차터미널사업자협회"></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</footer>
+
+	</div>
+
+
+	
+
+
+
+
+
+<div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"><div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div></div><div class="remodal-overlay remodal-is-closed" style="display: none;"></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal pop_place full remodal-is-initialized remodal-is-closed" data-remodal-id="popPlace" role="dialog" tabindex="-1">
+			<div class="title">
+				<h2 id="popTitle">출/도착지 선택</h2>
+			</div>
+			<div class="cont">
+				<div class="search_wrap" style="display: none;">
+					<p> <!--  class="focus" -->
+						<div class="easy-autocomplete" style="width: 100px;"><input type="text" id="terminalSearch" title="터미널/지역 이름 검색" placeholder="터미널/지역 이름을 검색하세요" autocomplete="off"><div class="easy-autocomplete-container" id="eac-container-terminalSearch"><ul></ul></div></div><span class="btn">검색</span>
+					</p>
+				</div>
+				<div class="start_wrap" id="imptDepr" style="display: block;">
+					<h3 class="stit">주요출발지</h3>
+			        <div class="tags">
+			            <button type="button" onclick="fnDeprChc('010','서울경부')" name="imptDeprNm" value="010">서울경부</button>
+			            <button type="button" onclick="fnDeprChc('021','센트럴시티(서울)')" name="imptDeprNm" value="021" class="over">센트럴시티(서울)</button>
+			            <button type="button" onclick="fnDeprChc('500','광주(유·스퀘어)')" name="imptDeprNm" value="500">광주(유·스퀘어)</button> <!--  class="active" --> 
+			            <button type="button" onclick="fnDeprChc('700','부산')" name="imptDeprNm" value="700">부산</button>
+			            <button type="button" onclick="fnDeprChc('703','부산사상')" name="imptDeprNm" value="703">부산사상</button>
+			            <button type="button" onclick="fnDeprChc('032','동서울')" name="imptDeprNm" value="032">동서울</button>
+			            <button type="button" onclick="fnDeprChc('300','대전복합')" name="imptDeprNm" value="300">대전복합</button>
+			            <button type="button" onclick="fnDeprChc('602','전주')" name="imptDeprNm" value="602">전주</button>
+			            <button type="button" onclick="fnDeprChc('360','유성')" name="imptDeprNm" value="360">유성</button>
+			            <button type="button" onclick="fnDeprChc('310','천안')" name="imptDeprNm" value="310">천안</button>
+			            <button type="button" onclick="fnDeprChc('801','동대구')" name="imptDeprNm" value="801">동대구</button>
+			            <button type="button" onclick="fnDeprChc('120','성남(분당)')" name="imptDeprNm" value="120">성남(분당)</button>
+			        </div>
+				</div>
+				<div class="terminal_wrap">
+					<h3 class="stit">지역별 터미널</h3>
+					<div class="ternimal_box">
+						<div class="scroll-wrapper area_scroll scrollbar-inner" style="position: relative;"><div class="area_scroll scrollbar-inner scroll-content" style="height: 420px; margin-bottom: 0px; margin-right: 0px; max-height: none;">
+							<!-- <ul class="area_list">
+								<li class="active" id="areaListAll"><span onclick="fnDeprArvlViewList('all');">전체</span></li>
+								<li><span onclick="fnDeprArvlViewList('11');">서울</span></li>
+								<li><span onclick="fnDeprArvlViewList('28');">인천/경기</span></li>
+								<li><span onclick="fnDeprArvlViewList('42');">강원</span></li>
+								<li><span onclick="fnDeprArvlViewList('30');">대전/충남</span></li>
+								<li><span onclick="fnDeprArvlViewList('43');">충북</span></li>
+								<li><span onclick="fnDeprArvlViewList('29');">광주/전남</span></li>
+								<li><span onclick="fnDeprArvlViewList('45');">전북</span></li>
+								<li><span onclick="fnDeprArvlViewList('26');">부산/경남</span></li>
+								<li><span onclick="fnDeprArvlViewList('27');">대구/경북</span></li>
+							</ul> -->
+							<ul class="area_list">
+						        <li class="active" id="areaListAll"><button type="button" onclick="fnDeprArvlViewList('all');" title="선택됨">전체</button></li>
+						        <li><button type="button" onclick="fnDeprArvlViewList('11');">서울</button></li>
+						        <li><button type="button" onclick="fnDeprArvlViewList('28');">인천/경기</button></li>
+						        <li><button type="button" onclick="fnDeprArvlViewList('42');">강원</button></li>
+						        <li><button type="button" onclick="fnDeprArvlViewList('30');">대전/충남</button></li>
+						        <li><button type="button" onclick="fnDeprArvlViewList('43');">충북</button></li>
+						        <li><button type="button" onclick="fnDeprArvlViewList('29');">광주/전남</button></li>
+						        <li><button type="button" onclick="fnDeprArvlViewList('45');">전북</button></li>
+						        <li><button type="button" onclick="fnDeprArvlViewList('26');">부산/경남</button></li>
+						        <li><button type="button" onclick="fnDeprArvlViewList('27');">대구/경북</button></li>
+						    </ul>
+						</div><div class="scroll-element scroll-x"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div><div class="scroll-element scroll-y"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div></div>
+						<div class="terminal_list" id="terminalList">
+							<h4 class="sr-only">전체</h4>
+							<div class="scroll-wrapper terminal_scroll scrollbar-inner" style="position: relative;"><div class="terminal_scroll scrollbar-inner scroll-content" style="height: 420px; margin-bottom: 0px; margin-right: 0px; max-height: none;">
+								<ul class="clear" id="tableTrmList"><li class="over"><button type="button" onclick="fnDeprChc('200','강릉');">강릉</button></li><li><button type="button" onclick="fnDeprChc('535','강진');">강진</button></li><li><button type="button" onclick="fnDeprChc('852','경북도청');">경북도청</button></li><li><button type="button" onclick="fnDeprChc('815','경주');">경주</button></li><li><button type="button" onclick="fnDeprChc('201','경포해변');">경포해변</button></li><li><button type="button" onclick="fnDeprChc('355','고대조치원');">고대조치원</button></li><li><button type="button" onclick="fnDeprChc('116','고양백석');">고양백석</button></li><li><button type="button" onclick="fnDeprChc('635','고창');">고창</button></li><li><button type="button" onclick="fnDeprChc('540','고흥');">고흥</button></li><li><button type="button" onclick="fnDeprChc('320','공주');">공주</button></li><li><button type="button" onclick="fnDeprChc('520','광양');">광양</button></li><li><button type="button" onclick="fnDeprChc('500','광주(유·스퀘어)');">광주(유·스퀘어)</button></li><li><button type="button" onclick="fnDeprChc('503','광주비아');">광주비아</button></li><li><button type="button" onclick="fnDeprChc('422','교통대');">교통대</button></li><li><button type="button" onclick="fnDeprChc('519','구례');">구례</button></li><li><button type="button" onclick="fnDeprChc('169','구리');">구리</button></li><li><button type="button" onclick="fnDeprChc('810','구미');">구미</button></li><li><button type="button" onclick="fnDeprChc('610','군산');">군산</button></li><li><button type="button" onclick="fnDeprChc('330','금산');">금산</button></li><li><button type="button" onclick="fnDeprChc('620','김제');">김제</button></li><li><button type="button" onclick="fnDeprChc('735','김해');">김해</button></li><li><button type="button" onclick="fnDeprChc('736','김해장유');">김해장유</button></li><li><button type="button" onclick="fnDeprChc('530','나주');">나주</button></li><li><button type="button" onclick="fnDeprChc('531','나주혁신');">나주혁신</button></li><li><button type="button" onclick="fnDeprChc('824','낙동강(휴)상행');">낙동강(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('823','낙동강(휴)하행');">낙동강(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('625','남원');">남원</button></li><li><button type="button" onclick="fnDeprChc('390','내포');">내포</button></li><li><button type="button" onclick="fnDeprChc('545','녹동');">녹동</button></li><li><button type="button" onclick="fnDeprChc('370','논산');">논산</button></li><li><button type="button" onclick="fnDeprChc('587','능주');">능주</button></li><li><button type="button" onclick="fnDeprChc('582','담양');">담양</button></li><li><button type="button" onclick="fnDeprChc('312','당진');">당진</button></li><li><button type="button" onclick="fnDeprChc('388','당진기지시');">당진기지시</button></li><li><button type="button" onclick="fnDeprChc('807','대구용계');">대구용계</button></li><li><button type="button" onclick="fnDeprChc('307','대전도룡');">대전도룡</button></li><li><button type="button" onclick="fnDeprChc('300','대전복합');">대전복합</button></li><li><button type="button" onclick="fnDeprChc('305','대전청사(샘머리)');">대전청사(샘머리)</button></li><li><button type="button" onclick="fnDeprChc('399','덕산스파');">덕산스파</button></li><li><button type="button" onclick="fnDeprChc('525','동광양(중마)');">동광양(중마)</button></li><li><button type="button" onclick="fnDeprChc('801','동대구');">동대구</button></li><li><button type="button" onclick="fnDeprChc('032','동서울');">동서울</button></li><li><button type="button" onclick="fnDeprChc('210','동해');">동해</button></li><li><button type="button" onclick="fnDeprChc('705','마산');">마산</button></li><li><button type="button" onclick="fnDeprChc('706','마산내서');">마산내서</button></li><li><button type="button" onclick="fnDeprChc('505','목포');">목포</button></li><li><button type="button" onclick="fnDeprChc('550','무안');">무안</button></li><li><button type="button" onclick="fnDeprChc('337','배방정류소');">배방정류소</button></li><li><button type="button" onclick="fnDeprChc('555','벌교');">벌교</button></li><li><button type="button" onclick="fnDeprChc('395','보령');">보령</button></li><li><button type="button" onclick="fnDeprChc('554','보성');">보성</button></li><li><button type="button" onclick="fnDeprChc('700','부산');">부산</button></li><li><button type="button" onclick="fnDeprChc('220','삼척');">삼척</button></li><li><button type="button" onclick="fnDeprChc('221','삼척해변');">삼척해변</button></li><li><button type="button" onclick="fnDeprChc('825','상주');">상주</button></li><li><button type="button" onclick="fnDeprChc('805','서대구');">서대구</button></li><li><button type="button" onclick="fnDeprChc('703','서부산(사상)');">서부산(사상)</button></li><li><button type="button" onclick="fnDeprChc('393','서산');">서산</button></li><li><button type="button" onclick="fnDeprChc('010','서울경부');">서울경부</button></li><li><button type="button" onclick="fnDeprChc('419','서충주');">서충주</button></li><li><button type="button" onclick="fnDeprChc('347','선문대');">선문대</button></li><li><button type="button" onclick="fnDeprChc('813','선산(휴)상행');">선산(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('812','선산(휴)하행');">선산(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('529','섬진강(휴)상행');">섬진강(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('528','섬진강(휴)하행');">섬진강(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('120','성남(분당)');">성남(분당)</button></li><li><button type="button" onclick="fnDeprChc('361','세종국무조정실');">세종국무조정실</button></li><li><button type="button" onclick="fnDeprChc('362','세종시청');">세종시청</button></li><li><button type="button" onclick="fnDeprChc('351','세종연구단지');">세종연구단지</button></li><li><button type="button" onclick="fnDeprChc('353','세종청사');">세종청사</button></li><li><button type="button" onclick="fnDeprChc('352','세종터미널');">세종터미널</button></li><li><button type="button" onclick="fnDeprChc('021','센트럴시티(서울)');">센트럴시티(서울)</button></li><li><button type="button" onclick="fnDeprChc('230','속초');">속초</button></li><li><button type="button" onclick="fnDeprChc('110','수원');">수원</button></li><li><button type="button" onclick="fnDeprChc('645','순창');">순창</button></li><li><button type="button" onclick="fnDeprChc('515','순천');">순천</button></li><li><button type="button" onclick="fnDeprChc('513','순천신대지구');">순천신대지구</button></li><li><button type="button" onclick="fnDeprChc('195','시흥(시화)');">시흥(시화)</button></li><li><button type="button" onclick="fnDeprChc('114','신갈시외(두진A)');">신갈시외(두진A)</button></li><li><button type="button" onclick="fnDeprChc('119','신갈영덕(고속도로)');">신갈영덕(고속도로)</button></li><li><button type="button" onclick="fnDeprChc('512','신대CGV');">신대CGV</button></li><li><button type="button" onclick="fnDeprChc('344','아산둔포');">아산둔포</button></li><li><button type="button" onclick="fnDeprChc('341','아산서부(호서대)');">아산서부(호서대)</button></li><li><button type="button" onclick="fnDeprChc('336','아산시외');">아산시외</button></li><li><button type="button" onclick="fnDeprChc('340','아산온양');">아산온양</button></li><li><button type="button" onclick="fnDeprChc('342','아산탕정사무소');">아산탕정사무소</button></li><li><button type="button" onclick="fnDeprChc('338','아산테크노밸리');">아산테크노밸리</button></li><li><button type="button" onclick="fnDeprChc('840','안동');">안동</button></li><li><button type="button" onclick="fnDeprChc('396','안면도');">안면도</button></li><li><button type="button" onclick="fnDeprChc('190','안산');">안산</button></li><li><button type="button" onclick="fnDeprChc('130','안성');">안성</button></li><li><button type="button" onclick="fnDeprChc('133','안성공도');">안성공도</button></li><li><button type="button" onclick="fnDeprChc('137','안성대림');">안성대림</button></li><li><button type="button" onclick="fnDeprChc('131','안성중대');">안성중대</button></li><li><button type="button" onclick="fnDeprChc('132','안성풍림');">안성풍림</button></li><li><button type="button" onclick="fnDeprChc('134','안성한경');">안성한경</button></li><li><button type="button" onclick="fnDeprChc('138','안성회관');">안성회관</button></li><li><button type="button" onclick="fnDeprChc('177','안중');">안중</button></li><li><button type="button" onclick="fnDeprChc('176','안중오거리');">안중오거리</button></li><li><button type="button" onclick="fnDeprChc('619','애통리');">애통리</button></li><li><button type="button" onclick="fnDeprChc('270','양양');">양양</button></li><li><button type="button" onclick="fnDeprChc('510','여수');">여수</button></li><li><button type="button" onclick="fnDeprChc('140','여주');">여주</button></li><li><button type="button" onclick="fnDeprChc('139','여주대');">여주대</button></li><li><button type="button" onclick="fnDeprChc('141','여주프리미엄아울렛');">여주프리미엄아울렛</button></li><li><button type="button" onclick="fnDeprChc('509','여천');">여천</button></li><li><button type="button" onclick="fnDeprChc('380','연무대');">연무대</button></li><li><button type="button" onclick="fnDeprChc('560','영광');">영광</button></li><li><button type="button" onclick="fnDeprChc('843','영덕');">영덕</button></li><li><button type="button" onclick="fnDeprChc('570','영암');">영암</button></li><li><button type="button" onclick="fnDeprChc('272','영월');">영월</button></li><li><button type="button" onclick="fnDeprChc('835','영주');">영주</button></li><li><button type="button" onclick="fnDeprChc('845','영천');">영천</button></li><li><button type="button" onclick="fnDeprChc('846','영천망정동');">영천망정동</button></li><li><button type="button" onclick="fnDeprChc('112','영통');">영통</button></li><li><button type="button" onclick="fnDeprChc('398','예산');">예산</button></li><li><button type="button" onclick="fnDeprChc('851','예천');">예천</button></li><li><button type="button" onclick="fnDeprChc('127','오산');">오산</button></li><li><button type="button" onclick="fnDeprChc('588','옥과');">옥과</button></li><li><button type="button" onclick="fnDeprChc('575','완도');">완도</button></li><li><button type="button" onclick="fnDeprChc('150','용인');">용인</button></li><li><button type="button" onclick="fnDeprChc('161','용인기흥역');">용인기흥역</button></li><li><button type="button" onclick="fnDeprChc('111','용인신갈(고가밑)');">용인신갈(고가밑)</button></li><li><button type="button" onclick="fnDeprChc('149','용인유림');">용인유림</button></li><li><button type="button" onclick="fnDeprChc('715','울산');">울산</button></li><li><button type="button" onclick="fnDeprChc('716','울산신복');">울산신복</button></li><li><button type="button" onclick="fnDeprChc('578','원동');">원동</button></li><li><button type="button" onclick="fnDeprChc('240','원주');">원주</button></li><li><button type="button" onclick="fnDeprChc('246','원주기업도시');">원주기업도시</button></li><li><button type="button" onclick="fnDeprChc('245','원주문막');">원주문막</button></li><li><button type="button" onclick="fnDeprChc('244','원주혁신');">원주혁신</button></li><li><button type="button" onclick="fnDeprChc('360','유성');">유성</button></li><li><button type="button" onclick="fnDeprChc('170','의정부');">의정부</button></li><li><button type="button" onclick="fnDeprChc('160','이천');">이천</button></li><li><button type="button" onclick="fnDeprChc('172','이천부발(신하리)');">이천부발(신하리)</button></li><li><button type="button" onclick="fnDeprChc('615','익산');">익산</button></li><li><button type="button" onclick="fnDeprChc('616','익산팔봉');">익산팔봉</button></li><li><button type="button" onclick="fnDeprChc('325','인삼랜드(휴)상행');">인삼랜드(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('324','인삼랜드(휴)하행');">인삼랜드(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('100','인천');">인천</button></li><li><button type="button" onclick="fnDeprChc('105','인천공항T1');">인천공항T1</button></li><li><button type="button" onclick="fnDeprChc('117','인천공항T2');">인천공항T2</button></li><li><button type="button" onclick="fnDeprChc('622','자치인재원');">자치인재원</button></li><li><button type="button" onclick="fnDeprChc('583','장성');">장성</button></li><li><button type="button" onclick="fnDeprChc('580','장흥');">장흥</button></li><li><button type="button" onclick="fnDeprChc('621','전북혁신');">전북혁신</button></li><li><button type="button" onclick="fnDeprChc('602','전주고속터미널');">전주고속터미널</button></li><li><button type="button" onclick="fnDeprChc('605','전주호남제일문');">전주호남제일문</button></li><li><button type="button" onclick="fnDeprChc('850','점촌');">점촌</button></li><li><button type="button" onclick="fnDeprChc('392','정산');">정산</button></li><li><button type="button" onclick="fnDeprChc('316','정안(휴)상행');">정안(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('315','정안(휴)하행');">정안(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('630','정읍');">정읍</button></li><li><button type="button" onclick="fnDeprChc('450','제천');">제천</button></li><li><button type="button" onclick="fnDeprChc('449','제천하소');">제천하소</button></li><li><button type="button" onclick="fnDeprChc('350','조치원');">조치원</button></li><li><button type="button" onclick="fnDeprChc('202','주문진');">주문진</button></li><li><button type="button" onclick="fnDeprChc('118','죽전');">죽전</button></li><li><button type="button" onclick="fnDeprChc('585','지도');">지도</button></li><li><button type="button" onclick="fnDeprChc('590','진도');">진도</button></li><li><button type="button" onclick="fnDeprChc('722','진주');">진주</button></li><li><button type="button" onclick="fnDeprChc('723','진주개양');">진주개양</button></li><li><button type="button" onclick="fnDeprChc('724','진주혁신');">진주혁신</button></li><li><button type="button" onclick="fnDeprChc('704','진해');">진해</button></li><li><button type="button" onclick="fnDeprChc('397','창기리');">창기리</button></li><li><button type="button" onclick="fnDeprChc('710','창원');">창원</button></li><li><button type="button" onclick="fnDeprChc('711','창원역');">창원역</button></li><li><button type="button" onclick="fnDeprChc('310','천안');">천안</button></li><li><button type="button" onclick="fnDeprChc('346','천안3공단');">천안3공단</button></li><li><button type="button" onclick="fnDeprChc('343','천안아산역');">천안아산역</button></li><li><button type="button" onclick="fnDeprChc('391','청양');">청양</button></li><li><button type="button" onclick="fnDeprChc('401','청주(센트럴)');">청주(센트럴)</button></li><li><button type="button" onclick="fnDeprChc('400','청주고속터미널');">청주고속터미널</button></li><li><button type="button" onclick="fnDeprChc('407','청주공항');">청주공항</button></li><li><button type="button" onclick="fnDeprChc('405','청주대정류소');">청주대정류소</button></li><li><button type="button" onclick="fnDeprChc('406','청주북부');">청주북부</button></li><li><button type="button" onclick="fnDeprChc('250','춘천');">춘천</button></li><li><button type="button" onclick="fnDeprChc('420','충주');">충주</button></li><li><button type="button" onclick="fnDeprChc('349','탕정삼성LCD');">탕정삼성LCD</button></li><li><button type="button" onclick="fnDeprChc('394','태안');">태안</button></li><li><button type="button" onclick="fnDeprChc('730','통영');">통영</button></li><li><button type="button" onclick="fnDeprChc('180','평택');">평택</button></li><li><button type="button" onclick="fnDeprChc('175','평택대');">평택대</button></li><li><button type="button" onclick="fnDeprChc('174','평택용이동');">평택용이동</button></li><li><button type="button" onclick="fnDeprChc('830','포항');">포항</button></li><li><button type="button" onclick="fnDeprChc('828','포항시청');">포항시청</button></li><li><button type="button" onclick="fnDeprChc('834','풍기');">풍기</button></li><li><button type="button" onclick="fnDeprChc('581','함평');">함평</button></li><li><button type="button" onclick="fnDeprChc('595','해남');">해남</button></li><li><button type="button" onclick="fnDeprChc('552','해제');">해제</button></li><li><button type="button" onclick="fnDeprChc('354','홍대조치원');">홍대조치원</button></li><li><button type="button" onclick="fnDeprChc('389','홍성');">홍성</button></li><li><button type="button" onclick="fnDeprChc('586','화순');">화순</button></li><li><button type="button" onclick="fnDeprChc('440','황간');">황간</button></li><li><button type="button" onclick="fnDeprChc('239','횡성(휴)상행');">횡성(휴)상행</button></li><li><button type="button" onclick="fnDeprChc('238','횡성(휴)하행');">횡성(휴)하행</button></li><li><button type="button" onclick="fnDeprChc('634','흥덕');">흥덕</button></li></ul>
+							</div><div class="scroll-element scroll-x"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div><div class="scroll-element scroll-y"><div class="scroll-element_outer"><div class="scroll-element_size"></div><div class="scroll-element_track"></div><div class="scroll-bar"></div></div></div></div>
+						</div>
+					</div>
+				</div>
+				<div class="place"> <!-- focus -->
+					<ul>
+						<li id="popDeprChc" class="focuson"> <!--  class="focuson" -->
+							<div class="start-title">
+								<span class="stit">출발지</span>
+								<p class="text empty"><span class="val_txt" id="popDeprNmSpn"></span></p>
+							</div>
+						</li>
+						<li id="popArvlChc">
+							<div class="end-title">
+								<span class="stit">도착지</span>
+								<p class="text empty"><span class="val_txt" id="popArvlNmSpn"></span></p>
+							</div>
+						</li>
+					</ul>
+					<!-- <button type="button" class="btn_change" onclick="fnCrchDeprArvl();" id="chgDeprArvl">
+						<span class="sr-only">출발지, 도착지 교체</span>
+					</button> -->
+				</div>
+			</div>
+ 			<div class="btns">
+				<button type="button" data-remodal-action="confirm" class="remodal-confirm ready" id="cfmBtn" onclick="fncfmBtnChc()">선택완료</button>
+			</div>
+				<button type="button" data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+		</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div id="mobileInfoPup" class="remodal pop_tmoney remodal-is-initialized remodal-is-closed" data-remodal-id="popTmoney" role="dialog" tabindex="-1">
+			<div class="title">
+				<h2>모바일티머니 <span>고속버스</span> 예매안내</h2>
+			</div>
+			<div class="cont">
+				<p class="txt">
+					<strong>모바일티머니 사용하신다면? 지금 바로</strong><strong class="accent">고속버스 모바일앱</strong><strong>접속하세요.</strong><br>
+					<span>아직도 카드번호 입력하세요? 언제 어디서나 간편하게 결제하는 고속버스 티머니 예매!</span>
+				</p>
+				<p class="txt">※ 안드로이드 단말기만 지원되며 모바일티머니APP 설치가 필요합니다.</p>
+				<div class="phone_wrap clfix">
+					<p class="phone1">
+						<strong>터치한번으로</strong>
+						<img src="/koBus/images/page/tmoney_phone1.png" alt="모바일티머니 결제화면"><!-- 1103 -->
+					</p>
+					<p class="phone2">
+						<strong>결제완료!</strong>
+						<img src="/koBus/images/page/tmoney_phone2.png" alt="모바일티머니 결제완료화면">
+					</p>
+				</div>
+			</div>
+			<div class="btns">
+				<button type="button" data-remodal-action="cancel" class="remodal-cancel" onclick="closeWinAt00('mobileInfoPup', 1);">오늘 하루 보지 않기</button>
+				<!-- <button type="button" data-remodal-action="confirm" class="remodal-confirm" onclick="window.open('http://www.epassmobile.co.kr','','');">모바일티머니 예매하기</button> --><!-- 1103 -->
+			</div>
+			<button type="button" data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+		</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div id="ctyPrmmDcInf" class="remodal pop_gradeinfo remodal-is-initialized remodal-is-closed" data-remodal-id="popGradeinfo" role="dialog" tabindex="-1"> <!--  -->
+			<div class="title">
+				<h2>시외노선 우등형 할인 안내</h2>
+			</div>
+			<div class="cont">
+				<p class="tbl_desc">예매하시려는 노선은 우등 형 할인혜택이 제공되는 시외노선입니다.<br>우등등급에 한정하여 예매 시 할인이 제공되며 상세조건은 아래와 같습니다.</p>
+				<div class="tbl_type1">
+					<table>
+						<caption>시외노선 우등형 할인 안내</caption>
+						<colgroup>
+							<col style="width: 15%;">
+							<col style="width: auto">
+							<col style="width: 30%;">
+						</colgroup>
+						<thead>
+							<tr>
+								<th scope="col">구분</th>
+								<th scope="col">내용</th>
+								<th scope="col">할인율</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">사전예매</th>
+								<td>
+									<ul class="desc_list">
+										<li>차량 출발일 2일(48시간) 전까지 예매한 경우</li>
+										<li>최대 예매 승차권수는 10매로 제한</li>
+									</ul>
+								</td>
+								<td><span class="accent show_mo">할인율 : </span>우등버스 정상요금의 10%</td>
+							</tr>
+							<tr>
+								<th scope="row">단체예매</th>
+								<td>
+									<ul class="desc_list">
+										<li>단체승객(5인 이상 10인 이하)이 승차권을 사전 예매한 경우</li>
+										<li>최대 예매 승차권수는 10매로 제한</li>
+									</ul>
+								</td>
+								<td><span class="accent show_mo">할인율 : </span>우등버스 정상요금의 10%</td>
+							</tr>
+							<tr>
+								<th scope="row">왕복예매</th>
+								<td>
+									<ul class="desc_list">
+										<li>동일 노선/구간의  왕복 승차권을 예매한 경우</li>
+										<li>왕복 각각 동일한 할인율을 적용</li>
+										<li>최대 예매 승차권수는 10매로 제한</li>
+									</ul>
+								</td>
+								<td><span class="accent show_mo">할인율 : </span>우등버스 정상요금의 10%<span class="line_block">(편도 각 10%)</span></td>
+							</tr>
+							
+							
+							
+							
+						</tbody>
+					</table>
+				</div>
+				<ul class="desc_list">
+					<li>할인혜택은 성인 승차권 예매 기준입니다. (아동/중고생은 제외)</li>
+					<li>사전에 홈페이지와 모바일앱 예매를 이용한 승객에게만 적용됩니다.(터미널 현장 발권은 대상제외. 단, 뒷좌석 예매는 예외)</li>
+					<li>명절 연휴 특송기간(설, 추석 등)은 할인이 적용되지 않습니다.</li>
+					<li>할인 적용된 우등버스 요금이 일반ㆍ직행 버스 요금보다 낮을 경우, 일반ㆍ직행 버스 요금을 적용하게 됩니다.</li>
+					<li>왕복할인/단체할인을 적용하여 홈페이지 예매 완료 시 매수변경이 불가하니 유의하시기 바랍니다.</li>
+					<li>할인 적용 시에는 신용카드결제만 가능합니다.</li>
+				</ul>
+			</div>
+			<div class="btns">
+				<button data-remodal-action="cancel" class="remodal-cancel">취소</button>
+				<button class="remodal-confirm" data-remodal-action="confirm" onclick="fnCloseGradePop();">예매진행</button>
+			</div>
+			<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+		</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal pop_route remodal-is-initialized remodal-is-closed" data-remodal-id="popRoute1" role="dialog" tabindex="-1">
+	<div class="title">
+		<h2>노선조회안내</h2>
+	</div>
+	<div class="cont">
+		<ul class="txt">
+<!-- 			<li><strong>1. 요금할인</strong> -->
+<!-- 				<ul class="desc_list"> -->
+<!-- 					<li>요금인상 없이 종전 요금 이용</li> -->
+<!-- 				</ul> -->
+<!-- 			</li> -->
+			<li><strong>1. 제휴할인 서비스</strong>
+				<ul class="desc_list">
+					<li>강릉지역 렌터카 및 맛집, 카페 등 이용할인</li>
+					<li><a href="https://www.kobus.co.kr/cscn/ntcmttr/readNtc.do?ntcNo=20190226001" title="새창" target="_blank" class="accent">이용방법 및 업체 상세보기 &gt;</a></li>
+				</ul>
+			</li>
+			<li><strong>2. 프리미엄 버스 확대 운행</strong>
+				<ul class="desc_list">
+					<li>월~목 10%, 금~일 5% 할인 시행 중</li>
+					<!-- <li>주말 이용 시 마일리지 미 적립</li> -->
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="btns">
+		<button data-remodal-action="confirm" class="remodal-confirm" onclick="fnRotVldChc();">확인</button>
+	</div>
+	<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal pop_route remodal-is-initialized remodal-is-closed" data-remodal-id="popRoute2" role="dialog" tabindex="-1">
+	<div class="title">
+		<h2>노선조회안내</h2>
+	</div>
+	<div class="cont">
+		<ul class="txt">
+<!-- 			<li><strong>1. 요금 변경 안내</strong> -->
+<!-- 				<ul class="desc_list"> -->
+<!-- 					<li>2020년 7월 10일부터 변경된 할인율 적용</li> -->
+<!-- 				</ul> -->
+<!-- 			</li> -->
+<!-- 			<li><strong>1. 요금할인</strong> -->
+<!-- 				<ul class="desc_list"> -->
+<!-- 					<li>평균 25% 요금할인으로 이용</li> -->
+<!-- 				</ul> -->
+<!-- 			</li> -->
+			<li><strong>제휴할인 서비스</strong>
+				<ul class="desc_list">
+					<li>강릉지역 렌터카 및 맛집, 카페 등 이용할인</li>
+					<li><a href="https://www.kobus.co.kr/cscn/ntcmttr/readNtc.do?ntcNo=20190226001" title="새창" target="_blank" class="accent">이용방법 및 업체 상세보기 &gt;</a><br>
+						'코버스' 홈페이지 공지사항<br>
+						'강원도 노선업무 제휴 업체 리스트' 참조</li>
+				</ul>
+			</li>
+			<li id="popRoute2_txt" style="display:none;">
+				<strong>롯데렌터카 업무제휴</strong>
+				<ul class="desc_list">
+					<li>해당 노선 이용시 롯데렌터카 렌트비 50% 할인!<br>(2018년 11월 15일부터)</li>
+					<li>문의 : 033) 642-8000(강릉), 033) 632-8000(속초)</li>
+					<li>많은 이용 바랍니다. 감사합니다.</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="btns">
+		<button data-remodal-action="confirm" class="remodal-confirm" onclick="fnRotVldChc();">확인</button>
+	</div>
+	<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal pop_route remodal-is-initialized remodal-is-closed" data-remodal-id="popRoute3" role="dialog" tabindex="-1">
+	<div class="title">
+		<h2>노선조회안내</h2>
+	</div>
+	<div class="cont">
+		<ul class="txt">
+			<li><strong>제휴할인 서비스</strong>
+				<ul class="desc_list">
+					<li><span id="arvlNmSpan3"></span>지역 렌터카 이용할인</li>
+					<li><a href="https://www.kobus.co.kr/cscn/ntcmttr/readNtc.do?ntcNo=20190226001" title="새창" target="_blank" class="accent">이용방법 및 업체 상세보기 &gt;</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="btns">
+		<button data-remodal-action="confirm" class="remodal-confirm" onclick="fnRotVldChc();">확인</button>
+	</div>
+	<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal pop_route remodal-is-initialized remodal-is-closed" data-remodal-id="popRoute4" role="dialog" tabindex="-1">
+	<div class="title">
+		<h2>노선조회안내</h2>
+	</div>
+	<div class="cont">
+		<ul class="txt">
+			<li><strong>1. 프리미엄 버스 운행 개시</strong>
+				<ul class="desc_list">
+					<li>최고급 버스를 15% 할인된 금액으로 상시 이용 가능</li>
+					<li>주말 이용 시 마일리지 미적립</li>
+				</ul>
+			</li>
+			<li><strong>2. 제휴할인 서비스</strong>
+				<ul class="desc_list">
+					<li><span id="arvlNmSpan4"></span>지역 렌터카 이용할인</li>
+					<li><a href="https://www.kobus.co.kr/cscn/ntcmttr/readNtc.do?ntcNo=20190226001" title="새창" target="_blank" class="accent">이용방법 및 업체 상세보기 &gt;</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="btns">
+		<button data-remodal-action="confirm" class="remodal-confirm" onclick="fnRotVldChc();">확인</button>
+	</div>
+	<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal pop_route remodal-is-initialized remodal-is-closed" data-remodal-id="popRoute5" role="dialog" tabindex="-1">
+	<div class="title">
+		<h2>노선조회안내</h2>
+	</div>
+	<div class="cont">
+		<ul class="txt">
+			<li><strong>제휴할인 서비스</strong>
+				<ul class="desc_list">
+					<li>속초지역 렌터카 및 맛집, 카페 등 이용할인</li>
+					<li><a href="https://www.kobus.co.kr/cscn/ntcmttr/readNtc.do?ntcNo=20190226001" title="새창" target="_blank" class="accent">이용방법 및 업체 상세보기 &gt;</a></li>
+				</ul>
+			</li>
+			<li>
+				<strong>롯데렌터카 업무제휴</strong>
+				<ul class="desc_list">
+					<li>해당 노선 이용시 롯데렌터카 렌트비 50% 할인!<br>(2018년 11월 15일부터)</li>
+					<li>문의 : 033) 642-8000(강릉), 033) 632-8000(속초)</li>
+					<li>많은 이용 바랍니다. 감사합니다.</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="btns">
+		<button data-remodal-action="confirm" class="remodal-confirm" onclick="fnRotVldChc();">확인</button>
+	</div>
+	<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal pop_route remodal-is-initialized remodal-is-closed" data-remodal-id="popRoute6" role="dialog" tabindex="-1">
+	<div class="title">
+		<h2>제휴할인 서비스</h2>
+	</div>
+	<div class="cont">
+		<ul class="txt">
+			<li><strong>제휴할인 서비스</strong>
+				<ul class="desc_list">
+					<li>원주지역 렌터카 및 영화, 식당 등 이용할인</li>
+					<li><a href="https://www.kobus.co.kr/cscn/ntcmttr/readNtc.do?ntcNo=20190226001" title="새창" target="_blank" class="accent">이용방법 및 업체 상세보기 &gt;</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="btns">
+		<button data-remodal-action="confirm" class="remodal-confirm" onclick="fnRotVldChc();">확인</button>
+	</div>
+	<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+</div></div><div class="remodal-wrapper remodal-is-closed" style="display: none;"><div class="remodal pop_route remodal-is-initialized remodal-is-closed" data-remodal-id="popTmpTml" role="dialog" tabindex="-1">
+	<div class="title">
+		<h2>광양 임시터미널 안내</h2>
+	</div>
+	<div class="cont">
+		<ul class="txt">
+			<li>
+				<strong>광양 임시터미널(인동숲 주차장) 안내</strong>
+				<p style="margin-top:10px;"><img src="/koBus/images/page/pop_img01.png" alt="광양임시터미널 - 타이어뱅크와 국민은행 사이 옆길 진입도" width="640"></p>
+			</li>
+			<li><strong>광양 임시터미널 승차홈</strong>
+				<p>
+					<img src="/koBus/images/page/pop_img02.png" alt="광양임시터미널 승차홈별 지역(상세 다음 참고)" width="640">
+					</p><div class="sr-only">
+						<ul>
+							<li>1승차홈 : 서울(센트럴), 동서울, 대전, 청주, 통영</li>
+							<li>2승차홈 : 광주, 목포, 인천공항</li>
+							<li>3승차홈 : 동광양, 대구/부천, 성남/수원, 안산/안양, 인천/전주</li>
+							<li>4승차홈 : 경주, 노포, 동래, 부산사상, 포항</li>
+							<li>5승차홈 : 김해, 남해, 마산, 울산, 진교, 진주</li>
+							<li>6승차홈 : 광영/녹동, 순천/여천, 여수/완도, 태인도, 해남</li>
+						</ul>
+					</div>
+				<p></p>
+			</li>
+		</ul>
+	</div>
+	<div class="btns">
+		<button data-remodal-action="confirm" class="remodal-confirm" onclick="fnRotVldChc();">확인</button>
+	</div>
+	<button data-remodal-action="close" class="remodal-close"><span class="sr-only">닫기</span></button>
+</div></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all hasDatepicker" tabindex="0"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a class="ui-datepicker-prev ui-corner-all ui-state-disabled" title="이전달"><span class="ui-icon ui-icon-circle-triangle-w">이전달</span></a><a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="다음달"><span class="ui-icon ui-icon-circle-triangle-e">다음달</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-year">2025</span>.&nbsp;<span class="ui-datepicker-month">6</span></div></div><table class="ui-datepicker-calendar"><caption>날짜 선택 달력</caption><thead><tr><th scope="col" class="ui-datepicker-week-end"><span title="일요일">일</span></th><th scope="col"><span title="월요일">월</span></th><th scope="col"><span title="화요일">화</span></th><th scope="col"><span title="수요일">수</span></th><th scope="col"><span title="목요일">목</span></th><th scope="col"><span title="금요일">금</span></th><th scope="col" class="ui-datepicker-week-end"><span title="토요일">토</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">1</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">2</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">3</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">4</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">5</span></td><td class=" ui-datepicker-unselectable ui-state-disabled "><span class="ui-state-default">6</span></td><td class=" ui-datepicker-week-end ui-datepicker-days-cell-over  ui-datepicker-current-day ui-datepicker-today" data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="#">7</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">8</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">9</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">10</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">11</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">12</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">13</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">14</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">15</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">16</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">17</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">18</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">19</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">20</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">21</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">22</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">23</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">24</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">25</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">26</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">27</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">28</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">29</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">30</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table><div class="ui-datepicker-inline ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" style="display: block;"><div class="ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all"><a class="ui-datepicker-prev ui-corner-all" data-handler="prev" data-event="click" title="이전달"><span class="ui-icon ui-icon-circle-triangle-w">이전달</span></a><a class="ui-datepicker-next ui-corner-all" data-handler="next" data-event="click" title="다음달"><span class="ui-icon ui-icon-circle-triangle-e">다음달</span></a><div class="ui-datepicker-title"><span class="ui-datepicker-year">2025</span>.&nbsp;<span class="ui-datepicker-month">6</span></div></div><table class="ui-datepicker-calendar"><caption>날짜 선택 달력</caption><thead><tr><th scope="col" class="ui-datepicker-week-end"><span title="일요일">일</span></th><th scope="col"><span title="월요일">월</span></th><th scope="col"><span title="화요일">화</span></th><th scope="col"><span title="수요일">수</span></th><th scope="col"><span title="목요일">목</span></th><th scope="col"><span title="금요일">금</span></th><th scope="col" class="ui-datepicker-week-end"><span title="토요일">토</span></th></tr></thead><tbody><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">1</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">2</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">3</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">4</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">5</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">6</a></td><td class=" ui-datepicker-week-end ui-datepicker-days-cell-over ui-datepicker-today ui-datepicker-current-day ui-datepicker-today" title="오늘" data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default ui-state-highlight ui-state-active ui-state-hover" href="#">7</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">8</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">9</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">10</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">11</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">12</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">13</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">14</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">15</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">16</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">17</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">18</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">19</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">20</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">21</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">22</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">23</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">24</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">25</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">26</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">27</a></td><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">28</a></td></tr><tr><td class=" ui-datepicker-week-end " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">29</a></td><td class=" " data-handler="selectDay" data-event="click" data-month="5" data-year="2025"><a class="ui-state-default" href="#">30</a></td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td><td class=" ui-datepicker-week-end ui-datepicker-other-month ui-datepicker-unselectable ui-state-disabled">&nbsp;</td></tr></tbody></table></div></div></body></html>

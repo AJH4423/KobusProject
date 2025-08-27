@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="org.kobus.spring.mapper.pay.PaymentCommonMapper">
+
+    <insert id="insertPaymentCommon" parameterType="org.kobus.spring.domain.pay.PaymentCommonDTO" useGeneratedKeys="false">
+        <selectKey keyProperty="paymentId" resultType="String" order="BEFORE">
+            SELECT CONCAT('PAY', LPAD(SEQ_PAYMENT_COMMON.NEXTVAL, 8, '0')) FROM DUAL
+        </selectKey>
+
+        INSERT INTO PAYMENT_COMMON (
+            PAYMENT_ID,
+            IMP_UID,
+            MERCHANT_UID,
+            PAY_METHOD,
+            AMOUNT,
+            PAY_STATUS,
+            PG_TID,
+            PAID_AT,
+            REG_DT
+        ) VALUES (
+            #{paymentId},
+            #{impUid},
+            #{merchantUid},
+            #{payMethod},
+            #{amount},
+            #{payStatus},
+            #{pgTid},
+            #{paidAt},
+            SYSDATE
+        )
+    </insert>
+
+</mapper>

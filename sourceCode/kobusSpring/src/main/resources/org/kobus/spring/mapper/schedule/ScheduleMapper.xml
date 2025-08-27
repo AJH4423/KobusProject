@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.kobus.spring.mapper.schedule.ScheduleMapper">
+
+    <select id="selectBySidoCode" resultType="org.kobus.spring.domain.schedule.ScheduleDTO">
+        SELECT regID, regName, sidoCode
+        FROM region WHERE sidoCode = #{sidoCode} ORDER BY REGID ASC
+    </select>
+
+    <select id="selectByRegion" resultType="org.kobus.spring.domain.schedule.ScheduleDTO">
+        SELECT regID, regName, sidoCode FROM region ORDER BY REGID ASC
+    </select>
+
+    <select id="searchBusSchedule" resultType="org.kobus.spring.domain.schedule.ScheduleDTO">
+	    SELECT 
+	        BS.BSHID, 
+	        BS.ROUID, 
+	        BS.BUSID,  
+	        BS.DEPARTUREDATE, 
+	        C.COMNAME, 
+	        B.BUSGRADE, 
+	        BS.DURMIN, 
+	        BS.ADULTFARE, 
+	        BS.STUFARE, 
+	        BS.CHILDFARE, 
+	        BS.ARRIVALDATE, 
+	        BS.REMAINSEATS,  
+	        B.BUSSEATS  
+	    FROM busschedule BS
+	    JOIN BUS B ON BS.BUSID = B.BUSID
+	    JOIN COMPANY C ON B.COMID = C.COMID
+	    JOIN ROUTE R ON BS.ROUID = R.ROUID
+	    JOIN arrival A ON A.ARRID = R.ARRID
+	    JOIN departure D ON D.DEPID = R.DEPID
+	    JOIN REGION RGD ON D.REGID = RGD.REGID
+	    JOIN REGION RGA ON A.REGID = RGA.REGID
+	    <where>
+	        RGD.REGID = #{deprId}
+	        AND RGA.REGID = #{arrId}
+	
+	        <if test="deprDtm != null and deprDtm != ''">
+			    <choose>
+			        <when test="deprDtm.length() > 8">
+			            AND BS.DEPARTUREDATE = TO_TIMESTAMP(#{deprDtm}, 'YYYYMMDD HH24:MI')
+			        </when>
+			        <when test="deprDtm.length() == 8">
+			            AND TRUNC(BS.DEPARTUREDATE) = TO_DATE(#{deprDtm}, 'YYYYMMDD')
+			        </when>
+			        <otherwise>
+			            AND 1=1
+			        </otherwise>
+			    </choose>
+			</if>
+	
+	        <if test="busClsCd != null and busClsCd != '' and busClsCd != '전체'">
+	            AND B.BUSGRADE = #{busClsCd}
+	        </if>
+	    </where>
+	</select>
+    
+
+    <select id="getRouteDuration" parameterType="map" resultType="java.lang.Integer">
+	    SELECT R.DURATION AS duration
+	    FROM ROUTE R
+	    JOIN DEPARTURE D ON R.DEPID = D.DEPID
+	    JOIN ARRIVAL A ON R.ARRID = A.ARRID
+	    WHERE D.REGID = #{deprRegId}
+	      AND A.REGID = #{arvlRegId}
+	      AND ROWNUM = 1
+</select>
+
+</mapper>

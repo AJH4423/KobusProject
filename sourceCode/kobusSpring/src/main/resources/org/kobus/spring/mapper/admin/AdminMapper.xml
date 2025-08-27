@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="org.kobus.spring.mapper.admin.AdminMapper">
+  	<select id="getUserCountsByRank" resultType="map">
+	  SELECT RANK, COUNT(*) AS COUNT
+	  FROM kobususer
+	  GROUP BY RANK
+	</select>
+	
+	<select id="gerTotalInfo" resultType="map">
+		SELECT 
+		  COUNT(*) AS COUNT,
+		  NVL(TO_CHAR(SUM(amount)), '0') AS SUM
+		FROM payment_common
+		WHERE pay_status = '결제완료'
+	</select>
+	
+	<select id="getCouponCount" resultType="map">
+		SELECT '시즌권' AS ticket_type, COUNT(*) AS ticket_count
+		FROM season_ticket_payment 
+		
+		UNION ALL
+		
+		SELECT '프리패스' AS ticket_type, COUNT(*) AS ticket_count
+		FROM free_pass_payment
+	</select>
+	
+  </mapper>

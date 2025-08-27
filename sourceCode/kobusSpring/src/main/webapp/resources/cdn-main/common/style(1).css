@@ -1,0 +1,14 @@
+@charset "utf-8";
+
+/* 기존 스타일 : 개선시 주석 예정 */
+/* @import url("/css/kor/wchr/reset.css"); */
+@import url("reset.css");
+@import url("content.css");
+@import url("plugin.css");
+@import url("layout.css");
+@import url("content.css");
+
+/* 신규 추가 스타일 - 반드시 scss에서 수정 : renewal.scss */
+@import url("renewal_wchr.css");
+
+/* 사이트별 오버라이드 스타일 - 하단에 css 추가 가능 */

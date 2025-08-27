@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.kobus.spring.mapper.pay.SeasonTicketMapper">
+
+    <!-- 정기권 결제 + 옵션 정보 조회 -->
+    <select id="selectSeasonTicketListByKusid" parameterType="String" resultType="org.kobus.spring.domain.pay.SeasonTicketDTO">
+        SELECT
+            a.SEASON_PAY_ID,
+            a.PAYMENT_ID,
+            a.ADTN_PRD_SNO,
+            a.KUSID,
+            a.START_DATE,
+            b.ADTN_PRD_USE_CLS_CD,
+            b.ADTN_PRD_USE_CLS_NM,
+            b.ADTN_PRD_USE_PSB_DNO,
+            b.ADTN_PRD_USE_NTKN_CD,
+            b.ADTN_PRD_USE_NTKN_NM,
+            b.WKD_WKE_NTKN_CD,
+            b.WKD_WKE_NTKN_NM,
+            b.PRICE
+        FROM
+            SEASON_TICKET_PAYMENT a
+        JOIN
+            SEASON_TICKET_OPTION b
+        ON
+            a.ADTN_PRD_SNO = b.ADTN_PRD_SNO
+        WHERE
+            a.KUSID = #{kusid}
+    </select>
+
+    <!-- 정기권 사용일 조회 -->
+    <select id="selectUsedDatesByKusid" parameterType="String" resultType="org.kobus.spring.domain.pay.ResSeasonUsageDTO">
+        SELECT
+            SEASON_PAY_ID,
+            RES_ID,
+            USED_DATE
+        FROM
+            RES_SEASON_USAGE
+        WHERE
+            SEASON_PAY_ID IN (
+                SELECT SEASON_PAY_ID
+                FROM SEASON_TICKET_PAYMENT
+                WHERE KUSID = #{kusid}
+            )
+    </select>
+    
+    <!-- 정기권으로 예매 제한 하루 2회 -->
+    <select id="countUsagePerDay" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM RES_SEASON_USAGE
+	    WHERE ADTN_PRD_SNO = #{adtnPrdSno}
+	      AND USED_DATE = #{usedDate}
+	</select>
+
+</mapper>

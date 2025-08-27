@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+
+<!-- saved from url=(0054)https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do -->
+<html class="pc" lang="ko">
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"
+	name="viewport" />
+<meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+<title>상품 구매내역 | 프리패스/정기권 | 고속버스통합예매</title>
+<link href="https://www.kobus.co.kr/images/favicon.ico"
+	rel="shortcut icon" />
+
+<link href="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/ui.jqgrid.custom.css"
+	rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/style.css"
+	rel="stylesheet" type="text/css" />
+</head>
+<!-- [리뉴얼] 페이지 개별 스크립트 신규 정의함 -->
+<body class="KO">
+	<!-- [리뉴얼] 스킵 네비게이션 신규 정의 -->
+	<nav id="skip">
+		<ul>
+			<li><a
+				href="https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do#new-kor-content">본문
+					바로가기</a></li>
+			<li><a
+				href="https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do#new-kor-gnb">주메뉴
+					바로가기</a></li>
+			<li><a
+				href="https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do#new-kor-footer">푸터
+					바로가기</a></li>
+		</ul>
+	</nav>
+	<!-- 메인 클래스 : wrapper-main -->
+	<div class="wrapper wrapper-kor wrapper-sub">
+		<!-- quick -->
+		<!-- 퀵메뉴 : 서브페이지에만 적용 -->
+		<nav id="new-kor-quickmenu">
+			<ul class="quickmenu-list">
+				<li><a href="https://www.kobus.co.kr/mrs/rotinf.do"> <span
+						class="ico"><img alt=""
+							src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/ico-quick-menu01.png" /></span>
+						<span class="text">고속버스 예매</span>
+				</a></li>
+				<li><a href="https://www.kobus.co.kr/mrs/mrscfm.do"> <span
+						class="ico"><img alt=""
+							src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/ico-quick-menu02.png" /></span>
+						<span class="text">예매확인</span>
+				</a></li>
+				<li><a
+					href="https://www.kobus.co.kr/oprninf/arscgd/oprnArscGd.do"> <span
+						class="ico"><img alt=""
+							src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/ico-quick-menu03.png" /></span>
+						<span class="text">도착시간 안내</span>
+				</a></li>
+				<li><a
+					href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do"> <span
+						class="ico"><img alt=""
+							src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/ico-quick-menu04.png" /></span>
+						<span class="text">프리패스 구매</span>
+				</a></li>
+				<li><a
+					href="https://www.kobus.co.kr/adtnprdnew/pass/passPrchGd.do"> <span
+						class="ico"><img alt=""
+							src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/ico-quick-menu05.png" /></span>
+						<span class="text">정기권 구매</span>
+				</a></li>
+				<li class="to-top"><a href="javascript:void(0)"> <span
+						class="ico"><img alt=""
+							src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/ico-to-top.png" /></span> <span
+						class="text">TOP</span>
+				</a></li>
+			</ul>
+		</nav>
+		<!-- header -->
+
+		<!-- 헤더 -->
+		<header id="new-kor-header">
+			<div class="top-menu-area">
+				<div class="container">
+					<h1 id="logo">
+						<a href="https://www.kobus.co.kr/main.do"> <img
+							alt="KOBUS 전국고속버스운송사업조합"
+							src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo.png" />
+						</a>
+					</h1>
+					<nav class="util-menus">
+						<ul class="util-list">
+							<li class="id-area"><strong class="login-id">anjunho12@naver.com</strong></li>
+							<li><a class="logout"
+								href="https://www.kobus.co.kr/mbrs/lgn/logoutMain.do">로그아웃</a></li>
+							<li><a
+								href="https://www.kobus.co.kr/mbrs/mbrspage/myPageMain.do">마이페이지</a></li>
+							<li><a
+								href="https://www.kobus.co.kr/mbrs/trprinqr/pymPtInqr.do">결제내역조회</a></li>
+							<li><a href="https://www.kobus.co.kr/etc/sitemap/SiteMap.do">사이트맵</a></li>
+						</ul>
+						<div class="dropdown-wrap lang-select">
+							<a aria-expanded="false" class="btn-dropdown"
+								href="javascript:void(0)" title="언어선택"> <span class="text">한국어</span><i
+								class="ico ico-arrow-down"></i></a>
+							<ul class="dropdown-list" style="display: none;">
+								<li class="selected"><a data-lang="KO"
+									href="javascript:void(0)" title="선택됨">한국어</a></li>
+								<li><a data-lang="EN" href="javascript:void(0)">English</a></li>
+								<li><a data-lang="CN" href="javascript:void(0)">中文</a></li>
+								<li><a data-lang="JP" href="javascript:void(0)">日本語</a></li>
+							</ul>
+						</div>
+					</nav>
+				</div>
+			</div>
+			<nav class="gnb-menu-area">
+				<div class="container">
+					<div class="gnb-area">
+						<ul id="new-kor-gnb">
+							<li><a href="javascript:void(0)">고속버스예매</a>
+								<ul>
+									<li><a href="https://www.kobus.co.kr/mrs/rotinf.do">고속버스
+											예매</a></li>
+									<li><a href="https://www.kobus.co.kr/mrs/mrscfm.do">예매확인/취소/변경</a>
+									</li>
+									<li><a href="https://www.kobus.co.kr/mrs/mrsrecplist.do">영수증발행</a></li>
+								</ul></li>
+							<li><a href="javascript:void(0)">운행정보</a>
+								<ul>
+									<li><a
+										href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do">시간표
+											조회</a></li>
+									<li><a
+										href="https://www.kobus.co.kr/oprninf/arscgd/oprnArscGd.do">도착시간
+											안내</a></li>
+								</ul></li>
+							<li><a href="javascript:void(0)">프리패스/정기권</a>
+								<ul>
+									<li><a
+										href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스
+											여행권</a></li>
+									<li><a
+										href="https://www.kobus.co.kr/adtnprdnew/pass/passPrchGd.do">정기권</a></li>
+									<li><a
+										href="https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do">상품
+											구매내역</a></li>
+								</ul></li>
+							<li><a href="javascript:void(0)">이용안내</a>
+								<ul>
+									<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">예매
+											안내</a></li>
+									<li><a
+										href="https://www.kobus.co.kr/ugd/mrsgd/MrdgdPrch.do">결제수단
+											안내</a></li>
+									<li><a href="https://www.kobus.co.kr/ugd/rygd/Rygd.do">승차권
+											환불안내</a></li>
+									<li><a href="https://www.kobus.co.kr/ugd/mlggd/Mlggd.do">프리미엄
+											마일리지</a></li>
+									<li><a href="https://www.kobus.co.kr/ugd/trtrgd/Trtrgd.do">휴게소
+											환승안내</a></li>
+									<li><a href="https://www.kobus.co.kr/ugd/trmlgd/Trmlgd.do">고속버스
+											터미널</a></li>
+									<li><a href="https://www.kobus.co.kr/ugd/cacmgd/Cacmgd.do">고속버스
+											운송회사</a></li>
+								</ul></li>
+							<li><a href="javascript:void(0)">고객지원</a>
+								<ul>
+									<li><a
+										href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">공지사항</a></li>
+									<li><a
+										href="https://www.kobus.co.kr/cscn/qna/readQnaList.do">자주찾는
+											질문</a></li>
+									<li><a
+										href="https://www.kobus.co.kr/cscn/lossClnc/readLossClncList.do">유실물센터
+											안내</a></li>
+								</ul></li>
+						</ul>
+					</div>
+					<div class="links">
+						<!-- <a href="https://www.tmoney.co.kr" class="btn btn-tmoney" title="새창" target="_blank">
+					<img src="/images/kor/layout/ico-tmoney-app.png" alt="" />고속버스 티머니
+					<i class="ico ico-arrow-new-window"></i>
+				</a> -->
+						<a class="btn btn-job"
+							href="https://www.kobus.co.kr/cscn/jobmttr/readJobList.do"
+							target="_blank" title="새창"> <img alt=""
+							src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/ico-job-offer.png" />승무사원
+							모집 <i class="ico ico-arrow-new-window"></i>
+						</a>
+					</div>
+					<div class="bg-layer">
+						<a class="gnb-baaner"
+							href="https://safeconnect.co.kr/sfconn/login/csc_pc?et=psn249R01&amp;ptrSvcSn=psn249"
+							title="새창"> <iframe class="ad-frame"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/_ad-tubebox-002GNB.html"
+								title="프레임 (전화번호안심 로그인)"></iframe>
+						</a>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<!-- breadcrumb -->
+		<!-- 브레드크럼 -->
+		<nav id="new-kor-breadcrumb">
+			<div class="container">
+				<ol class="breadcrumb-list">
+					<li><i class="ico ico-home"></i><span class="sr-only">홈</span></li>
+					<li>
+						<div class="dropdown-wrap breadcrumb-select">
+							<a aria-expanded="false" class="btn-dropdown"
+								href="javascript:void(0)" title="대메뉴 선택"> <span class="text">프리패스/정기권</span><i
+								class="ico ico-dropdown-arrow"></i></a>
+							<ul class="dropdown-list" style="display: none;">
+								<li><a href="https://www.kobus.co.kr/mrs/rotinf.do">고속버스예매</a></li>
+								<li><a
+									href="https://www.kobus.co.kr/oprninf/alcninqr/oprnAlcnPage.do">운행정보</a></li>
+								<li class="selected"><a href="javascript:void(0)"
+									title="선택됨">프리패스/정기권</a></li>
+								<li><a href="https://www.kobus.co.kr/ugd/mrsgd/Mrsgd.do">이용안내</a></li>
+								<li><a
+									href="https://www.kobus.co.kr/cscn/ntcmttr/readNtcList.do">고객지원</a></li>
+								<li><a
+									href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do">전국고속버스운송사업조합</a></li>
+								<li><a
+									href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do">터미널사업자협회</a></li>
+							</ul>
+						</div>
+					</li>
+					<li>
+						<div class="dropdown-wrap breadcrumb-select">
+							<a aria-expanded="false" class="btn-dropdown"
+								href="javascript:void(0)" title="하위메뉴 선택"> <span
+								class="text">상품 구매내역</span><i class="ico ico-dropdown-arrow"></i></a>
+							<ul class="dropdown-list" style="display: none;">
+								<li><a
+									href="https://www.kobus.co.kr/adtnprdnew/frps/frpsPrchGd.do">프리패스
+										여행권</a></li>
+								<li><a
+									href="https://www.kobus.co.kr/adtnprdnew/pass/passPrchGd.do">정기권</a></li>
+								<li class="selected"><a href="javascript:void(0)"
+									title="선택됨">상품 구매내역</a></li>
+							</ul>
+						</div>
+					</li>
+				</ol>
+			</div>
+		</nav>
+		<article id="new-kor-content">
+
+
+
+			<div class="title_wrap in_process freepassT" style="display: none;">
+				<a class="back"
+					href="https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do#">back</a>
+				<a class="mo_toggle"
+					href="https://www.kobus.co.kr/adtnprdnew/prchpt/prdPrchPt.do#">메뉴</a>
+				<h2>상품 구매내역</h2>
+			</div>
+			<!-- 타이틀 -->
+			<div class="content-header"
+				data-page-title="상품 구매내역 | 프리패스/정기권 | 고속버스통합예매">
+				<div class="container">
+					<div class="title-area">
+						<h2 class="page-title">상품 구매내역</h2>
+					</div>
+				</div>
+			</div>
+			<div class="content-body">
+				<div class="container">
+					<div class="tab_wrap tab_type1">
+						<ul class="tabs col3 blue">
+							<li class="active"><a href="javascript:void(0)" title="선택됨">사용가능</a></li>
+							<li><a href="javascript:void(0)">사용완료</a></li>
+							<li><a href="javascript:void(0)">취소완료</a></li>
+						</ul>
+						<div class="tab_conts" style="display: block;">
+							<!-- 사용가능 -->
+							<h3 class="sr-only">사용가능</h3>
+							<!-- 구매내역이 없을 때 -->
+							<div class="noti_wrap">
+								<p class="noti noData">사용가능 내역이 존재하지 않습니다.</p>
+							</div>
+							<!-- 구매내역이 있을 때 -->
+							<ul class="desc_list marT30">
+								<li>현재일 기준 3개월 전까지의 구매내역이 조회됩니다.</li>
+								<li>정기권의 경우, 취소 가능일 이전까지 취소가 가능하며 지난 날짜와 환불 수수료를 제외하고
+									지급됩니다.</li>
+								<li>프리패스의 경우, 사용 시작 1일 후까지 취소 가능하나 승차권 발권 상태인 경우 취소 불가능합니다.</li>
+							</ul>
+						</div>
+						<div class="tab_conts" style="display: none;">
+							<!-- 사용완료 -->
+							<h3 class="sr-only">사용완료</h3>
+							<!-- 사용내역이 없을 때 -->
+							<div class="noti_wrap">
+								<p class="noti noData">사용완료 내역이 존재하지 않습니다.</p>
+							</div>
+							<!-- 사용내역이 있을 때 -->
+						</div>
+						<div class="tab_conts" style="display: none;">
+							<!-- 환불 -->
+							<h3 class="sr-only">취소완료</h3>
+							<!-- 취소내역이 없을 때 -->
+							<div class="noti_wrap">
+								<p class="noti noData">취소 내역이 존재하지 않습니다.</p>
+							</div>
+							<!-- 취소내역이 있을 때 -->
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 정기권 취소 레이어 팝업 -->
+			<!-- 고속버스 정기권 취소하기 팝업 - 취소내역확인 -->
+			<!-- 프리패스 취소 레이어 팝업 -->
+			<!-- 고속버스 프리패스 취소하기 팝업 - 취소내역확인 -->
+			<!-- 정기권 취소결과 레이어 팝업 -->
+			<!-- 고속버스 정기권 취소하기 팝업 - 취소완료 -->
+			<!-- 프리패스 취소결과 레이어 팝업 -->
+			<!-- 고속버스 정기권 취소하기 팝업 - 취소완료 -->
+			<!-- 정기권 사용내역 레이어 팝업 -->
+			<!-- 고속버스 정기권 사용내역 팝업 -->
+			<!-- 프리패스 사용내역 레이어 팝업 -->
+			<!-- 고속버스 프리패스 사용내역 팝업 -->
+		</article>
+		<!-- footer -->
+		<!-- 푸터 -->
+		<footer id="new-kor-footer">
+			<div class="container">
+				<div class="footer-top-cont">
+					<ul class="express-bus-company-list">
+						<li><a href="http://www.kumhobuslines.co.kr/" target="_blank"
+							title="새창"><img alt="금호고속"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-kumho-express.png" /></a>
+						</li>
+						<li><a href="http://www.dongbubus.com/" target="_blank"
+							title="새창"><img alt="동부고속"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-dongbu-express.png" /></a>
+						</li>
+						<li><a href="http://www.songnisanbuslines.co.kr/"
+							target="_blank" title="새창"><img alt="속리산고속"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-sokrisan-express.png" /></a>
+						</li>
+						<li><a href="http://www.dyexpress.co.kr/" target="_blank"
+							title="새창"><img alt="동양고속"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-dongyang-express.png" /></a>
+						</li>
+						<li><a href="http://www.samhwaexpress.co.kr/" target="_blank"
+							title="새창"><img alt="삼화고속"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-samhwa-express.png" /></a>
+						</li>
+						<li><a href="http://www.jabus.co.kr/" target="_blank"
+							title="새창"><img alt="중앙고속"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-joongang-express.png" /></a>
+						</li>
+						<li><a href="http://www.chunilexpress.co.kr/" target="_blank"
+							title="새창"><img alt="천일고속"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-chunil-express.png" /></a>
+						</li>
+						<li><a href="http://www.hanilexpress.co.kr/" target="_blank"
+							title="새창"><img alt="한일고속"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-hanil-express.png" /></a>
+						</li>
+					</ul>
+					<!-- dropdown-top 클래스 추가 시, 드롭다운 목록 위로 노출 -->
+					<div class="dropdown-wrap dropdown-top related-sites-select">
+						<a aria-expanded="false" class="btn-dropdown"
+							href="javascript:void(0)" title="관련사이트 이동"><span class="text">관련사이트</span><i
+							class="ico ico-arrow-down"></i></a>
+						<ul class="dropdown-list" style="display: none;">
+							<li class="selected"><a
+								href="https://www.kobus.co.kr/wchr/main.do" target="_blank"
+								title="새창">장애인 휠체어 사이트</a></li>
+							<li><a href="https://www.tago.go.kr/" target="_blank"
+								title="새창">국가대중교통정보센터</a></li>
+							<li><a href="https://www.intis.or.kr/" target="_blank"
+								title="새창">인천장애인콜택시</a></li>
+							<li><a href="http://www.shinsegaecentralcity.com/"
+								target="_blank" title="새창">센트럴시티터미널</a></li>
+							<li><a href="https://txbus.t-money.co.kr/" target="_blank"
+								title="새창">시외버스 통합예매시스템</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="footer-bottom-cont">
+					<address class="address">
+						<ul class="policy-list">
+							<li><a href="https://www.kobus.co.kr/etc/svcstpl/SvcStpl.do">서비스
+									이용약관</a></li>
+							<li><a class="text-bold"
+								href="https://www.kobus.co.kr/etc/indlstpl/IndlStpl.do">개인정보
+									처리방침</a></li>
+							<li><a href="https://www.kobus.co.kr/etc/busstpl/BusStpl.do">고속버스
+									운송약관</a></li>
+							<li><a href="http://www.tmoney.co.kr/" target="_blank"
+								title="새창">티머니</a></li>
+						</ul>
+						<ul class="contact">
+							<li>고객센터 : 1644-9030</li>
+							<li>서울특별시 서초구 신반포로 194</li>
+							<li>대표자 : 김용성</li>
+							<li>통신판매업신고 : 2009-서울서초 0587호</li>
+						</ul>
+						<p class="copyright">COPYRIGHT© 2016. WWW.KOBUS.CO.KR . ALL
+							RIGHT RESERVED</p>
+					</address>
+					<ul class="greeting-btn-list">
+						<li><a
+							href="http://www.wa.or.kr/board/list.asp?search=total&amp;SearchString=%B0%ED%BC%D3%B9%F6%BD%BA&amp;BoardID=0006"
+							target="_blank" title="새창"><img
+								alt="(사)한국장애인단체총연합회 한국웹접근성인증평가원 웹 접근성 우수사이트 인증마크(WA인증마크)"
+								height="40"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-accessibility2.png" /></a>
+						</li>
+						<li><a href="https://www.kobus.co.kr/ugd/bustrop/Bustrop.do"
+							title="이사장 인사말 바로가기"><img alt="KOBUS 전국고속버스운송사업조합"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-kobus.png" /></a></li>
+						<li><a
+							href="https://www.kobus.co.kr/ugd/trmlbizr/Trmlbizr.do"
+							title="협회장 인사말 바로가기"><img alt="전국여객자동차터미널사업자협회"
+								src="/koBus/상품 구매내역 _ 프리패스_정기권 _ 고속버스통합예매_files/logo-npvtba-express.png" /></a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<div
+		style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+		<div
+			style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+	</div>
+	<div class="remodal-overlay remodal-is-closed" style="display: none;"></div>
+	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+		<div
+			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
+			data-remodal-id="popRefundSeasonTicket_step1" id="popPassRefund"
+			role="dialog" tabindex="-1">
+			<div class="title type_blue">
+				<h2>취소하기</h2>
+			</div>
+			<form id="adtnCanTranFrm" name="adtnCanTranFrm">
+				<input id="adtnCpnNoH" name="adtnCpnNoH" type="hidden" value="" /> <input
+					id="adtnPrdKndCdH" name="adtnPrdKndCdH" type="hidden" value="" />
+			</form>
+			<div class="cont">
+				<div class="cont_inner">
+					<ol class="process">
+						<li aria-current="true" class="active">취소내역확인</li>
+						<li>취소완료</li>
+					</ol>
+					<!-- 취소내역 -->
+					<div class="box_detail_info">
+						<div class="routeHead">
+							<p class="date txt_black">취소내역</p>
+							<p class="ticket_number">
+								<span>정기권</span> 일련번호<strong class="num" id="adtnCpnNoP"></strong>
+							</p>
+						</div>
+						<div class="routeBody page_payment add_com">
+							<div class="routeArea route_wrap">
+								<div class="inner">
+									<!-- <span class="roundBox departure" id="adtnDeprNmP"></span>
+							<span class="roundBox arrive" id="adtnArvlNmP"></span> -->
+									<dl class="roundBox departure kor">
+										<dt>출발</dt>
+										<dd id="adtnDeprNmP">
+											<!-- 출발지 -->
+										</dd>
+									</dl>
+									<dl class="roundBox arrive kor">
+										<dt>도착</dt>
+										<dd id="adtnArvlNmP">
+											<!-- 도착지 -->
+										</dd>
+									</dl>
+								</div>
+							</div>
+							<div class="routeArea route_wrap mob_route">
+								<div class="tbl_type2">
+									<table class="tbl_info">
+										<caption>정기권 정보 표이며 이용권종, 버스이용등급, 사용기간, 이용가능일수, 사용일
+											정보 제공</caption>
+										<colgroup>
+											<col style="width: 140px;" />
+											<!-- 191118 수정 -->
+											<col style="width: *;" />
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">이용권종</th>
+												<td id="adtnPrdUseNtknNmP"></td>
+											</tr>
+											<tr>
+												<th scope="row">버스이용등급 <!-- 190319 추가 - 툴팁 -->
+													<div class="tooltip_wrap_inbl">
+														<a class="tip_click" href="javascript:void(0)"><span
+															class="sr-only">버스이용등급 안내</span></a>
+														<div class="tooltip" style="width: 310px; display: none;">
+															<p class="tit">버스이용등급 안내</p>
+															<ul class="desc_list">
+																<li>우등 : 우등고속, 심야우등(심우) 탑승 가능</li>
+																<li>고속 : 일반고속, 심야고속(심고) 탑승 가능</li>
+																<li>전체 : 우등, 고속 모두 탑승 가능</li>
+															</ul>
+															<a class="close" href="javascript:void(0)"><span
+																class="sr-only">닫기</span></a>
+														</div>
+													</div> <!-- //190319 추가 - 툴팁 -->
+												</th>
+												<td id="adtnPrdUseClsNmP"></td>
+											</tr>
+											<tr>
+												<th scope="row">사용기간</th>
+												<td><span id="exdtSttDtP"></span> ~ <span
+													id="exdtEndDtP"></span></td>
+											</tr>
+											<tr>
+												<th scope="row">이용가능일수</th>
+												<td><span id="adtnPrdUsePsbDnoP"></span>일</td>
+											</tr>
+											<tr>
+												<th scope="row">사용일</th>
+												<td id="wkdWkeNtknNmP"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- //취소내역 -->
+					<!-- 결제정보 -->
+					<div class="bgGray pdBox blue mob_route">
+						<div class="tbl_type3">
+							<table class="taR">
+								<caption>결제 및 취소 정보에 대한 표이며 결제금액, 사용금액, 취소위약금, 총 환불금액
+									정보 제공</caption>
+								<colgroup>
+									<col style="width: 65%;" />
+									<!-- 191118 수정 -->
+									<col style="width: *;" />
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">결제금액</th>
+										<td id="pubAmtP"></td>
+									</tr>
+									<tr>
+										<th scope="row">사용금액 : 1회 요금(<span id="onceFeeP"></span>원)
+											× 2회 × 유효기간경과일수(<span id="elpsDnoUP"></span>일)
+										</th>
+										<!-- 191118 수정 -->
+										<td id="acmtDdctAmtP"></td>
+									</tr>
+									<tr>
+										<th scope="row">취소위약금 : (결제금액-사용금액) × 일별환불율(<span
+											id="brdRyBrkpAmtRtP"></span>%) × 유효기간경과일수(<span
+											id="elpsDnoCP"></span>일)
+										</th>
+										<!-- 191118 수정 -->
+										<td id="brkpAmtCmmP"></td>
+									</tr>
+									<tr>
+										<th scope="row">총 환불금액</th>
+										<td><strong id="ryAmtP"></strong>원</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- //결제정보 -->
+					<!-- 취소수수료 -->
+					<div class="mob_pad marT30">
+						<h3 class="pop_h3 mob_h3">취소수수료</h3>
+						<div class="tbl_type1 row">
+							<table>
+								<caption>취소수수료 정보 제공 표</caption>
+								<colgroup>
+									<col style="width: 37%;" />
+									<col style="width: 8%" />
+									<col style="width: auto" />
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">시작 사용일 이전 취소 시</th>
+										<td colspan="3">사용기간 시작일 이전에만 취소 가능. (미 사용시)<br /> ※ 고속버스
+											정기권 금액 100% 환불.
+										</td>
+										<!-- 191025 수정 -->
+									</tr>
+									<tr>
+										<!-- 191025 수정 -->
+										<th rowspan="11" scope="row">사용 기간 중 취소 시</th>
+										<!-- 191101 수정 -->
+										<td colspan="3">
+											<ul class="desc_list">
+												<li>사용 시작일로부터 1일 왕복 금액 소멸.</li>
+												<!-- 191101 수정 -->
+											</ul>
+										</td>
+										<!-- //191025 수정 -->
+									</tr>
+									<tr>
+										<th rowspan="6" style="color: #333;">평일권</th>
+										<th rowspan="2" style="width: 8%; color: #333;">5일권</th>
+										<td>
+											<ul class="desc_list">
+												<li>사용 1일 ~ 3일(사용가능일 기준) 까지 취소 시 잔여 금액의 25% 취소 수수료 x 사용
+													기간 경과일 수 공제 후 환불.</li>
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<ul class="desc_list">
+												<li>사용 4일(사용가능일 기준) 부터는 환불 불가</li>
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<th rowspan="2" style="width: 8%; color: #333;">20일권</th>
+										<td>
+											<ul class="desc_list">
+												<li>사용 1일 ~ 9일(사용가능일 기준) 까지 취소 시 잔여 금액의 10% 취소 수수료 x 사용
+													기간 경과일 수 공제 후 환불.</li>
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<ul class="desc_list">
+												<li>사용 10일(사용가능일 기준) 부터는 환불 불가</li>
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<th rowspan="2" style="width: 8%; color: #333;">30일권</th>
+										<td>
+											<ul class="desc_list">
+												<li>사용 1일 ~ 19일(사용가능일 기준) 까지 취소 시 잔여 금액의 5% 취소 수수료 x 사용
+													기간 경과일 수 공제 후 환불.</li>
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<ul class="desc_list">
+												<li>사용 20일(사용가능일 기준) 부터는 환불 불가</li>
+											</ul>
+										</td>
+									</tr>
+									<!-- <tr>
+								<th rowspan="2">평일권</th>
+								<td>
+									<ul class="desc_list">
+										<li>사용 1일 ~ 9일 까지 취소 시 잔여 금액의 `10% 취소 수수료 x 사용 기간 경과일 수' 공제
+											후 환불.</li>
+										191101 수정
+									</ul>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<ul class="desc_list">
+										<li>사용 10일부터는 환불 불가</li>
+										191101 수정
+									</ul>
+								</td>
+							</tr> -->
+									<tr>
+										<th rowspan="4" style="color: #333;">전일권</th>
+										<th rowspan="2" style="color: #333;">5일권</th>
+										<td colspan="3">
+											<ul class="desc_list">
+												<li>사용 1일 ~ 3일까지 취소 시 잔여 금액의 25% 취소 수수료 X 사용 기간 경과 일수
+													공제 후 환불.</li>
+												<!-- 191101 수정 -->
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<ul class="desc_list">
+												<li>사용 4일(사용가능일 기준)부터는 환불 불가</li>
+												<!-- 191101 수정 -->
+											</ul>
+										</td>
+									</tr>
+									<tr>
+										<th rowspan="2" style="color: #333;">30일권</th>
+										<td colspan="3">
+											<ul class="desc_list">
+												<li>사용 1일 ~ 19일까지 취소 시 잔여 금액의 5% 취소 수수료 X 사용 기간 경과 일수
+													공제 후 환불.</li>
+												<!-- 191101 수정 -->
+											</ul>
+											<p class="desc_add type02">※ 예시) 서울~천안/우등+심우 사용등급 정기권 금액
+												304,200원 구매하고, 사용 기간 3일 경과 후 환불 시</p>
+											<ol>
+												<li>① 304,200원(정기권) – 30,420원(3일) = 273,780원</li>
+												<li>② 273,780원 X 5% X 3 = 41,067원 (취소 수수료 5%, 사용 기간 3일
+													경과)</li>
+												<li>③ 환불 금액 : 232,713원</li>
+											</ol>
+										</td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<ul class="desc_list">
+												<li>사용 20일(사용가능일 기준)부터는 환불 불가</li>
+												<!-- 191101 수정 -->
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- //취소수수료 -->
+					</div>
+					<!-- //취소수수료 -->
+					<!-- 20210318 프리패스 old -->
+					<div class="btns col1">
+						<button class="btnL btn_orange" data-remodal-action="confirm"
+							onclick="$('#popPassRefund').remodal().close();" type="button">닫기</button>
+						<button class="btnL btn_orange" data-remodal-action="confirm"
+							onclick="fnAdtnCanTran();" type="button">취소환불하기</button>
+					</div>
+				</div>
+			</div>
+			<button class="remodal-close" data-remodal-action="close"
+				type="button">
+				<span class="sr-only">닫기</span>
+			</button>
+		</div>
+	</div>
+	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+		<div
+			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
+			data-remodal-id="popRefundFreepass_step1" id="popFrpsRefund"
+			role="dialog" tabindex="-1">
+			<div class="title type_blue">
+				<h2>취소하기</h2>
+			</div>
+			<div class="cont">
+				<div class="cont_inner">
+					<ol class="process">
+						<li aria-current="true" class="active">취소내역확인</li>
+						<li>취소완료</li>
+					</ol>
+					<!-- 취소내역 -->
+					<div class="box_detail_info">
+						<div class="routeHead">
+							<p class="date txt_black">취소내역</p>
+							<p class="ticket_number">
+								프리패스 일련번호<strong class="num" id="adtnCpnNoF"></strong>
+							</p>
+						</div>
+						<div class="routeBody page_payment add_com">
+							<div class="routeArea">
+								<p class="freepass_name" id="adtnPrdUsePsbDnoF"></p>
+							</div>
+							<div class="routeArea route_wrap mob_route">
+								<div class="tbl_type2">
+									<table class="tbl_info">
+										<caption>프리패스 여행권 정보 표이며 이용권종, 버스이용등급, 사용일자, 승차권별 정보
+											제공</caption>
+										<colgroup>
+											<col style="width: 125px;" />
+											<col style="width: *;" />
+										</colgroup>
+										<tbody>
+											<tr>
+												<th scope="row">이용권종</th>
+												<td id="adtnPrdUseNtknNmF"></td>
+											</tr>
+											<tr>
+												<th scope="row">버스이용등급 <!-- 190319 추가 - 툴팁 -->
+													<div class="tooltip_wrap_inbl">
+														<a class="tip_click" href="javascript:void(0)"><span
+															class="sr-only">버스이용등급 안내</span></a>
+														<div class="tooltip" style="width: 310px; display: none;">
+															<p class="tit">버스이용등급 안내</p>
+															<ul class="desc_list">
+																<li>우등 : 우등고속, 심야우등(심우) 탑승 가능</li>
+																<li>고속 : 일반고속, 심야고속(심고) 탑승 가능</li>
+																<li>전체 : 우등, 고속 모두 탑승 가능</li>
+															</ul>
+															<a class="close" href="javascript:void(0)"><span
+																class="sr-only">닫기</span></a>
+														</div>
+													</div> <!-- //190319 추가 - 툴팁 -->
+												</th>
+												<td id="adtnPrdUseClsNmF"></td>
+											</tr>
+											<tr>
+												<th scope="row">사용일자</th>
+												<td><span class="useDate" id="fulTermF"></span></td>
+											</tr>
+											<tr>
+												<th scope="row">승차권별</th>
+												<td id="wkdWkeNtknNmF"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- //취소내역 -->
+					<!-- 결제정보 -->
+					<div class="bgGray pdBox blue mob_route">
+						<div class="tbl_type3">
+							<table class="taR">
+								<caption>결제 및 취소 정보에 대한 표이며 결제금액, 사용금액, 취소위약금, 총 취소금액
+									정보 제공</caption>
+								<colgroup>
+									<col style="width: 330px;" />
+									<col style="width: *;" />
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">결제금액</th>
+										<td id="pubAmtF"></td>
+									</tr>
+									<tr>
+										<th scope="row">사용금액</th>
+										<td id="acmtDdctAmtF"></td>
+									</tr>
+									<tr>
+										<th scope="row">취소위약금</th>
+										<td id="brkpAmtCmmF"></td>
+									</tr>
+									<tr>
+										<th scope="row">총 취소금액</th>
+										<td><strong id="ryAmtF"></strong>원</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- //결제정보 -->
+					<!-- 취소수수료 -->
+					<div class="mob_pad marT30">
+						<h3 class="pop_h3 mob_h3">취소수수료</h3>
+						<div class="tbl_type1 row">
+							<table>
+								<caption>취소수수료 정보 제공 표</caption>
+								<colgroup>
+									<col style="width: 50%;" />
+									<col style="width: auto" />
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">사용 시작일 1일 후 취소 시</th>
+										<td>사용 시작일 1일 후 취소가능<br /> 승차권 금액 100% 환불
+										</td>
+									</tr>
+									<tr>
+										<th scope="row">승차권 발권 상태인 경우</th>
+										<td>취소/환불 불가</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- //취소수수료 -->
+					</div>
+					<!-- //취소수수료 -->
+					<div class="btns col1">
+						<button class="btnL btn_orange" data-remodal-action="confirm"
+							onclick="$('#popFrpsRefund').remodal().close();" type="button">닫기</button>
+						<button class="btnL btn_orange" data-remodal-action="confirm"
+							onclick="fnAdtnCanTran();" type="button">취소환불하기</button>
+					</div>
+				</div>
+			</div>
+			<button class="remodal-close" data-remodal-action="close"
+				type="button">
+				<span class="sr-only">닫기</span>
+			</button>
+		</div>
+	</div>
+	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+		<div
+			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
+			data-remodal-id="popRefundSeasonTicket_step2" id="popPassRefundRst"
+			role="dialog" tabindex="-1">
+			<div class="title type_blue">
+				<h2>취소하기</h2>
+			</div>
+			<div class="cont">
+				<div class="cont_inner">
+					<ol class="process">
+						<li>취소내역확인</li>
+						<li aria-current="true" class="active">취소완료</li>
+					</ol>
+					<!-- 결제정보 -->
+					<div class="bgGray pdBox blue mob_route">
+						<div class="tbl_type3">
+							<table class="taR">
+								<caption>결제 취소 정보에 대한 표이며 결제금액, 사용금액, 취소위약금, 총 환불금액 정보
+									제공</caption>
+								<colgroup>
+									<col style="width: 115px;" />
+									<col style="width: *;" />
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">결제금액</th>
+										<td id="pubAmtPr"></td>
+									</tr>
+									<tr>
+										<th scope="row">사용금액</th>
+										<td id="acmtDdctAmtPr"></td>
+									</tr>
+									<tr>
+										<th scope="row">취소위약금</th>
+										<td id="brkpAmtCmmPr"></td>
+									</tr>
+									<tr>
+										<th scope="row">총 환불금액</th>
+										<td><strong id="ryAmtPr"></strong>원</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- //결제정보 -->
+					<div class="btns col1">
+						<button class="btnL btn_orange" onclick="fnCanRstCls();"
+							type="button">닫기</button>
+					</div>
+				</div>
+			</div>
+			<button class="remodal-close" data-remodal-action="close"
+				type="button">
+				<span class="sr-only">닫기</span>
+			</button>
+		</div>
+	</div>
+	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+		<div
+			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
+			data-remodal-id="popRefundSeasonTicket_step2" id="popFrpsRefundRst"
+			role="dialog" tabindex="-1">
+			<div class="title type_blue">
+				<h2>취소하기</h2>
+			</div>
+			<div class="cont">
+				<div class="cont_inner">
+					<ol class="process">
+						<li>취소내역확인</li>
+						<li aria-current="true" class="active">취소완료</li>
+					</ol>
+					<!-- 결제정보 -->
+					<div class="bgGray pdBox blue mob_route">
+						<div class="tbl_type3">
+							<table class="taR">
+								<caption>결제 취소 정보에 대한 표이며 결제금액, 사용금액, 취소위약금, 총 환불금액 정보
+									제공</caption>
+								<colgroup>
+									<col style="width: 115px;" />
+									<col style="width: *;" />
+								</colgroup>
+								<tbody>
+									<tr>
+										<th scope="row">결제금액</th>
+										<td id="pubAmtFr"></td>
+									</tr>
+									<tr>
+										<th scope="row">사용금액</th>
+										<td id="acmtDdctAmtFr"></td>
+									</tr>
+									<tr>
+										<th scope="row">취소위약금</th>
+										<td id="brkpAmtCmmFr"></td>
+									</tr>
+									<tr>
+										<th scope="row">총 환불금액</th>
+										<td><strong id="ryAmtFr"></strong>원</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- //결제정보 -->
+					<!-- 20210318 프리패스 new -->
+					<div class="btns col1">
+						<button class="btnL btn_orange" onclick="fnCanRstCls();"
+							type="button">닫기</button>
+					</div>
+				</div>
+			</div>
+			<button class="remodal-close" data-remodal-action="close"
+				type="button">
+				<span class="sr-only">닫기</span>
+			</button>
+		</div>
+	</div>
+	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+		<div
+			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
+			data-remodal-id="popTicketHistorySeasonTicket" id="popPassUseList"
+			role="dialog" tabindex="-1">
+			<div class="title type_blue">
+				<h2>고속버스 정기권 사용내역</h2>
+			</div>
+			<div class="scroll-wrapper cont scrollbar-inner"
+				style="position: relative;">
+				<div class="cont scrollbar-inner scroll-content"
+					style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 0px;">
+					<div class="cont_inner">
+						<!-- 환불내역 -->
+						<div class="box_detail_info">
+							<div class="routeHead">
+								<p class="date txt_black">사용내역</p>
+								<!-- 181218 수정 -->
+								<p class="ticket_number">
+									정기권 일련번호<strong class="num" id="adtnCpnNoPu"></strong>
+								</p>
+							</div>
+							<div class="routeBody page_payment add_com">
+								<div class="routeArea route_wrap">
+									<div class="inner">
+										<!-- <span class="roundBox departure" id="adtnDeprNmPu"></span>
+							<span class="roundBox arrive" id="adtnArvlNmPu"></span> -->
+										<dl class="roundBox departure kor">
+											<dt>출발</dt>
+											<dd id="adtnDeprNmPu">
+												<!-- 출발지 -->
+											</dd>
+										</dl>
+										<dl class="roundBox arrive kor">
+											<dt>도착</dt>
+											<dd id="adtnArvlNmPu">
+												<!-- 도착지 -->
+											</dd>
+										</dl>
+									</div>
+								</div>
+								<div class="routeArea route_wrap mob_route">
+									<div class="tbl_type2">
+										<table class="tbl_info">
+											<caption>정기권 정보 표이며 이용권종, 버스이용등급, 사용기간, 이용가능일수/사용일,
+												구매일자 정보 제공</caption>
+											<colgroup>
+												<col style="width: 140px;" />
+												<!-- 191118 수정 -->
+												<col style="width: *;" />
+											</colgroup>
+											<tbody>
+												<tr>
+													<th scope="row">이용권종</th>
+													<td id="adtnPrdUseNtknNmPu"></td>
+												</tr>
+												<tr>
+													<th scope="row">버스이용등급 <!-- 190319 추가 - 툴팁 -->
+														<div class="tooltip_wrap_inbl">
+															<a class="tip_click" href="javascript:void(0)"><span
+																class="sr-only">버스이용등급 안내</span></a>
+															<div class="tooltip" style="width: 310px; display: none;">
+																<p class="tit">버스이용등급 안내</p>
+																<ul class="desc_list">
+																	<li>우등 : 우등고속, 심야우등(심우) 탑승 가능</li>
+																	<li>고속 : 일반고속, 심야고속(심고) 탑승 가능</li>
+																	<li>전체 : 우등, 고속 모두 탑승 가능</li>
+																</ul>
+																<a class="close" href="javascript:void(0)"><span
+																	class="sr-only">닫기</span></a>
+															</div>
+														</div> <!-- //190319 추가 - 툴팁 -->
+													</th>
+													<td id="adtnPrdUseClsNmPu"></td>
+												</tr>
+												<tr>
+													<th scope="row">사용기간</th>
+													<td><span id="exdtSttDtPu"></span> ~ <span
+														id="exdtEndDtPu"></span></td>
+												</tr>
+												<tr>
+													<th scope="row">이용가능일수/사용일</th>
+													<td id="adtnPrdUsePsbDnoPu"></td>
+												</tr>
+												<tr>
+													<th scope="row">구매일자</th>
+													<td id="pubDtPu"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- //환불내역 -->
+						<!-- 사용내역 -->
+						<div class="marT30">
+							<h3 class="pop_h3 mob_h3">사용내역</h3>
+							<!-- 190116 추가 : 사용내역 없을 때 -->
+							<p class="noData2 bor" id="noDataP">사용 내역이 없습니다.</p>
+							<!-- 사용내역 있을 때 -->
+							<div class="tbl_type1 al_c va_m" id="useListDivP">
+								<table>
+									<!-- 190116 수정 -->
+									<colgroup>
+										<col style="width: 13%;" />
+										<col style="width: 13%;" />
+										<col style="width: 13%;" />
+										<col style="width: 14%;" />
+										<col style="width: 14%;" />
+										<col style="width: 15%;" />
+										<col style="width: auto" />
+										<col style="width: 12%;" />
+									</colgroup>
+									<!-- //190116 수정 -->
+									<caption>사용내역에 대한 표이며 발권 일시, 출발 일시, 예매 구분, 출발지, 도착지,
+										고속사, 좌석, 상태 정보 제공</caption>
+									<thead>
+										<tr>
+											<th scope="col">발권 일시</th>
+											<!-- 190116 추가 -->
+											<th scope="col">출발 일시</th>
+											<th scope="col">예매 구분</th>
+											<th scope="col">출발지</th>
+											<th scope="col">도착지</th>
+											<th scope="col">고속사</th>
+											<th scope="col">좌석</th>    
+											<th scope="col">상태</th>
+											<!-- 190116 추가 -->
+										</tr>
+									</thead>
+									<tbody id="useListP">
+									</tbody>
+								</table>
+							</div>
+							<!-- //사용내역 -->
+						</div>
+					</div>
+				</div>
+				<div class="scroll-element scroll-x">
+					<div class="scroll-element_outer">
+						<div class="scroll-element_size"></div>
+						<div class="scroll-element_track"></div>
+						<div class="scroll-bar"></div>
+					</div>
+				</div>
+				<div class="scroll-element scroll-y">
+					<div class="scroll-element_outer">
+						<div class="scroll-element_size"></div>
+						<div class="scroll-element_track"></div>
+						<div class="scroll-bar"></div>
+					</div>
+				</div>
+			</div>
+			<button class="remodal-close" data-remodal-action="close"
+				type="button">
+				<span class="sr-only">닫기</span>
+			</button>
+		</div>
+	</div>
+	<div class="remodal-wrapper remodal-is-closed" style="display: none;">
+		<div
+			class="remodal pop_pass_history remodal-is-initialized remodal-is-closed"
+			data-remodal-id="popTicketHistoryFreepass" id="popFrpsUseList"
+			role="dialog" tabindex="-1">
+			<div class="title type_blue">
+				<h2>고속버스 프리패스 사용내역</h2>
+			</div>
+			<div class="scroll-wrapper cont scrollbar-inner"
+				style="position: relative;">
+				<div class="cont scrollbar-inner scroll-content"
+					style="height: auto; margin-bottom: 0px; margin-right: 0px; max-height: 0px;">
+					<div class="cont_inner">
+						<!-- 환불내역 -->
+						<div class="box_detail_info">
+							<div class="routeHead">
+								<p class="date txt_black">사용내역</p>
+								<!-- 181218 수정 -->
+								<p class="ticket_number">
+									프리패스 일련번호<strong class="num" id="adtnCpnNoFu"></strong>
+								</p>
+							</div>
+							<div class="routeBody page_payment add_com">
+								<!-- 181218 수정 -->
+								<div class="routeArea">
+									<p class="freepass_name" id="adtnPrdUsePsbDnoFu"></p>
+								</div>
+								<!-- //181218 수정 -->
+								<div class="routeArea route_wrap mob_route">
+									<div class="tbl_type2">
+										<table class="tbl_info">
+											<caption>프리패스 여행권 구매 정보 표이며 이용권종, 버스이용등급, 사용일자,
+												구매일자 정보 제공</caption>
+											<colgroup>
+												<col style="width: 125px;" />
+												<col style="width: *;" />
+											</colgroup>
+											<tbody>
+												<tr>
+													<th scope="row">이용권종</th>
+													<td id="adtnPrdUseNtknNmFu"></td>
+												</tr>
+												<tr>
+													<th scope="row">버스이용등급 <!-- 190319 추가 - 툴팁 -->
+														<div class="tooltip_wrap_inbl">
+															<a class="tip_click" href="javascript:void(0)"><span
+																class="sr-only">버스이용등급 안내</span></a>
+															<div class="tooltip" style="width: 310px; display: none;">
+																<p class="tit">버스이용등급 안내</p>
+																<ul class="desc_list">
+																	<li>우등 : 우등고속, 심야우등(심우) 탑승 가능</li>
+																	<li>고속 : 일반고속, 심야고속(심고) 탑승 가능</li>
+																	<li>전체 : 우등, 고속 모두 탑승 가능</li>
+																</ul>
+																<a class="close" href="javascript:void(0)"><span
+																	class="sr-only">닫기</span></a>
+															</div>
+														</div> <!-- //190319 추가 - 툴팁 -->
+													</th>
+													<td id="adtnPrdUseClsNmFu"></td>
+												</tr>
+												<tr>
+													<th scope="row">사용일자</th>
+													<td><span class="useDate" id="fulTermFu"></span></td>
+												</tr>
+												<tr>
+													<th scope="row">구매일자</th>
+													<td id="pubDtFu"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- //환불내역 -->
+						<!-- 사용내역 -->
+						<div class="marT30">
+							<h3 class="pop_h3 mob_h3">사용내역</h3>
+							<!-- 190116 추가 : 사용내역 없을 때 -->
+							<p class="noData2 bor" id="noDataF">사용 내역이 없습니다.</p>
+							<!-- 사용내역 있을 때 -->
+							<div class="tbl_type1 al_c va_m" id="useListDivF">
+								<table>
+									<colgroup>
+										<col style="width: 13%;" />
+										<col style="width: 13%;" />
+										<col style="width: 13%;" />
+										<col style="width: 14%;" />
+										<col style="width: 14%;" />
+										<col style="width: 15%;" />
+										<col style="width: auto" />
+										<col style="width: 12%;" />
+									</colgroup>
+									<caption>사용내역에 대한 표이며 발권 일시, 출발 일시, 예매 구분, 출발지, 도착지,
+										고속사, 좌석, 상태 정보 제공</caption>
+									<thead>
+										<tr>
+											<th scope="col">발권 일시</th>
+											<!-- 190116 추가 -->
+											<th scope="col">출발 일시</th>
+											<th scope="col">예매 구분</th>
+											<th scope="col">출발지</th>
+											<th scope="col">도착지</th>
+											<th scope="col">고속사</th>
+											<th scope="col">좌석</th>
+											<th scope="col">상태</th>
+											<!-- 190116 추가 -->
+										</tr>
+									</thead>
+									<tbody id="useListF">
+									</tbody>
+								</table>
+							</div>
+							<!-- //사용내역 -->
+						</div>
+					</div>
+				</div>
+				<div class="scroll-element scroll-x">
+					<div class="scroll-element_outer">
+						<div class="scroll-element_size"></div>   
+						<div class="scroll-element_track"></div>
+						<div class="scroll-bar"></div>
+					</div>
+				</div>
+				<div class="scroll-element scroll-y">
+					<div class="scroll-element_outer">
+						<div class="scroll-element_size"></div>
+						<div class="scroll-element_track"></div>
+						<div class="scroll-bar"></div>
+					</div>
+				</div>
+			</div>
+			<button class="remodal-close" data-remodal-action="close"
+				type="button">
+				<span class="sr-only">닫기</span>
+			</button>
+		</div>
+	</div>
+</body>
+</html>

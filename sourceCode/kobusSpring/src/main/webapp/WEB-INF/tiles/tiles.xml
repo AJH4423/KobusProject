@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC 
+	"-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" 
+	"http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+	
+<tiles-definitions>
+  
+    <definition name="kobus.*/*"  template="/WEB-INF/views/inc/layout.jsp">
+        <put-attribute name="header"  value="/WEB-INF/views/inc/header.jsp" />
+        <put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" /> 
+        <put-attribute name="footer"  value="/WEB-INF/views/inc/footer.jsp" />
+        <put-attribute name="script"  value="/WEB-INF/views/inc/script.jsp" />
+        
+        <put-attribute name="pageScript" value="/WEB-INF/views/{1}/personalScript.jsp" />
+        
+        <put-attribute name="title"  value="SiSt5 Spring Tiles" />
+    </definition>
+    
+    <definition name="admin.*/*"  template="/WEB-INF/views/{1}/inc/layout.jsp">
+        <put-attribute name="header"  value="/WEB-INF/views/{1}/inc/header.jsp" />
+        <put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp" /> 
+        <put-attribute name="footer"  value="/WEB-INF/views/{1}/inc/footer.jsp" />
+        <put-attribute name="script"  value="/WEB-INF/views/{1}/inc/script.jsp" />
+        
+        <put-attribute name="pageScript" value="/WEB-INF/views/{1}/personalScript.jsp" />
+        
+        <put-attribute name="title"  value="SiSt5 Spring Tiles" />
+    </definition>
+    
+    <!-- [1] 게시판 용 Tiles 정의 -->
+	<definition name="board.*" template="/WEB-INF/views/inc/layout.jsp">
+	    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp"/>
+	    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp"/>
+	    <put-attribute name="content" value="/WEB-INF/views/board/{1}.jsp"/>
+	    <put-attribute name="script" value="/WEB-INF/views/inc/script.jsp"/> <!-- 이거 꼭 추가 -->
+	    <put-attribute name="pageScript" value="/WEB-INF/views/inc/script.jsp"/>
+	    <put-attribute name="title" value="게시판"/>
+	</definition>
+	
+	<!-- FAQ Tiles  -->
+	<definition name="faq.*" template="/WEB-INF/views/inc/layout.jsp">
+	    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp"/>
+	    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp"/>
+	    <put-attribute name="content" value="/WEB-INF/views/board/{1}.jsp"/>
+	    <put-attribute name="script" value="/WEB-INF/views/inc/script.jsp"/>
+	    <put-attribute name="pageScript" value="/WEB-INF/views/inc/script.jsp"/>
+	</definition>
+
+	<!-- losscenter Tiles -->
+	<definition name="losscenter.*" template="/WEB-INF/views/inc/layout.jsp">
+	    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp"/>
+	    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp"/>
+	    <put-attribute name="content" value="/WEB-INF/views/losscenter/{1}.jsp"/>
+	    <put-attribute name="script" value="/WEB-INF/views/inc/script.jsp"/>
+	    <put-attribute name="pageScript" value="/WEB-INF/views/inc/script.jsp"/>
+	</definition>
+	
+	
+	
+    <!-- 
+    <definition name="kobus.payment/freepass" extends="kobus.*/*">
+    <put-attribute name="pageScript" value="/WEB-INF/views/payment/paymentScript.jsp" />
+	</definition>
+	 -->
+
+
+</tiles-definitions>
+
+
+
+

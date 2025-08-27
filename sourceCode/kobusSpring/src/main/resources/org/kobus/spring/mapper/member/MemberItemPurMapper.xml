@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="org.kobus.spring.mapper.member.MemberItemPurMapper">
+  
+  	<select id="itemPopPurList" resultType="org.kobus.spring.domain.member.ItemPurDTO">
+  		SELECT SEASON_PAY_ID, pay_status, START_DATE, amount 
+	    FROM season_ticket_payment py 
+	    JOIN kobususer ku ON py.kusid = ku.kusid 
+	    JOIN PAYMENT_COMMON pc ON py.PAYMENT_ID = pc.PAYMENT_ID
+	    WHERE pay_status = '결제완료' 
+      	AND ku.id = #{loginId}
+  	</select>
+  	
+  	<select id="itemFreePurList" resultType="org.kobus.spring.domain.member.ItemPurDTO">
+  		SELECT FREE_PASS_PAY_ID, pay_status, START_DATE, amount FROM FREE_PASS_PAYMENT frppy
+		join kobususer ku on frppy.kusid = ku.kusid 
+		JOIN PAYMENT_COMMON pc ON frppy.PAYMENT_ID = pc.PAYMENT_ID
+		WHERE pay_status = '결제완료' AND ku.id = #{loginId} 
+  	</select>
+  	
+  	<select id="itemCanclePopPurList" resultType="org.kobus.spring.domain.member.ItemCanclePurDTO">
+  		SELECT SEASON_PAY_ID, pay_status, START_DATE, amount FROM season_ticket_payment py
+		join kobususer ku on py.kusid = ku.kusid 
+		JOIN PAYMENT_COMMON pc ON py.PAYMENT_ID = pc.PAYMENT_ID
+		WHERE pay_status = '결제취소' AND ku.id = #{loginId}  
+  	</select>
+  	
+  	<select id="itemCancleFreePurList" resultType="org.kobus.spring.domain.member.ItemCanclePurDTO">
+  		SELECT FREE_PASS_PAY_ID, pay_status, START_DATE, amount FROM FREE_PASS_PAYMENT frppy 
+		join kobususer ku on frppy.kusid = ku.kusid 
+		JOIN PAYMENT_COMMON pc ON frppy.PAYMENT_ID = pc.PAYMENT_ID
+		WHERE pay_status = '결제취소' AND ku.id = #{loginId}  
+  	</select>
+  	
+  	<update id="popDelete">
+  		UPDATE ( 
+				    SELECT p.PAY_STATUS 
+				    FROM season_ticket_payment p 
+				    JOIN kobusUser ku ON p.kusID = ku.kusID
+				    JOIN PAYMENT_COMMON pc ON p.PAYMENT_ID = pc.PAYMENT_ID 
+				    WHERE ku.id = #{loginId} 
+				      AND p.PAYMENT_ID = #{popId} 
+				) 
+				SET PAY_STATUS = '결제취소' 
+  	</update>
+  	
+  	<update id="freeDelete">
+  		UPDATE ( 
+				    SELECT p.PAY_STATUS 
+				    FROM FREE_PASS_PAYMENT p 
+				    JOIN kobusUser ku ON p.kusID = ku.kusID
+				    JOIN PAYMENT_COMMON pc ON p.PAYMENT_ID = pc.PAYMENT_ID 
+				    WHERE ku.id = #{loginId} 
+				      AND p.FREE_PASS_PAYMENT_ID = #{popId} 
+				) 
+				SET PAY_STATUS = '결제취소'  
+  	</update>
+  
+  </mapper>

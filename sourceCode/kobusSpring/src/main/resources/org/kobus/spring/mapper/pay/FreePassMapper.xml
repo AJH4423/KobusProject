@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.kobus.spring.mapper.pay.FreePassMapper">
+
+    <!-- 프리패스 결제 + 옵션 정보 조회 -->
+    <select id="selectFreePassListByKusid" parameterType="String" resultType="org.kobus.spring.domain.pay.FreePassDTO">
+        SELECT
+            a.FREE_PASS_PAY_ID,
+            a.PAYMENT_ID,
+            a.ADTN_PRD_SNO,
+            a.KUSID,
+            a.START_DATE,
+            b.ADTN_PRD_USE_CLS_CD,
+            b.ADTN_PRD_USE_CLS_NM,
+            b.ADTN_PRD_USE_PSB_DNO,
+            b.ADTN_PRD_USE_NTKN_CD,
+            b.ADTN_PRD_USE_NTKN_NM,
+            b.WKD_WKE_NTKN_CD,
+            b.WKD_WKE_NTKN_NM,
+            b.TEMP_ALCN_TISSU_PSB_YN,
+            b.ADTN_DC_YN,
+            b.AMOUNT
+        FROM
+            FREE_PASS_PAYMENT a
+        JOIN
+            FREE_PASS_OPTION b
+        ON
+            a.ADTN_PRD_SNO = b.ADTN_PRD_SNO
+        WHERE
+            a.KUSID = #{kusid}
+    </select>
+
+    <!-- 프리패스 사용일 조회 -->
+    <select id="selectUsedDatesByKusid" parameterType="String" resultType="org.kobus.spring.domain.pay.ResPassUsageDTO">
+        SELECT
+            FREE_PASS_PAY_ID AS FP_CPN_NO,
+            RES_ID,
+            USED_DATE AS TIM_DTE
+        FROM
+            RES_PASS_USAGE
+        WHERE
+            FREE_PASS_PAY_ID IN (
+                SELECT FREE_PASS_PAY_ID
+                FROM FREE_PASS_PAYMENT
+                WHERE KUSID = #{kusid}
+            )
+    </select>
+    
+    <!-- 프리패스 단건 조회 -->
+    <select id="selectFreePassByCpnNo" resultType="org.kobus.spring.domain.pay.FreePassDTO">
+        SELECT *
+        FROM FREE_PASS_PAYMENT
+        WHERE adtn_prd_sno = #{adtnCpnNo}
+    </select>
+
+    <!-- 예매 insert -->
+    <insert id="insertReservationForFreePass">
+        INSERT INTO RESERVATION (res_id, kusid, ride_date, ...)
+        VALUES (SEQ_RESERVATION.NEXTVAL, #{kusid}, #{rideDate}, ...)
+    </insert>
+
+</mapper>

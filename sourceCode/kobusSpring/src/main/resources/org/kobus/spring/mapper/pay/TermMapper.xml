@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.kobus.spring.mapper.pay.TermMapper">
+	<!-- <select id="getTime" resultType="string"> SELECT TO_CHAR(SYSDATE, 'YYYY-MM-DD 
+		HH24:MI:SS') FROM dual </select> -->
+		
+	<select id="frpsOptionList" resultType="org.kobus.spring.domain.pay.FrpsTermDTO">
+        SELECT
+            ADTN_PRD_SNO,
+            ADTN_PRD_USE_CLS_CD,
+            ADTN_PRD_USE_CLS_NM,
+            ADTN_PRD_USE_PSB_DNO,
+            ADTN_PRD_USE_NTKN_CD,
+            ADTN_PRD_USE_NTKN_NM,
+            WKD_WKE_NTKN_CD,
+            WKD_WKE_NTKN_NM,
+            TEMP_ALCN_TISSU_PSB_YN,
+            ADTN_DC_YN
+        FROM
+            FREE_PASS_OPTION
+    </select>
+
+	<select id="selectTermInfo"
+		parameterType="org.kobus.spring.domain.pay.FrpsTermDTO"
+		resultType="org.kobus.spring.domain.pay.FrpsTermDTO">
+		SELECT
+			ADTN_PRD_SNO,
+			ADTN_PRD_USE_CLS_CD,
+			ADTN_PRD_USE_CLS_NM,
+			ADTN_PRD_USE_PSB_DNO,
+			ADTN_PRD_USE_NTKN_CD,
+			ADTN_PRD_USE_NTKN_NM,
+			WKD_WKE_NTKN_CD,
+			WKD_WKE_NTKN_NM,
+			TEMP_ALCN_TISSU_PSB_YN,
+			ADTN_DC_YN
+		FROM
+			FREE_PASS_OPTION
+		WHERE
+			ADTN_PRD_SNO = #{adtnPrdSno}
+	</select>
+
+	<select id="getAmountBySno" resultType="int">
+		SELECT AMOUNT 
+		FROM FREE_PASS_OPTION
+		WHERE ADTN_PRD_SNO = #{adtnPrdSno}
+	</select>
+
+
+</mapper>  

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="org.kobus.spring.mapper.pay.BusReservationMapper">
+	
+	
+	<select id="findId" parameterType="string" resultType="string">
+	    SELECT KUSID FROM KOBUSUSER WHERE ID = #{username}
+	</select>
+	
+	<!-- 예매 정보 INSERT -->
+	<insert id="insertReservation" parameterType="org.kobus.spring.domain.reservation.ResvDTO">
+	    
+	    <!-- BEFORE insert: resid 자동 생성 -->
+	    <selectKey keyProperty="resId" resultType="String" order="BEFORE">
+	        SELECT TO_CHAR(RESERVATION_SEQ.NEXTVAL) FROM DUAL
+	    </selectKey>
+	
+	    INSERT INTO reservation (
+	        resid, bshId, kusid, ridedate, resvdate, resvstatus,
+	        resvtype, qrcode, mileage, seatable,
+	        return_bshid, return_seatid, return_ridedate
+	    ) VALUES (
+	        #{resId}, #{bshId, jdbcType=VARCHAR}, #{kusid, jdbcType=VARCHAR}, #{rideDate, jdbcType=TIMESTAMP}, #{resvDateStr, jdbcType=TIMESTAMP}, #{resvStatus},
+	        #{resvType}, #{qrCode}, #{mileage}, #{seatable},
+	        #{returnBshId, jdbcType=VARCHAR}, #{returnSeatId, jdbcType=VARCHAR}, #{returnRideDate, jdbcType=TIMESTAMP}
+	    )
+	</insert>
+
+    <!-- 예매-결제 연결 INSERT -->
+    <insert id="insertReservationPayment"
+            parameterType="org.kobus.spring.domain.pay.ReservationPaymentDTO"
+            useGeneratedKeys="false">
+        
+        <!-- BEFORE insert: resPayId 자동 생성 -->
+        <selectKey keyProperty="resPayId" resultType="String" order="BEFORE">
+            SELECT CONCAT('RP', LPAD(SEQ_RESERVATION_PAYMENT.NEXTVAL, 8, '0')) FROM DUAL
+        </selectKey>
+
+        INSERT INTO reservation_payment (
+            res_pay_id,
+            payment_id,
+            res_id,
+            kusid
+        ) VALUES (
+            #{resPayId},
+            #{paymentId},
+            #{resId},
+            #{kusid}
+        )
+    </insert>
+    
+    <update id="callAfterReservation" statementType="CALLABLE">
+	  <![CDATA[
+	    { CALL AFTER_RESERVATION(
+	        #{resId,     mode=IN, jdbcType=VARCHAR},
+	        #{bshId,     mode=IN, jdbcType=VARCHAR},
+	        #{kusId,     mode=IN, jdbcType=VARCHAR},
+	        #{seatList,  mode=IN, jdbcType=VARCHAR},
+	        #{selAdltCnt,  mode=IN, jdbcType=INTEGER},
+	        #{selTeenCnt,  mode=IN, jdbcType=INTEGER},
+	        #{selChldCnt,  mode=IN, jdbcType=INTEGER}
+	      )
+	    }
+	  ]]>
+	</update>
+	
+	<!-- int changeRemainSeats(@Param("resId") String mrsMrnpNo, @Param("rideDateStr") String rideDateStr) throws SQLException; -->
+	<update id="updateRemainSeats">
+	    UPDATE BUSSCHEDULE B
+	    SET REMAINSEATS = (
+	        SELECT COUNT(*)
+	        FROM SEAT S
+	        WHERE S.BUSID = B.BUSID
+	          AND S.SEATABLE = 'Y'
+	    )
+	    WHERE B.BSHID = (
+	        SELECT R.BSHID
+	        FROM RESERVATION R
+	        WHERE R.RESID = #{resId}
+	          AND R.RIDEDATE = TO_TIMESTAMP(#{rideDateStr}, 'YYYY-MM-DD HH24:MI:SS')
+	    )
+	</update>
+	
+	<select id="generateResId" resultType="String">
+    	SELECT RESERVATION_SEQ.NEXTVAL FROM DUAL
+	</select>
+	
+	<insert id="insertSeasonUsage" parameterType="org.kobus.spring.domain.pay.ResSeasonUsageDTO">
+	<selectKey keyProperty="usageId" resultType="String" order="BEFORE">
+        SELECT TO_CHAR(SEQ_RES_SEASON_USAGE.NEXTVAL) FROM DUAL
+    </selectKey>
+    INSERT INTO res_season_usage (
+        USAGE_ID,
+        RES_ID,
+        SEASON_PAY_ID,
+        USED_DATE
+    ) VALUES (
+        #{usageId},
+        #{resId},
+        #{seasonPayId},
+        #{usedDate}
+    )
+	</insert>
+	
+	<insert id="insertFreePassUsage" parameterType="org.kobus.spring.domain.pay.ResPassUsageDTO">
+    <selectKey keyProperty="usageId" resultType="String" order="BEFORE">
+        SELECT TO_CHAR(SEQ_RES_PASS_USAGE.NEXTVAL) FROM DUAL
+    </selectKey>
+    INSERT INTO res_pass_usage (
+        USAGE_ID,
+        RES_ID,
+        FREE_PASS_PAY_ID,
+        USED_DATE
+    ) VALUES (
+        #{usageId},
+        #{resId},
+        #{fpCpnNo},
+        #{timDte}
+    )
+	</insert>
+	
+	<select id="selectSeasonPayIdByAdtnSno" resultType="String">
+	  SELECT season_pay_id
+	  FROM (
+	    SELECT season_pay_id
+	    FROM season_ticket_payment
+	    WHERE adtn_prd_sno = #{adtnPrdSno}
+	      AND kusid = #{kusid}
+	    ORDER BY season_pay_id DESC
+	  )
+	  WHERE ROWNUM = 1
+	</select>
+		
+	
+	
+</mapper>
