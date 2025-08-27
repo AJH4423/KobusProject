@@ -1,0 +1,47 @@
+.do로 매핑 목록
+
+1. 로그인 기능(로그인) LoginController
+/logonOk.do=koBus.mvc.command.LogonOkHandler
+2. 로그아웃 기능(로그아웃) LoginController
+/logOut.do=koBus.mvc.command.LogOutHandler
+3. 회원가입 기능(ajax 아이디 중복확인)
+/usrIdDupCheck.do=koBus.mvc.command.UsrIdDupCheckHandler
+4. 회원가입 완료기능(회원가입 입력정보 db에 넣어줌)
+/joinOkEnterInfo.do=koBus.mvc.command.JoinOkEnterInfoHandler
+5. 메인페이지
+/main.do=koBus.mvc.command.MainHandler
+6. 회원가입 메인페이지 JoinController
+/page/joinMain.do=koBus.mvc.command.JoinMainPageHandler
+7. 회원가입 인증번호페이지 JoinController
+/page/joinVerification.do=koBus.mvc.command.JoinVerificationPageHandler
+8. 회원가입 정보입력페이지 JoinController
+/page/joinEnterInfo.do=koBus.mvc.command.JoinEnterInfoPageHandler
+9. 로그인페이지 LoginController
+/page/logonMain.do=koBus.mvc.command.LogonMainPageHandler
+10. 아이디찾기페이지 LoginController
+/page/idSearch.do=koBus.mvc.command.IdSearchHandler
+11. 비밀번호찾기페이지 LoginController
+/page/passwdSearch.do=koBus.mvc.command.PasswdSearchHandler
+12. 마이페이지 (나의 예매내역, 프리패스/정기권 개수, 휴대폰번호 가져오기)
+/page/logonMyPage.do=koBus.mvc.command.LogonMyPageHandler
+13. 비밀번호변경페이지
+/page/changePwPage.do=koBus.mvc.command.ChangePwPageHandler
+14. 휴대폰번호변경페이지
+/page/changePhoneNumPage.do=koBus.mvc.command.ChangePhoneNumPageHandler
+15. 현재 비밀번호랑 같은지 확인(ajax)
+/oldPwCheckOk.do=koBus.mvc.command.OldPwCheckOkHandler
+16. 비밀번호변경 (세션에 담겨있는 auth 이용해서 변경) : update()
+/changePw.do=koBus.mvc.command.ChangePwHandler
+17. 회원탈퇴 (세션에 담겨있는 auth이용해서 탈퇴 후 로그아웃된  main페이지로) : delete()
+/memberExit.do=koBus.mvc.command.MemberExitHandler
+18. 휴대폰번호변경 (세션에 담겨있는 auth이용해서 변경) : update()
+/changePhoneNum.do=koBus.mvc.command.ChangePhoneNumHandler
+
+---------------------------------------------------------------------------------------------------------------------------------
+19. 상품구매내역 페이지
+/page/itemPurListPage.do=koBus.mvc.command.ItemPurListPageHandler : 결제완료된 상품들 뿌려주는 페이지
+20. 상품취소기능
+/deleteItemPurList.do=koBus.mvc.command.DeleteItemPurListHandler : 취소버튼 누르면 결제취소로 상태 바꿔주고 페이지 리다이렉트
+(취소버튼 누르면 버튼 누른 식별번호값이 넘어가고 그 값에 대한 상태를 졀제취소로 바꿔주는 기능)
+
+
