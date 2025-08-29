@@ -10,3 +10,6 @@
 ### sourceCode
 1. kobusJSP(JSP/Servlet) 프로젝트 소스코드
 2. kobusSpring(SpringLegacy) 프로젝트 소스코드
+## 프로젝트설명
+### kobusJSP
+### kobusSpring
