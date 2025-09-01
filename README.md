@@ -7,7 +7,7 @@
 3. 테이블 생성 및 수정 DDL 쿼리문
 ### data
 1. kobus프로젝트 요구분석서
-2. 회원관련 기능 url 매핑주소 정리 txt파일
+2. 회원관련 기능 url 매핑주소 총정리 txt파일
 ### sourceCode
 1. kobusJSP(JSP/Servlet) 프로젝트 소스코드
 2. kobusSpring(SpringLegacy) 프로젝트 소스코드
@@ -22,14 +22,28 @@
 - JavaScript(JQuery, JSTL)
 - DataBase(Oracle)
 - Server(Tomcat v9)  
-맡은기능
+맡은기능 참조코드(data/로그인기능.do 파일 확인)
+공통[sourceCode/kobusJSP/src/main/java/kobus/mvc/command]  
+- 로그인 
+  - LogonOkHandler, LogOutHandler, LogonMainPageHandler, IdSearchHandler, PasswdSearchHandler  
+- 회원가입
+  - UsrIdDupCheckHandler, JoinOkEnterInfoHandler, JoinMainPageHandler, JoinVerificationPageHandler, JoinEnterInfoPageHandler  
+- 마이페이지
+  - LogonMyPageHandler, ChangePwPageHandler, ChangePhoneNumPageHandler, OldPwCheckOkHandler, ChangePwHandler, MemberExitHandler, ChangePhoneNumHandler  
 ### kobusSpring
 참여인원 - 5명  
 진행방식
-- JSP/SERVLET으로 구현했던 페이지를 SPRING LEGACY로 컨버팅하는 작업을 진행하였습니다.
-활용언어
+- JSP/SERVLET으로 구현했던 페이지를 SPRING LEGACY로 컨버팅하는 작업을 진행하였습니다.  
+활용언어  
 - Java(Spring Legacy, JDK11, MyBatis)
 - JavaScript(JQuery, JSTL)
 - DataBase(Oracle)
 - Server(Tomcat v9)  
-맡은기능
+맡은기능 참조코드    
+공통[sourceCode/kobusSpring/src/main/java/org/kobus/spring/controller]  
+- 로그인(sourceCode/kobusSpring/src/main/webapp/spring)
+  - web.xml, security-context.xml, LoginController  
+- 관리자 페이지
+  - AdminController
+- 회원가입/마이페이지
+  - JoinController, MyPageController
