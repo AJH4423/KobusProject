@@ -13,16 +13,16 @@
 2. kobusSpring(SpringLegacy) 프로젝트 소스코드
 ## 프로젝트설명
 ### kobusJSP
-참여인원 - 5명  
-진행방식
+#### 참여인원 - 5명  
+#### 진행방식
 - 전체적으로 5가지의 기능으로 나누어 기능별 Front-End와 Back-End를 구현하였습니다.
 - 로그인, 예매기능, 결제, 게시판, 메인페이지로 5가지의 기능을 나누었습니다.
-활용언어
+#### 활용언어
 - Java(JSP/SERVLET, JDK11)
 - JavaScript(JQuery, JSTL)
 - DataBase(Oracle)
 - Server(Tomcat v9)  
-맡은기능 참조코드(data/로그인기능.do 파일 확인)
+#### 맡은기능 참조코드(data/로그인기능.do 파일 확인)  
 공통[sourceCode/kobusJSP/src/main/java/kobus/mvc/command]  
 - 로그인 
   - LogonOkHandler, LogOutHandler, LogonMainPageHandler, IdSearchHandler, PasswdSearchHandler  
@@ -31,15 +31,15 @@
 - 마이페이지
   - LogonMyPageHandler, ChangePwPageHandler, ChangePhoneNumPageHandler, OldPwCheckOkHandler, ChangePwHandler, MemberExitHandler, ChangePhoneNumHandler  
 ### kobusSpring
-참여인원 - 5명  
-진행방식
+#### 참여인원 - 5명  
+#### 진행방식  
 - JSP/SERVLET으로 구현했던 페이지를 SPRING LEGACY로 컨버팅하는 작업을 진행하였습니다.  
-활용언어  
+#### 활용언어  
 - Java(Spring Legacy, JDK11, MyBatis)
 - JavaScript(JQuery, JSTL)
 - DataBase(Oracle)
 - Server(Tomcat v9)  
-맡은기능 참조코드    
+#### 맡은기능 참조코드      
 공통[sourceCode/kobusSpring/src/main/java/org/kobus/spring/controller]  
 - 로그인(sourceCode/kobusSpring/src/main/webapp/spring)
   - web.xml, security-context.xml, LoginController  
