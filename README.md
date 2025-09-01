@@ -13,4 +13,23 @@
 2. kobusSpring(SpringLegacy) 프로젝트 소스코드
 ## 프로젝트설명
 ### kobusJSP
+참여인원 - 5명
+진행방식
+- 전체적으로 5가지의 기능으로 나누어 기능별 Front-End와 Back-End를 구현하였습니다.
+- 로그인, 예매기능, 결제, 게시판, 메인페이지로 5가지의 기능을 나누었습니다.
+활용언어
+- Java(JSP/SERVLET, JDK11)
+- JavaScript(JQuery, JSTL)
+- DataBase(Oracle)
+- Server(Tomcat v9)
+맡은기능
 ### kobusSpring
+참여인원 - 5명
+진행방식
+- JSP/SERVLET으로 구현했던 페이지를 SPRING LEGACY로 컨버팅하는 작업을 진행하였습니다.
+활용언어
+- Java(Spring Legacy, JDK11, MyBatis)
+- JavaScript(JQuery, JSTL)
+- DataBase(Oracle)
+- Server(Tomcat v9)
+맡은기능
